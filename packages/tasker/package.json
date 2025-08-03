@@ -1,0 +1,37 @@
+{
+  "name": "@knyt/tasker",
+  "version": "0.1.0-alpha",
+  "description": "Knyt Controller",
+  "author": "Morris Allison III (https://morris.xyz)",
+  "license": "BSD-3-Clause",
+  "bugs": "https://github.com/sables-app/knyt/issues",
+  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/tasker",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sables-app/knyt.git",
+    "directory": "packages/tasker"
+  },
+  "type": "module",
+  "module": "./dist/build/main.js",
+  "main": "./dist/build/main.js",
+  "exports": {
+    ".": "./dist/build/main.js",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@knyt/artisan": "^0.1.0-alpha",
+    "@knyt/weaver": "^0.1.0-alpha",
+    "@knyt/clerk": "^0.1.0-alpha",
+    "@knyt/tailor": "^0.1.0-alpha",
+    "event-station": "^2.0.0",
+    "jsesc": "^3.1.0"
+  },
+  "scripts": {
+    "demo": "bun ./demo/index.html"
+  },
+  "files": [
+    "dist",
+    "!__tests__",
+    "!*.tsbuildinfo"
+  ]
+}

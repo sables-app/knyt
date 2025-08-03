@@ -1,0 +1,9 @@
+node_modules
+dist
+*.tsbuildinfo
+*.log
+.knyt
+// API Extractor output
+*.api.md
+// Build output
+packages/create/bin/create-knyt.bundle.js

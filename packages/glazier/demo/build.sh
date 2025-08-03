@@ -1,0 +1,1 @@
+bun ./scripts/build.ts

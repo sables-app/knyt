@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "create-knyt-components",
+  "version": "0.1.0",
+  "description": "A component library using Knyt.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "module": "./dist/build/main.js",
+  "main": "./dist/build/main.js",
+  "exports": {
+    ".": "./dist/build/main.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "bun ./stories/**/*.html",
+    "build": "bun build --outdir=./dist --format=esm --target=browser --minify --sourcemap  ./src/main.ts"
+  },
+  "dependencies": {
+    "knyt": "0.1.0-alpha.2"
+  }
+}

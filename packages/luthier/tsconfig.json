@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.package.json",
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": [
+    "src/**/__tests__/*",
+    "__mocks__",
+    "__snapshots__",
+    "dist",
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist/build",
+    "noEmit": false
+  },
+  "references": [
+    { "path": "../artisan" },
+    { "path": "../tailor" },
+    { "path": "../tasker" },
+    { "path": "../weaver" }
+  ]
+}

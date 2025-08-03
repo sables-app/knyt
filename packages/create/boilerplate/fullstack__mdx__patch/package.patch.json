@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@mdx-js/esbuild": "^3",
+    "remark-frontmatter": "^5",
+    "remark-mdx-frontmatter": "^5"
+  }
+}

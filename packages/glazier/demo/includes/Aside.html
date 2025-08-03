@@ -1,0 +1,26 @@
+<aside>
+  <!-- Included HTML can also import scripts using relative paths. -->
+  <!-- <script src="./Aside.ts" type="module"></script> -->
+  <script src="./Aside.ts" type="module"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (window.__knytAside === true) {
+        console.info("Test success: Aside script loaded correctly.");
+      } else {
+        const message = "Test failure: Aside script not loaded correctly.";
+
+        console.error(message);
+        alert(message);
+      }
+    });
+  </script>
+  <h2>About Us</h2>
+  <p>
+    Welcome to our website! Here you can find the latest updates and resources.
+  </p>
+  <ul>
+    <li><a href="/contact">Contact Us</a></li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/blog">Blog</a></li>
+  </ul>
+</aside>

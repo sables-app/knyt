@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "create-knyt-static-site",
+  "version": "0.1.0",
+  "description": "A static site generated using Knyt & Bun.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "bun ./scripts/build.ts",
+    "dev": "bun ./server/main.ts",
+    "preview": "bunx http-server ./dist -p 3000"
+  },
+  "dependencies": {
+    "@knyt/glazier": "^0.1.0-alpha",
+    "knyt": "0.1.0-alpha.2"
+  }
+}

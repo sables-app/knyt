@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Bun Knyt Page</title>
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4"
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+      crossorigin="anonymous"
+    ></script>
+    <knyt-include src="../includes/MainScriptLoader.ts"></knyt-include>
+    <!-- <script type="module" src="../lib/main.ts"></script> -->
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        if (window.__knytMain === true) {
+          console.info("Test success: Main script loaded correctly.");
+        } else {
+          const message = "Test failure: Main script not loaded correctly.";
+
+          console.error(message);
+          alert(message);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <knyt-include src="../includes/Container.html" data-name="John">
+      <knyt-include src="../includes/Header.ts" data-name="John">
+        `knyt-include` supports rendering children and nested includes.
+        <p style="background-color: teal; color: white">
+          <knyt-include
+            src="../includes/Link.ts"
+            data-href="https://morrisallison.com"
+            >Morris Allison III homepage</knyt-include
+          >
+        </p>
+      </knyt-include>
+      <knyt-include src="../includes/Aside.html"></knyt-include>
+      <knyt-include src="../includes/Body.ts"></knyt-include>
+      <p>This is a simple Knyt Glazier example.</p>
+      <knyt-include src="../includes/Footer.ts"></knyt-include
+    ></knyt-include>
+  </body>
+</html>

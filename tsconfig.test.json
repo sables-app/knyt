@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": [],
+  "files": [],
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "references": [
+    { "path": "./packages/glazier/tsconfig.test.json" },
+    { "path": "./packages/artisan/tsconfig.test.json" },
+    { "path": "./packages/tasker/tsconfig.test.json" },
+    { "path": "./packages/create/tsconfig.test.json" },
+    { "path": "./packages/toolkit/tsconfig.test.json" },
+    { "path": "./packages/luthier/tsconfig.test.json" },
+    { "path": "./packages/html-type/tsconfig.test.json" },
+    { "path": "./packages/weaver/tsconfig.test.json" },
+    { "path": "./packages/clerk/tsconfig.test.json" },
+    { "path": "./packages/tailor/tsconfig.test.json" }
+  ]
+}

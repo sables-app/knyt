@@ -1,0 +1,1 @@
+bun --watch server.ts

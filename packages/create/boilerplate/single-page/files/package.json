@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "create-knyt-single-page",
+  "version": "0.1.0",
+  "description": "A single-page application using Knyt & Bun.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "bun ./index.html"
+  },
+  "dependencies": {
+    "knyt": "0.1.0-alpha.2"
+  }
+}

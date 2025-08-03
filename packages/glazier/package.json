@@ -1,0 +1,45 @@
+{
+  "name": "@knyt/glazier",
+  "version": "0.1.0-alpha",
+  "description": "A Bun plugin for HTML includes—embed HTML, MDX, Web Components, and Views into your pages.",
+  "author": "Morris Allison III (https://morris.xyz)",
+  "license": "BSD-3-Clause",
+  "bugs": "https://github.com/sables-app/knyt/issues",
+  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/glazier",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sables-app/knyt.git",
+    "directory": "packages/glazier"
+  },
+  "type": "module",
+  "module": "./dist/build/main.js",
+  "main": "./dist/build/main.js",
+  "exports": {
+    ".": "./dist/build/main.js",
+    "./client": "./dist/build/client.js",
+    "./plugin": "./dist/build/plugin.js",
+    "./preload": "./dist/build/preload.js",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@knyt/artisan": "^0.1.0-alpha",
+    "@knyt/luthier": "^0.1.0-alpha",
+    "@knyt/weaver": "^0.1.0-alpha",
+    "happy-dom": "^17.4.4",
+    "yaml": "^2.2.1"
+  },
+  "devDependencies": {
+    "knyt": "0.1.0-alpha.2",
+    "@types/bun": "^1.2.4"
+  },
+  "scripts": {
+    "demo:server": "cd ./demo && bash ./server.sh",
+    "demo:build": "cd ./demo && bash ./build.sh",
+    "demo:static": "cd ./demo && bash ./static.sh"
+  },
+  "files": [
+    "dist",
+    "!__tests__",
+    "!*.tsbuildinfo"
+  ]
+}

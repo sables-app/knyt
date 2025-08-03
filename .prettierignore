@@ -1,0 +1,6 @@
+# Installed dependencies
+node_modules
+# Build files
+dist
+# Public assets
+public

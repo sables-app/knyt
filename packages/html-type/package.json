@@ -1,0 +1,32 @@
+{
+  "name": "@knyt/html-type",
+  "version": "0.1.0-alpha",
+  "description": "HTML Type Definitions",
+  "author": "Morris Allison III (https://morris.xyz)",
+  "contributors": [
+    "Lucas M. Segurado (https://github.com/lsegurado)"
+  ],
+  "license": "MIT",
+  "bugs": "https://github.com/sables-app/knyt/issues",
+  "homepage": "https://github.com/sables-app/knyt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sables-app/knyt.git",
+    "directory": "packages/html-type"
+  },
+  "type": "module",
+  "module": "./dist/build/main.js",
+  "main": "./dist/build/main.js",
+  "exports": {
+    ".": "./dist/build/main.js",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "csstype": "^3.1.3"
+  },
+  "files": [
+    "dist",
+    "!__tests__",
+    "!*.tsbuildinfo"
+  ]
+}

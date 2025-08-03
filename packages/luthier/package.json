@@ -1,0 +1,39 @@
+{
+  "name": "@knyt/luthier",
+  "version": "0.1.0-alpha",
+  "description": "A class for creating reactive custom elements.",
+  "author": "Morris Allison III (https://morris.xyz)",
+  "license": "BSD-3-Clause",
+  "bugs": "https://github.com/sables-app/knyt/issues",
+  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/luthier",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sables-app/knyt.git",
+    "directory": "packages/luthier"
+  },
+  "type": "module",
+  "module": "./dist/build/main.js",
+  "main": "./dist/build/main.js",
+  "exports": {
+    ".": "./dist/build/main.js",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@knyt/artisan": "^0.1.0-alpha",
+    "@knyt/tasker": "^0.1.0-alpha",
+    "@knyt/weaver": "^0.1.0-alpha",
+    "@knyt/tailor": "^0.1.0-alpha",
+    "event-station": "^2.0.0"
+  },
+  "scripts": {
+    "build": "bun ./scripts/stubPackageDist.ts",
+    "build:watch": "bun ./scripts/stubPackageDist.ts --watch",
+    "clean": "rm -rf dist",
+    "workspace-build": "bun run build"
+  },
+  "files": [
+    "dist",
+    "!__tests__",
+    "!*.tsbuildinfo"
+  ]
+}

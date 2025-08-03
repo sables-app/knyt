@@ -1,0 +1,9 @@
+# Installed dependencies
+node_modules
+# Build files
+dist
+# Node JS-only files
+bin
+# Config files
+*.config.js
+.eslintrc.js

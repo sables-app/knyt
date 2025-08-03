@@ -1,0 +1,38 @@
+{
+  "name": "create-knyt",
+  "version": "0.1.0-alpha",
+  "description": "Create a new Knyt project",
+  "author": "Morris Allison III (https://morris.xyz)",
+  "license": "BSD-3-Clause",
+  "bugs": "https://github.com/sables-app/knyt/issues",
+  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/create",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sables-app/knyt.git",
+    "directory": "packages/create"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./main.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "create-knyt": "bin/create-knyt.bundle.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.1",
+    "picocolors": "^1.1.1"
+  },
+  "scripts": {
+    "build": "bun build --format=esm --target=node --packages=bundle --outfile=bin/create-knyt.bundle.js --banner='#!/usr/bin/env node' ./create-knyt.ts",
+    "watch": "bun build --format=esm --target=node --packages=bundle --outfile=bin/create-knyt.bundle.js --banner='#!/usr/bin/env node' ./create-knyt.ts --watch",
+    "workspace-build": "bun run build"
+  },
+  "files": [
+    "bin",
+    "boilerplate",
+    "main.js",
+    "!__tests__",
+    "!*.tsbuildinfo"
+  ]
+}
