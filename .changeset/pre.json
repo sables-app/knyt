@@ -1,0 +1,19 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@knyt/artisan": "0.1.0-alpha",
+    "@knyt/clerk": "0.1.0-alpha",
+    "create-knyt": "0.1.0-alpha",
+    "@knyt/glazier": "0.1.0-alpha",
+    "@knyt/html-type": "0.1.0-alpha",
+    "@knyt/luthier": "0.1.0-alpha",
+    "@knyt/tailor": "0.1.0-alpha",
+    "@knyt/tasker": "0.1.0-alpha",
+    "knyt": "0.1.0-alpha.2",
+    "@knyt/weaver": "0.1.0-alpha"
+  },
+  "changesets": [
+    "curvy-drinks-fix"
+  ]
+}
