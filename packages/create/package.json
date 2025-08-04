@@ -25,8 +25,7 @@
   },
   "scripts": {
     "build": "bun build --format=esm --target=node --packages=bundle --outfile=bin/create-knyt.bundle.js --banner='#!/usr/bin/env node' ./create-knyt.ts",
-    "watch": "bun build --format=esm --target=node --packages=bundle --outfile=bin/create-knyt.bundle.js --banner='#!/usr/bin/env node' ./create-knyt.ts --watch",
-    "workspace-build": "bun run build"
+    "watch": "bun build --format=esm --target=node --packages=bundle --outfile=bin/create-knyt.bundle.js --banner='#!/usr/bin/env node' ./create-knyt.ts --watch"
   },
   "files": [
     "bin",

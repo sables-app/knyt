@@ -28,8 +28,7 @@
   "scripts": {
     "build": "bun ./scripts/stubPackageDist.ts",
     "build:watch": "bun ./scripts/stubPackageDist.ts --watch",
-    "clean": "rm -rf dist",
-    "workspace-build": "bun run build"
+    "clean": "rm -rf dist"
   },
   "files": [
     "dist",

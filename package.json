@@ -26,10 +26,9 @@
     "typescript": "5.8.3"
   },
   "scripts": {
-    "build": "bun run build:js:force && bun run build:respectively",
+    "build": "bash ./scripts/build.sh",
     "build:js": "tsc --build --pretty --verbose .",
     "build:js:force": "tsc --build --pretty --force --verbose .",
-    "build:respectively": "bun run --filter='!@knyt/project' workspace-build",
     "dev": "bun run build:js:force && bun run watch",
     "watch": "tsc --build --watch --pretty --verbose .",
     "watch:force": "tsc --build --watch --pretty --force --verbose .",

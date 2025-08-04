@@ -37,8 +37,7 @@
     "build": "bun run build:js && bun run build:js-prod && bun run build:dts",
     "build:js": "bun build --format=esm --target=browser --packages=bundle --outfile=dist/knyt.js --banner=\"$(bun ./scripts/banner.js)\" ./dist/build/main.js",
     "build:js-prod": "bun build --format=esm --target=browser --packages=bundle --outdir=dist --banner=\"$(bun ./scripts/banner.js)\" --entry-naming=\"knyt.prod.js\" --sourcemap=linked --production ./dist/build/main.js",
-    "build:dts": "api-extractor run --config ./scripts/api-extractor.json",
-    "workspace-build": "bun run build"
+    "build:dts": "api-extractor run --config ./scripts/api-extractor.json"
   },
   "files": [
     "dist",
