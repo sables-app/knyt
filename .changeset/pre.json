@@ -14,6 +14,7 @@
     "@knyt/weaver": "0.1.0-alpha"
   },
   "changesets": [
-    "curvy-drinks-fix"
+    "curvy-drinks-fix",
+    "full-poems-speak"
   ]
 }
