@@ -1,0 +1,41 @@
+name: Release
+
+on: workflow_dispatch
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment: public-npm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build packages
+        run: |
+          bun run clean
+          bun run build
+
+      - name: Run test suite
+        run: |
+          bun run check
+          bun run test
+
+      - name: Publish packages to npm
+        uses: changesets/action@v1
+        with:
+          publish: bunx changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
