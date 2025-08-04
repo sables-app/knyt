@@ -4,7 +4,7 @@
   "initialVersions": {
     "@knyt/artisan": "0.1.0-alpha",
     "@knyt/clerk": "0.1.0-alpha",
-    "create-knyt": "0.1.0-alpha",
+    "create-knyt": "0.1.0-alpha.0",
     "@knyt/glazier": "0.1.0-alpha",
     "@knyt/html-type": "0.1.0-alpha",
     "@knyt/luthier": "0.1.0-alpha",
