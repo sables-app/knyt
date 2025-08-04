@@ -1,5 +1,11 @@
 # create-knyt
 
+## 0.1.0-alpha.2
+
+### Patch Changes
+
+- ba7bc68: Fixes an issue in the `create-knyt` CLI bundle by embedding the necessary properties from the package.json instead of resolving the module and reading it at runtime.
+
 ## 0.1.0-alpha.0
 
 ### Patch Changes
