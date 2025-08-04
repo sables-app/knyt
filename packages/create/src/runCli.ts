@@ -4,6 +4,10 @@ import path from "node:path";
 import util, { type ParseArgsConfig } from "node:util";
 
 import { cancel, intro, isCancel, log, select, text } from "@clack/prompts";
+import {
+  name as PACKAGE_NAME,
+  version as PACKAGE_VERSION,
+} from "create-knyt/package.json";
 import { dim, red } from "picocolors";
 
 import {
@@ -71,7 +75,6 @@ const argParsingOptions = {
 } as const satisfies ParsedOptionValues;
 
 export async function runCli() {
-  const packageJson = await getPackageJson();
   const options = getOptions();
 
   if (options.help) {
@@ -79,7 +82,7 @@ export async function runCli() {
     process.exit(0);
   }
   if (options.version) {
-    console.info(`${packageJson.name} ${packageJson.version}`);
+    console.info(`${PACKAGE_NAME} ${PACKAGE_VERSION}`);
     process.exit(0);
   }
 
@@ -515,17 +518,4 @@ async function patchReadme({
   const patchedReadme = `${readme}\n\n${readmePatch}`;
 
   await fs.writeFile(readmePath, patchedReadme, { encoding: "utf-8" });
-}
-
-type PackageJson = {
-  name: string;
-  version: string;
-};
-
-async function getPackageJson(): Promise<PackageJson> {
-  const packageJsonPath = require.resolve("create-knyt/package.json");
-  const packageJsonContents = await fs.readFile(packageJsonPath, "utf-8");
-  const packageJson = JSON.parse(packageJsonContents) as PackageJson;
-
-  return packageJson;
 }
