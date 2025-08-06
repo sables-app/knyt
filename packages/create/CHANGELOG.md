@@ -1,5 +1,11 @@
 # create-knyt
 
+## 0.1.0-alpha.3
+
+### Patch Changes
+
+- e2ea38a: Fix resolution of the package root path.
+
 ## 0.1.0-alpha.2
 
 ### Patch Changes
