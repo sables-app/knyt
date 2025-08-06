@@ -337,7 +337,16 @@ async function copyFiles({
   });
 }
 
-const BOILERPLATE_DIR = path.resolve(__dirname, "../boilerplate");
+const PACKAGE_ROOT = path.dirname(
+  // We can't use a string literal here, because this file is bundled,
+  // the Bun bundler will resolve the path at build time if the given
+  // path is a string literal.
+  // Instead, we use a variable for the package name, so that the path
+  // is resolved at runtime.
+  require.resolve(`${PACKAGE_NAME}/package.json`),
+);
+
+const BOILERPLATE_DIR = path.resolve(PACKAGE_ROOT, "boilerplate");
 
 async function copyBoilerplate({
   kind,
