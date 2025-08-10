@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@knyt/glazier": "0.1.0-alpha",
+    "@knyt/glazier": "0.1.0-alpha.0",
     "@mdx-js/esbuild": "^3",
     "knyt": "0.1.0-alpha.2",
     "remark-frontmatter": "^5",

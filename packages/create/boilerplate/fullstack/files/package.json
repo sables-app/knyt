@@ -8,7 +8,7 @@
     "dev": "bun ./server/main.ts"
   },
   "dependencies": {
-    "@knyt/glazier": "0.1.0-alpha",
+    "@knyt/glazier": "0.1.0-alpha.0",
     "knyt": "0.1.0-alpha.2"
   }
 }
