@@ -20,6 +20,7 @@ import {
 } from "@knyt/weaver";
 import { parse as fromYaml } from "yaml";
 
+import { isVerboseEnv } from "../env";
 import { getDocumentFrontmatter } from "../getDocumentFrontmatter";
 import {
   DEFAULT_SLOT_NAME,
@@ -278,7 +279,17 @@ export async function importInclude(
     ? path.resolve(path.dirname(inputPath), src)
     : src;
 
-  const importedModule: unknown = await import(modulePath);
+  let importedModule: unknown;
+
+  try {
+    importedModule = await import(modulePath);
+  } catch (error) {
+    console.error(error);
+
+    throw new Error(
+      `[Glazier] Failed to import module at: "${modulePath}".\nImported from: "${inputPath}".\n`,
+    );
+  }
 
   if (isBunHTMLBundleModule(importedModule)) {
     return importedModule.default;
@@ -289,9 +300,23 @@ export async function importInclude(
   if (isRendererModule(importedModule)) {
     return rendererModuleToInclude(modulePath, importedModule);
   }
+  if (isVerboseEnv()) {
+    console.debug(importedModule);
+  }
 
   throw new Error(
-    `[Glazier] Invalid module type in ${modulePath}. Make sure the "src" attribute points to a valid module.`,
+    `[Glazier] Invalid module type.
+
+  Failed to recognize module at: "${modulePath}"
+  Imported from: "${inputPath}"
+
+  Make sure the "src" attribute points to a valid module recognized by Glazier.
+
+  Supported module types are:
+    - Bun HTML bundle module (Bun.HTMLBundle)
+    - MDX module (with a default export of type MDXContentFn)
+    - Renderer module (with a default export of type Renderer)
+`,
   );
 }
 

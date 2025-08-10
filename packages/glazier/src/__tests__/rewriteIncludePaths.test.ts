@@ -8,14 +8,19 @@ describe("rewriteIncludePaths", () => {
   const includePath = "/project/src/includes/partial.html";
 
   const originalModuleExists = rewriteIncludePaths._moduleExists;
+  const originalFileExists = rewriteIncludePaths._fileExists;
 
   beforeEach(() => {
     // Stub the `moduleExists` function to always return `true` for testing
     rewriteIncludePaths._moduleExists = (modulePath: string) => true;
+    rewriteIncludePaths._fileExists = (filePath: string) => {
+      return filePath === includePath;
+    };
   });
 
   afterAll(() => {
     rewriteIncludePaths._moduleExists = originalModuleExists;
+    rewriteIncludePaths._fileExists = originalFileExists;
   });
 
   it("rewrites relative src paths to be relative to inputDir", async () => {
@@ -106,6 +111,28 @@ describe("rewriteIncludePaths", () => {
           );
         });
       }
+    });
+  });
+
+  describe("package include paths", async () => {
+    it("rewrites module paths from packages", async () => {
+      const inputDir = "/project/packages/my-package/pub";
+      const includePath = "my-package/path/to/document.mdx";
+
+      const html = `<img src="../foo.svg">`;
+      const result = rewriteIncludePaths(inputDir, includePath, html);
+
+      expect(result).toBe(`<img src="my-package/path/foo.svg">`);
+    });
+
+    it("rewrites module paths from scoped packages", async () => {
+      const inputDir = "/project/packages/@scope/my-package/pub";
+      const includePath = "@scope/my-package/path/to/document.mdx";
+
+      const html = `<img src="../foo.svg">`;
+      const result = rewriteIncludePaths(inputDir, includePath, html);
+
+      expect(result).toBe(`<img src="@scope/my-package/path/foo.svg">`);
     });
   });
 });

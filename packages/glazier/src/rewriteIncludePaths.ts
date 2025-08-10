@@ -1,5 +1,6 @@
 /// <reference types="bun-types" />
 
+import { existsSync as fileExists } from "node:fs";
 import path from "node:path";
 
 import {
@@ -17,7 +18,7 @@ import {
  * Rewrites the src attributes of import tags in the HTML text.
  *
  * @param inputDir Absolute path to the directory of the input file
- * @param includePath Absolute path to the include file
+ * @param includePath Either an absolute file path to the include file, or a module path that resolves to the include file.
  * @param htmlText The HTML text to transform
  * @returns The transformed HTML text
  *
@@ -61,15 +62,41 @@ export function rewriteIncludePaths(
 
       // Only rewrite the src attribute if it is a relative path
       // that begins with `./` or `../`.
-      if (isRelativePathWithDotSlash(src)) {
-        resolvedSrc = path.resolve(path.dirname(includePath), src);
-        nextSrc = relativePathWithDotSlash(inputDir, resolvedSrc);
-      } else {
+      if (!isRelativePathWithDotSlash(src)) {
         // If the src attribute is not a relative path, we don't rewrite it.
         // We will just assume that the path is either an absolute path,
         // or a module path that can be resolved.
-        resolvedSrc = src;
-        nextSrc = src;
+        return;
+      }
+
+      if (
+        path.isAbsolute(includePath) &&
+        rewriteIncludePaths._fileExists(includePath)
+      ) {
+        // An absolute file path to the include file.
+        resolvedSrc = path.resolve(path.dirname(includePath), src);
+        // The nextSrc is a relative path with dot (`.`) prefix.
+        nextSrc = relativePathWithDotSlash(inputDir, resolvedSrc);
+      } else if (rewriteIncludePaths._moduleExists(includePath)) {
+        // The resolved src is the includePath with the src joined to it.
+        // This created a complete module path.
+        resolvedSrc = path.join(path.dirname(includePath), src);
+        // Unlike file paths, the `nextSrc` isn't a relative path.
+        // It's the same as the `resolvedSrc`, because the module path will be resolved
+        // by the module resolver.
+        nextSrc = resolvedSrc;
+      } else {
+        // If the includePath is neither an absolute file path nor a module path,
+        // we don't rewrite the src attribute.
+        // This is to avoid breaking the import.
+        return;
+      }
+
+      if (src === nextSrc) {
+        // If the src attribute is already the same as the nextSrc,
+        // we don't need to rewrite it.
+        // This is to avoid unnecessary changes in the HTML.
+        return;
       }
 
       if (
@@ -78,9 +105,7 @@ export function rewriteIncludePaths(
         // Otherwise, don't rewrite it to avoid breaking the import.
         rewriteIncludePaths._moduleExists(resolvedSrc)
       ) {
-        if (src !== nextSrc) {
-          element.setAttribute(attributeName, nextSrc);
-        }
+        element.setAttribute(attributeName, nextSrc);
       }
     },
   });
@@ -106,5 +131,17 @@ export namespace rewriteIncludePaths {
     } catch {
       return false;
     }
+  }
+
+  /**
+   * @internal
+   */
+  /*
+   * ### Private Remarks
+   *
+   * This is only exposed for testing purposes.
+   */
+  export function _fileExists(filePath: string): boolean {
+    return fileExists(filePath);
   }
 }
