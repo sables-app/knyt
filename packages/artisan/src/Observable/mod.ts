@@ -1,5 +1,6 @@
 export * from "./Beacon";
 export * from "./combineSubscribers";
+export * from "./DynamicObserver";
 export * from "./filterObservable";
 export * from "./mergeObservables";
 export * from "./normalizeSubscriber";
