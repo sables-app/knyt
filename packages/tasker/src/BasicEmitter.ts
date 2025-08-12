@@ -1,5 +1,4 @@
 import { ensureReference, type Reference } from "@knyt/artisan";
-import type { DOMEvent } from "@knyt/weaver";
 import { EventStation, type Listeners } from "event-station";
 
 import type { BasicEvent } from "./BasicEvent";
