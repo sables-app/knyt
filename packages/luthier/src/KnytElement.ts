@@ -261,8 +261,12 @@ export abstract class KnytElement
   /** @internal scope: package */
   declare [__reactiveAdapter]: ReactiveAdapter;
 
+  // TODO: Investigate if it's possible to determine the `Props` type from `this`
+  // instead of having to pass `this` or `Partial<this>` as a type argument.
+  // It's better to have some type safety here, rather than none,
+  // so we're passing in `this` instead of using something like `Record<string, unknown>`.
   declare getProp: ReactiveAdapter<this>["getProp"];
-  declare getProps: ReactiveAdapter<this>["getProps"];
+  declare getProps: ReactiveAdapter<Readonly<Partial<this>>>["getProps"];
   declare refProp: ReactiveAdapter<this>["refProp"];
   declare observePropChange: ReactiveAdapter<this>["observePropChange"];
   declare onPropChange: ReactiveAdapter<this>["onPropChange"];

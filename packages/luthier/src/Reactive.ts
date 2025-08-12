@@ -592,8 +592,8 @@ export class ReactiveAdapter<
    *
    * @public
    */
-  getProps<T extends Record<string, unknown> = Props>(): Readonly<T> {
-    return Object.fromEntries(this.#propValues) as T;
+  getProps(): Props {
+    return Object.fromEntries(this.#propValues) as Props;
   }
 
   /**
