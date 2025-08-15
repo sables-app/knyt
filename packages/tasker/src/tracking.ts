@@ -1,4 +1,4 @@
-import type { Observable, Subscription } from "@knyt/artisan";
+import type { Observable } from "@knyt/artisan";
 
 import { HostUpdater } from "./HostUpdater";
 import type { ReactiveControllerHost } from "./ReactiveController";

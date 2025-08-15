@@ -36,6 +36,7 @@ export class HostUpdater implements ReactiveController, Observer<unknown> {
 
     host.addController(this);
 
+    // Begin tracking the observable immediately.
     this.#originalSubscription = observable.subscribe(this);
 
     /**

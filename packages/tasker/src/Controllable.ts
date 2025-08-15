@@ -3,15 +3,16 @@ import {
   type ObjectToFunctionPropertyNames,
   type Observable,
   type Reference,
-  type Subscription,
 } from "@knyt/artisan";
 
 import { controlInput } from "./controlInput";
+import type { Effect } from "./Effect";
 import { hold } from "./hold";
 import { InputStateController } from "./InputStateController";
 import { isReactiveControllerHost } from "./ReactiveController";
 import { ReactiveControllerHostAdapter } from "./ReactiveControllerHostAdapter";
 import { track, untrack } from "./tracking";
+import { watch } from "./watch";
 
 /**
  * This symbol is used to attach the controllable adapter
@@ -63,6 +64,14 @@ export class ControllableAdapter extends ReactiveControllerHostAdapter {
    */
   untrack<T extends Observable<any>>(observable: T): T {
     return untrack(this, observable);
+  }
+
+  /**
+   * Creates an effect that tracks an observable and requests updates
+   * whenever the observable emits a new value while the element is connected.
+   */
+  watch<T extends Observable<any>>(observable: T): Effect {
+    return watch(this, observable);
   }
 
   /**

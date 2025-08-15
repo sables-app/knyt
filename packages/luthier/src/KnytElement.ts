@@ -257,6 +257,7 @@ export abstract class KnytElement
   declare track: ControllableAdapter["track"];
   declare untrack: ControllableAdapter["untrack"];
   declare updateComplete: ControllableAdapter["updateComplete"];
+  declare watch: ControllableAdapter["watch"];
 
   /** @internal scope: package */
   declare [__reactiveAdapter]: ReactiveAdapter;
@@ -1081,6 +1082,7 @@ applyControllableMixin(KnytElement, [
   "track",
   "untrack",
   "updateComplete",
+  "watch",
 ]);
 
 export namespace KnytElement {
