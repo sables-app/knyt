@@ -18,6 +18,12 @@ import type { Reference } from "./types";
  *
  * @internal scope: workspace
  */
+
+// TODO: Determine whether this should be replaced by `DynamicObserver`,
+// or clearly document the differences between the two.
+// `DynamicObserver` is designed to be used with any observable, while
+// `EnsuredReferenceObserver` only accepts a reference.
+
 export class EnsuredReferenceObserver<T> implements Observer<T> {
   /**
    * The subscriber that is being proxied to.

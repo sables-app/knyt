@@ -11,7 +11,7 @@ import type { Reference } from "./types";
  * always exists and is subscribed to the consuming observable.
  */
 export function unwrapSubscriber<T>(
-  input: Reference<Observable.Subscriber<T> | undefined>,
+  input: Reference.Readonly<Observable.Subscriber<T> | undefined>,
 ): Observer<T> {
   return new EnsuredReferenceObserver(input);
 }
