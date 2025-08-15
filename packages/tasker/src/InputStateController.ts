@@ -1,9 +1,12 @@
 import {
   __isKnytReference,
+  isReadableReference,
   normalizeSubscriber,
   OBSERVABLE_PROPERTY_NAME,
+  unwrapSubscriber,
   type Observable,
   type ObservableInterop,
+  type Observer,
   type Reference,
   type Subscription,
 } from "@knyt/artisan";
@@ -28,7 +31,9 @@ type InputStateOptions<T> = {
   /**
    * A subscriber that is notified of new values when the input state changes.
    */
-  subscriber: Observable.Subscriber<T>;
+  subscriber:
+    | Observable.Subscriber<T>
+    | Reference.Readonly<Observable.Subscriber<T> | undefined>;
   /**
    * A function that parses a string value from an input element
    * to a value compatible with the `value` reference.
@@ -56,6 +61,7 @@ export class InputStateController<
   readonly #options: Readonly<InputStateOptions<T>>;
   readonly #inputValue$: Reference<string>;
   readonly inputValue$: Reference.Readonly<string>;
+  readonly #observer: Observer<T>;
 
   constructor(host: ReactiveControllerHost, options: InputStateOptions<T>) {
     this.#host = host;
@@ -66,6 +72,12 @@ export class InputStateController<
 
     this.#inputValue$ = hold(host, initialInputValue);
     this.inputValue$ = this.#inputValue$.asReadonly();
+
+    const subscriberSource = options.subscriber;
+
+    this.#observer = isReadableReference(subscriberSource)
+      ? unwrapSubscriber(subscriberSource)
+      : normalizeSubscriber(subscriberSource);
 
     host.addController(this);
     origin$.subscribe(this);
@@ -111,10 +123,10 @@ export class InputStateController<
    * 3. Notifies the observe subscriber of the new value
    */
   set(nextValue: T) {
-    const { subscriber: observe, serialize } = this.#options;
+    const { serialize } = this.#options;
 
     this.#inputValue$.set(serialize(nextValue));
-    normalizeSubscriber(observe).next(nextValue);
+    this.#observer.next(nextValue);
   }
 
   next(nextValue: T) {
