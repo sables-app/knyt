@@ -15,11 +15,6 @@ export namespace CSSPercentageString {
 }
 
 /**
- * Recognized input for CSS percentage values.
- */
-type RecognizedValue = RatioDecimal | CSSPercentageString | CSSPercentage;
-
-/**
  * Represents a CSS Percentage value.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/percentage | MDN CSS Length}
@@ -31,7 +26,18 @@ export class CSSPercentage {
    * @throws If the value is not recognized.
    * @remarks Given number value are assumed to be ratio decimal.
    */
-  public static from(value: RecognizedValue): CSSPercentage {
+  public static from(value: CSSPercentage.RecognizedValue): CSSPercentage;
+
+  public static from(
+    value: CSSPercentage.RecognizedValue | undefined,
+  ): CSSPercentage | undefined;
+
+  public static from(
+    value: CSSPercentage.RecognizedValue | undefined,
+  ): CSSPercentage | undefined {
+    if (value === undefined) {
+      return undefined;
+    }
     if (typeof value === "number") {
       return new CSSPercentage(value);
     }
@@ -44,7 +50,7 @@ export class CSSPercentage {
       return new CSSPercentage(ratioDecimal);
     }
 
-    throw new Error(`CSSPercentage: Unrecognized value: ${value}`);
+    throw new TypeError(`CSSPercentage: Unrecognized value: ${value}`);
   }
 
   public static isPercentageString(
@@ -90,35 +96,35 @@ export class CSSPercentage {
   /**
    * Add this percentage to another percentage.
    */
-  public plus(other: RecognizedValue): CSSPercentage {
+  public plus(other: CSSPercentage.RecognizedValue): CSSPercentage {
     return this.math(other, (a, b) => a + b);
   }
 
   /**
    * Subtract another percentage from this percentage.
    */
-  public minus(other: RecognizedValue): CSSPercentage {
+  public minus(other: CSSPercentage.RecognizedValue): CSSPercentage {
     return this.math(other, (a, b) => a - b);
   }
 
   /**
    * Multiply this percentage by another percentage or a number.
    */
-  public times(other: RecognizedValue): CSSPercentage {
+  public times(other: CSSPercentage.RecognizedValue): CSSPercentage {
     return this.math(other, (a, b) => a * b);
   }
 
   /**
    * Get the maximum value between this percentage and another percentage.
    */
-  public max(other: RecognizedValue): CSSPercentage {
+  public max(other: CSSPercentage.RecognizedValue): CSSPercentage {
     return this.math(other, (a, b) => Math.max(a, b));
   }
 
   /**
    * Get the minimum value between this percentage and another percentage.
    */
-  public min(other: RecognizedValue): CSSPercentage {
+  public min(other: CSSPercentage.RecognizedValue): CSSPercentage {
     return this.math(other, (a, b) => Math.min(a, b));
   }
 
@@ -126,7 +132,7 @@ export class CSSPercentage {
    * Divide this percentage by another percentage or a number.
    */
   public dividedBy(
-    other: RecognizedValue,
+    other: CSSPercentage.RecognizedValue,
     rounding: "floor" | "ceil" = "floor",
   ): CSSPercentage {
     return this.math(other, (pixelValueA, pixelValueB) => {
@@ -156,7 +162,7 @@ export class CSSPercentage {
    * Perform a mathematical operation on this percentage and another percentage.
    */
   private math(
-    other: RecognizedValue,
+    other: CSSPercentage.RecognizedValue,
     operation: (
       pixelValueA: RatioDecimal,
       pixelValueB: RatioDecimal,
@@ -173,6 +179,16 @@ export class CSSPercentage {
   get __KnytCSSPercentage() {
     return true as const;
   }
+}
+
+export namespace CSSPercentage {
+  /**
+   * Recognized input for CSS percentage values.
+   */
+  export type RecognizedValue =
+    | RatioDecimal
+    | CSSPercentageString
+    | CSSPercentage;
 }
 
 export function isCSSPercentage(value: unknown): value is CSSPercentage {

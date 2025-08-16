@@ -5,9 +5,12 @@ import {
   typeCheck,
 } from "@knyt/artisan";
 
+import { CSSLength } from "./CSSLength";
+import { CSSPercentage } from "./CSSPercentage";
 import { cssTemplateTag, type CSSTemplateTagValue } from "./cssTemplateTag";
 import { isCSSSerializable } from "./isCSSSerializable";
 import { StyleSheet } from "./StyleSheet";
+import { toSize } from "./toSize";
 import type { CSSInclude, CSSRules } from "./types";
 
 /**
@@ -61,4 +64,21 @@ export function css(
   typeCheck<never>(typeCheck.identify(input));
 
   throw new TypeError(`Invalid CSS input type: ${String(input)}.`);
+}
+
+export namespace css {
+  /**
+   * Convert the given value into either a `CSSLength` or `CSSPercentage`.
+   *
+   * @throws If the value is not recognized.
+   * @remarks Given number value are assumed to be pixel units.
+   *
+   * @alpha This is an alpha export and WILL change (or be removed) in the future
+   * without warning.
+   */
+  export const size = toSize;
+
+  export const length = CSSLength.from;
+
+  export const percentage = CSSPercentage.from;
 }

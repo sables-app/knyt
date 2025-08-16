@@ -30,6 +30,9 @@ type RenderedAnimation = {
 };
 
 export class Animation implements CSSSerializable {
+  /**
+   * Creates a new animation from the provided keyframes.
+   */
   static keyframes(keyframes: Keyframes, options?: AnimationOptions) {
     return new Animation(keyframes, options);
   }

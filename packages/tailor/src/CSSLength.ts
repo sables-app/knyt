@@ -1,7 +1,7 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
 import { DEFAULT_BASE_FONT_SIZE_PX } from "./constants";
-import { CSSPercentage, isCSSPercentage } from "./CSSPercentage";
+import { isCSSPercentage, type CSSPercentage } from "./CSSPercentage";
 
 /**
  * @example 16
@@ -57,6 +57,7 @@ export class CSSLength {
     value: CSSLength.RecognizedValue,
     baseFontSizePx?: PixelValue,
   ): CSSLength;
+
   // We're using a function overload to allow for `undefined`
   // values to be passed through, without having to use the
   // `CSSLength | undefined` for the return type for all
@@ -65,6 +66,7 @@ export class CSSLength {
     value: CSSLength.RecognizedValue | undefined,
     baseFontSizePx?: PixelValue,
   ): CSSLength | undefined;
+
   static from(
     value: CSSLength.RecognizedValue,
     baseFontSizePx: PixelValue = DEFAULT_BASE_FONT_SIZE_PX,
@@ -87,7 +89,7 @@ export class CSSLength {
       return new CSSLength(pixelValue, baseFontSizePx);
     }
 
-    throw new Error(`CSSLength: Unrecognized value: ${value}`);
+    throw new TypeError(`CSSLength: Unrecognized value: ${value}`);
   }
 
   /**

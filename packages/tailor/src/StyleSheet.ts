@@ -294,6 +294,9 @@ export class StyleSheet<in out T extends CSSRules<string>>
     return `${this.#namePrefix}-${hash}`;
   };
 
+  /**
+   * @internal scope: package
+   */
   reduce(
     state: StyleSheetState<CSSRules.ToRuleName<T>>,
     action: AnyAction,
@@ -661,7 +664,7 @@ export class StyleSheet<in out T extends CSSRules<string>>
   }
 
   /**
-   * Adds the stylesheet to the document or shadow root
+   * Adds the style sheet to the document or shadow root
    * if it isn't already added.
    */
   addTo(documentOrShadow: DocumentOrShadowRoot): void {
@@ -675,7 +678,7 @@ export class StyleSheet<in out T extends CSSRules<string>>
   }
 
   /**
-   * Removes the first instance of the stylesheet from the document or shadow root.
+   * Removes the first instance of the style sheet from the document or shadow root.
    */
   removeFrom(documentOrShadow: DocumentOrShadowRoot): void {
     const cssStyleSheet = this.toCSSStyleSheet(
