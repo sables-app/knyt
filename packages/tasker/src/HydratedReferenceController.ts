@@ -71,7 +71,7 @@ export class HydratedReferenceController<T>
       host.addRenderer(this);
     }
     if (isLifecycleDelegateHost(host)) {
-      host.addLifecycleDelegate(this);
+      host.addDelegate(this);
     }
   }
 

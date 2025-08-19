@@ -286,14 +286,14 @@ export abstract class KnytElement
    */
   [__lifecycle] = new LifecycleAdapter<any>();
 
-  declare addLifecycleDelegate: LifecycleAdapter<any>["addLifecycleDelegate"];
+  declare addDelegate: LifecycleAdapter<any>["addDelegate"];
   declare onBeforeMount: LifecycleAdapter<any>["onBeforeMount"];
   declare onMounted: LifecycleAdapter<any>["onMounted"];
   declare onBeforeUpdate: LifecycleAdapter<any>["onBeforeUpdate"];
   declare onUpdated: LifecycleAdapter<any>["onUpdated"];
   declare onUnmounted: LifecycleAdapter<any>["onUnmounted"];
   declare onErrorCaptured: LifecycleAdapter<any>["onErrorCaptured"];
-  declare removeLifecycleDelegate: LifecycleAdapter<any>["removeLifecycleDelegate"];
+  declare removeDelegate: LifecycleAdapter<any>["removeDelegate"];
 
   /**
    * Enables debug mode for the element
@@ -1053,14 +1053,14 @@ export abstract class KnytElement
 }
 
 applyLifecycleMixin(KnytElement, [
-  "addLifecycleDelegate",
+  "addDelegate",
   "onBeforeMount",
   "onMounted",
   "onBeforeUpdate",
   "onUpdated",
   "onUnmounted",
   "onErrorCaptured",
-  "removeLifecycleDelegate",
+  "removeDelegate",
 ]);
 
 applyReactiveMixin(KnytElement, [

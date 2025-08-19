@@ -85,6 +85,8 @@ export namespace LifecycleDelegate {
      * This is useful for preventing a component from replacing server-rendered
      * content with client-rendered content when the component is first connected
      * to the DOM.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AbortController | MDN: AbortController}
      */
     abortController: AbortController;
   };
@@ -117,6 +119,8 @@ export namespace LifecycleDelegate {
      * @remarks
      *
      * This is useful for preventing a component from updating for any reason.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AbortController | MDN: AbortController}
      */
     abortController: AbortController;
     /**
@@ -212,12 +216,12 @@ export type LifecycleDelegateHost<P = any> = {
    * after updating, on unmount, or when an error is captured.
    *
    * Multiple delegates can be registered; all registered hooks will be called in the order
-   * they were added. To remove previously registered hooks, use {@link removeLifecycleDelegate}.
+   * they were added. To remove previously registered hooks, use {@link removeDelegate}.
    *
    * @param input - The lifecycle delegate object containing one or more lifecycle hook methods.
    * @see {@link LifecycleDelegate}
    */
-  addLifecycleDelegate(input: LifecycleDelegate<P>): void;
+  addDelegate(input: LifecycleDelegate<P>): void;
 
   /**
    * Removes a previously registered lifecycle delegate from the host instance.
@@ -228,9 +232,9 @@ export type LifecycleDelegateHost<P = any> = {
    * previously registered, this method has no effect.
    *
    * @param input - The lifecycle delegate object to remove.
-   * @see {@link addLifecycleDelegate}
+   * @see {@link addDelegate}
    */
-  removeLifecycleDelegate(input: LifecycleDelegate<P>): void;
+  removeDelegate(input: LifecycleDelegate<P>): void;
 };
 
 /**
@@ -243,12 +247,10 @@ export function isLifecycleDelegateHost(
 ): value is LifecycleDelegateHost {
   return (
     isNonNullableObject(value) &&
-    "addLifecycleDelegate" in value &&
-    typeof (value as LifecycleDelegateHost).addLifecycleDelegate ===
-      "function" &&
-    "removeLifecycleDelegate" in value &&
-    typeof (value as LifecycleDelegateHost).removeLifecycleDelegate ===
-      "function"
+    "addDelegate" in value &&
+    typeof (value as LifecycleDelegateHost).addDelegate === "function" &&
+    "removeDelegate" in value &&
+    typeof (value as LifecycleDelegateHost).removeDelegate === "function"
   );
 }
 
@@ -269,11 +271,11 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
    */
   #hookRegistry = new Set<LifecycleDelegate<P>>();
 
-  addLifecycleDelegate(hooks: LifecycleDelegate<P>): void {
+  addDelegate(hooks: LifecycleDelegate<P>): void {
     this.#hookRegistry.add(hooks);
   }
 
-  removeLifecycleDelegate(hooks: LifecycleDelegate<P>): void {
+  removeDelegate(hooks: LifecycleDelegate<P>): void {
     this.#hookRegistry.delete(hooks);
   }
 
@@ -285,11 +287,11 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
       [hookName]: hook,
     };
 
-    this.addLifecycleDelegate(hooks);
+    this.addDelegate(hooks);
 
     return {
       unsubscribe: () => {
-        this.removeLifecycleDelegate(hooks);
+        this.removeDelegate(hooks);
       },
     };
   }
