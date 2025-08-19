@@ -2,4 +2,4 @@
 "@knyt/tailor": minor
 ---
 
-Add `css.length` and `css.percentage` functions.
+Add `css.len` and `css.pct` functions.

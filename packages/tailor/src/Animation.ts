@@ -29,6 +29,9 @@ type RenderedAnimation = {
   readonly cssString: string;
 };
 
+// TODO: Consider renaming to `AnimationKeyframes` and create a separate `Animation` class
+// that handles the animation options and rendering.
+// Should be able to maintain backwards compatibility with the current usage.
 export class Animation implements CSSSerializable {
   /**
    * Creates a new animation from the provided keyframes.

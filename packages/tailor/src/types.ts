@@ -107,7 +107,7 @@ export type SerializedCSSObject = {
 };
 
 /**
- * Represents the serialized form of a style sheet.
+ * Any string that can be used in a CSS context.
  *
  * @internal scope: workspace
  */
@@ -119,7 +119,7 @@ export type CSSString = string;
  * @remarks
  *
  * This is used to represent CSS objects that can be included in a stylesheet.
- * It can be a `StyleSheet`, an `Animation`, or any other object that has a `css` property.
+ * It can be a `StyleSheet`, an `Animation`, or any other object that has a `toCSSString` method.
  *
  * @public
  */

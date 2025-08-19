@@ -78,7 +78,7 @@ export namespace css {
    */
   export const size = toSize;
 
-  export const length = CSSLength.from;
+  export const len = CSSLength.from;
 
-  export const percentage = CSSPercentage.from;
+  export const pct = CSSPercentage.from;
 }

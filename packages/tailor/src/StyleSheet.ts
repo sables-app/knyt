@@ -286,6 +286,17 @@ export class StyleSheet<in out T extends CSSRules<string>>
     payload: Actions.AddRulePayload<N>,
   ) => void = this.bindActionCreator(Actions.addRule);
 
+  /**
+   * Adds the given CSS to the style sheet.
+   *
+   * @remarks
+   *
+   * To clarify, this method does not create an @import rule,
+   * instead it copies the CSS string from the input and includes it
+   * in the style sheet as a string. This is useful for including
+   * supplementary CSS such as animations and fonts.
+   */
+  // TODO: Refactor to not use `bindActionCreator`
   readonly include: (payload: CSSInclude) => void = this.bindActionCreator(
     Actions.include,
   );

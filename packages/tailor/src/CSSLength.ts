@@ -2,6 +2,7 @@ import { isNonNullableObject } from "@knyt/artisan";
 
 import { DEFAULT_BASE_FONT_SIZE_PX } from "./constants";
 import { isCSSPercentage, type CSSPercentage } from "./CSSPercentage";
+import type { CSSSerializable } from "./types";
 
 /**
  * @example 16
@@ -46,7 +47,7 @@ export namespace CSSLengthString {
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/length | MDN CSS Length}
  */
-export class CSSLength {
+export class CSSLength implements CSSSerializable {
   /**
    * Convert the given value into a `CSSLength`.
    *
@@ -332,6 +333,10 @@ export class CSSLength {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString | MDN Primitive coercion}
    */
   toString(): string {
+    return this.px();
+  }
+
+  toCSSString(): string {
     return this.px();
   }
 

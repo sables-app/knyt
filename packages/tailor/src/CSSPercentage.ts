@@ -1,5 +1,7 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
+import type { CSSSerializable } from "./types";
+
 const PERCENTAGE_UNIT = "%";
 
 /** @example 0.75 */
@@ -19,20 +21,20 @@ export namespace CSSPercentageString {
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/percentage | MDN CSS Length}
  */
-export class CSSPercentage {
+export class CSSPercentage implements CSSSerializable {
   /**
    * Convert the given value into a `CSSPercentage`.
    *
    * @throws If the value is not recognized.
    * @remarks Given number value are assumed to be ratio decimal.
    */
-  public static from(value: CSSPercentage.RecognizedValue): CSSPercentage;
+  static from(value: CSSPercentage.RecognizedValue): CSSPercentage;
 
-  public static from(
+  static from(
     value: CSSPercentage.RecognizedValue | undefined,
   ): CSSPercentage | undefined;
 
-  public static from(
+  static from(
     value: CSSPercentage.RecognizedValue | undefined,
   ): CSSPercentage | undefined {
     if (value === undefined) {
@@ -53,7 +55,7 @@ export class CSSPercentage {
     throw new TypeError(`CSSPercentage: Unrecognized value: ${value}`);
   }
 
-  public static isPercentageString(
+  static isPercentageString(
     value: unknown,
   ): value is CSSPercentageString.Strict {
     return (
@@ -66,76 +68,76 @@ export class CSSPercentage {
   /**
    * The value of the percentage represented in pixels.
    */
-  private ratioDecimal: RatioDecimal;
+  #ratioDecimal: RatioDecimal;
 
   constructor(ratioDecimal: RatioDecimal) {
-    this.ratioDecimal = ratioDecimal;
+    this.#ratioDecimal = ratioDecimal;
   }
 
   /**
    * Convert the percentage into a value using pixels.
    */
-  public toRatioDecimalValue(): RatioDecimal {
-    return this.ratioDecimal;
+  toRatioDecimalValue(): RatioDecimal {
+    return this.#ratioDecimal;
   }
 
   /**
    * Convert the percentage into a value using pixels.
    */
-  public toPercentageValue(): number {
-    return this.ratioDecimal * 100;
+  toPercentageValue(): number {
+    return this.#ratioDecimal * 100;
   }
 
   /**
    * Convert the percentage into a string with a "%" unit.
    */
-  public pct(): CSSPercentageString {
+  pct(): CSSPercentageString {
     return `${this.toPercentageValue()}${PERCENTAGE_UNIT}`;
   }
 
   /**
    * Add this percentage to another percentage.
    */
-  public plus(other: CSSPercentage.RecognizedValue): CSSPercentage {
-    return this.math(other, (a, b) => a + b);
+  plus(other: CSSPercentage.RecognizedValue): CSSPercentage {
+    return this.#math(other, (a, b) => a + b);
   }
 
   /**
    * Subtract another percentage from this percentage.
    */
-  public minus(other: CSSPercentage.RecognizedValue): CSSPercentage {
-    return this.math(other, (a, b) => a - b);
+  minus(other: CSSPercentage.RecognizedValue): CSSPercentage {
+    return this.#math(other, (a, b) => a - b);
   }
 
   /**
    * Multiply this percentage by another percentage or a number.
    */
-  public times(other: CSSPercentage.RecognizedValue): CSSPercentage {
-    return this.math(other, (a, b) => a * b);
+  times(other: CSSPercentage.RecognizedValue): CSSPercentage {
+    return this.#math(other, (a, b) => a * b);
   }
 
   /**
    * Get the maximum value between this percentage and another percentage.
    */
-  public max(other: CSSPercentage.RecognizedValue): CSSPercentage {
-    return this.math(other, (a, b) => Math.max(a, b));
+  max(other: CSSPercentage.RecognizedValue): CSSPercentage {
+    return this.#math(other, (a, b) => Math.max(a, b));
   }
 
   /**
    * Get the minimum value between this percentage and another percentage.
    */
-  public min(other: CSSPercentage.RecognizedValue): CSSPercentage {
-    return this.math(other, (a, b) => Math.min(a, b));
+  min(other: CSSPercentage.RecognizedValue): CSSPercentage {
+    return this.#math(other, (a, b) => Math.min(a, b));
   }
 
   /**
    * Divide this percentage by another percentage or a number.
    */
-  public dividedBy(
+  dividedBy(
     other: CSSPercentage.RecognizedValue,
     rounding: "floor" | "ceil" = "floor",
   ): CSSPercentage {
-    return this.math(other, (pixelValueA, pixelValueB) => {
+    return this.#math(other, (pixelValueA, pixelValueB) => {
       return Math[rounding](pixelValueA / pixelValueB);
     });
   }
@@ -145,7 +147,7 @@ export class CSSPercentage {
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf | MDN Primitive coercion}
    */
-  public valueOf(): RatioDecimal {
+  valueOf(): RatioDecimal {
     return this.toRatioDecimalValue();
   }
 
@@ -154,14 +156,18 @@ export class CSSPercentage {
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString | MDN Primitive coercion}
    */
-  public toString(): string {
+  toString(): string {
+    return this.pct();
+  }
+
+  toCSSString(): string {
     return this.pct();
   }
 
   /**
    * Perform a mathematical operation on this percentage and another percentage.
    */
-  private math(
+  #math(
     other: CSSPercentage.RecognizedValue,
     operation: (
       pixelValueA: RatioDecimal,
