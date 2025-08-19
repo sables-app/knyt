@@ -11,7 +11,7 @@ import glazierPlugin from "./plugin";
 import { rewriteRelativeResourceTags } from "./rewriteRelativeResourceTags";
 
 /** @internal */
-const BUILD_DIR_NAME = ".kynt-build";
+const BUILD_DIR_NAME = ".knyt-build";
 /** @internal */
 const ROOT_DIR_NAME = "__root__";
 
@@ -39,7 +39,7 @@ type RouteBuildResult = {
   /**
    * The directory where the route was built.
    *
-   * @example "/path/to/dist/.kynt-build" or "/path/to/dist/.kynt-build/about"
+   * @example "/path/to/dist/.knyt-build" or "/path/to/dist/.knyt-build/about"
    */
   routeBuildDir: string;
 };
