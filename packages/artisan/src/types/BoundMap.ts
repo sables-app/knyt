@@ -1,6 +1,6 @@
 /**
  * A strict map type that enforces keys and values
- * based on a given type `T`.
+ * based on a given generic (`T`).
  *
  * @public
  */
