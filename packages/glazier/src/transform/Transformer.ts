@@ -193,7 +193,7 @@ export class Transformer {
       const mainInputPath = this.#demandMainInputPath();
 
       this.#request =
-        this.#options.request ?? new Request(Bun.pathToFileURL(mainInputPath));
+        this.#options.request ?? createRequestFromInputPath(mainInputPath);
     }
 
     return this.#request;
@@ -497,4 +497,36 @@ export class Transformer {
     // the effort right now.
     return this.transform(inputPath, outputHtml);
   }
+}
+
+/**
+ * The header name used to uniquely identify a request.
+ *
+ * @remarks
+ *
+ * This header is intended for logging and debugging only.
+ * It allows tracing a request throughout the application,
+ * but does not affect Glazier's functionality.
+ */
+export const KNYT_REQUEST_ID = "knyt-request-id";
+
+/**
+ * Creates a Request object from an absolute path to the input file.
+ * This is used to create a request object that can be used
+ * in the transformer to retrieve the frontmatter and other data
+ * related to the input file.
+ *
+ * @param inputPath An absolute path to the input file.
+ * @returns A Request object to be used in the transformer.
+ *
+ * @internal scope: package
+ */
+function createRequestFromInputPath(inputPath: string): Request {
+  return new Request(Bun.pathToFileURL(inputPath), {
+    // TODO: Add support for cancellation.
+    // signal: new AbortController().signal,
+    headers: {
+      [KNYT_REQUEST_ID]: Math.random().toString(36).slice(2),
+    },
+  });
 }

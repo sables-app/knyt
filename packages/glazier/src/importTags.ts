@@ -14,8 +14,8 @@ export enum KnytTagName {
    *
    * ### Content
    *
-   * If the `src` attribute is not provided, the tag should be contains
-   * a YAML block as its content. The YAML block is parsed and associated
+   * If the `src` attribute is not provided, the tag should contain a YAML
+   * object as its content. The YAML object is parsed and associated
    * with the incoming request. The parsed data can be accessed using the
    * `getFrontmatter` function.
    *
@@ -50,10 +50,11 @@ export enum KnytTagName {
    * ### Attributes
    *
    * - `src`: Required. The path to the file to include.
-   * - `[...]`: Optional. Any other attributes are passed
-   *          to the included file as props if the included
-   *          file is a Knyt document with `properties` defined
-   *         with matching attribute names.
+   * - `data-[...]`: Optional. Any other data attributes are passed
+   *       to the included file as props if the included
+   *       file is a Knyt document with `properties` defined
+   *       with matching attribute names.
+   *       See `getPropsFromAttributes` for more details.
    *
    * ### Content
    *
@@ -73,7 +74,6 @@ export enum KnytTagName {
    *           the slot will default to `default`.
    */
   Slot = "knyt-slot",
-
   /**
    * A tag that is used include content based on the
    * current environment.
