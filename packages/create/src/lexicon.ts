@@ -92,10 +92,15 @@ function renderGetStartedMessage(
   relativeTargetDir: string,
   packageManager: "bun" | "npm",
 ): string {
+  // If the target directory is the same as the current directory,
+  // then the value of `relativeTargetDir` will be an empty string,
+  // so we will output a dot (.) to indicate the current directory.
+  const targetDir = relativeTargetDir || ".";
+
   return `
 ${green("✔")} To get started, run:
 
-  ${italic(brand(`cd ${relativeTargetDir}`))}
+  ${italic(brand(`cd ${targetDir}`))}
   ${italic(brand(`${packageManager} install`))}
   ${italic(brand(`${packageManager} run dev`))}
 `;
