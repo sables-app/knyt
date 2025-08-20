@@ -9,7 +9,12 @@ import { createPage, type Page } from "../domEnv";
 import { getNodeEnv } from "../env";
 import { frontmatterState } from "../frontmatter";
 import { DEFAULT_SLOT_NAME } from "../htmlSlots";
-import { hasUnprocessedTags, KnytTagName, ProcessingTag } from "../importTags";
+import {
+  hasFrontmatterTag,
+  hasUnprocessedTags,
+  KnytTagName,
+  ProcessingTag,
+} from "../importTags";
 import { rewriteIncludePaths } from "../rewriteIncludePaths";
 import { tocState } from "../toc";
 import type { GetRequestProps, TransformerRenderOptions } from "../types";
@@ -356,132 +361,157 @@ export class Transformer {
       return inputHtml;
     }
 
-    const frontmatterText: string[] = [];
-    let frontmatterSrc: string | undefined;
-
     let hasEncounteredProcessingTag = false;
 
     const environment = getNodeEnv();
 
-    const rewriter = new HTMLRewriter()
-      .on(ProcessingTag.Env, {
-        element: (envElement) => {
-          const allow = parseEnvAttributeValue(
-            envElement.getAttribute("allow"),
-          );
-          const disallow = parseEnvAttributeValue(
-            envElement.getAttribute("disallow"),
-          );
+    /**
+     * The output HTML that will be returned after processing.
+     * It starts as the input HTML and is transformed as we process
+     * the <knyt-include> and other tags.
+     */
+    let outputHtml = inputHtml;
 
-          if (disallow && disallow.includes(environment)) {
-            envElement.remove();
-            return;
-          }
-          if (allow && !allow.includes(environment)) {
-            envElement.remove();
-            return;
-          }
+    // The frontmatter tag is handled separately from other tags
+    // to ensure it is processed first, as it may contain metadata
+    // that influences the handling of subsequent tags like <knyt-include>.
+    //
+    // We use a dedicated rewriter to extract and parse the frontmatter
+    // before processing the rest of the document, so that its data
+    // can be associated with the request as soon as it is available.
+    if (hasFrontmatterTag(outputHtml)) {
+      const frontmatterText: string[] = [];
+      let frontmatterSrc: string | undefined;
 
-          envElement.removeAndKeepContent();
-        },
-      })
-      .on(ProcessingTag.Frontmatter, {
-        text: (textChunk) => {
-          frontmatterText.push(textChunk.text);
-        },
-        element: (frontmatterElement) => {
-          const mainInputPath = this.#demandMainInputPath();
+      const frontmatterRewriter = new HTMLRewriter()
+        // This tag should be the first Knyt tag matched in the document tree.
+        .on(ProcessingTag.Frontmatter, {
+          element: (frontmatterElement) => {
+            const mainInputPath = this.#demandMainInputPath();
 
-          let warningMessage: string | undefined;
+            let warningMessage: string | undefined;
 
-          if (inputPath !== mainInputPath) {
-            warningMessage = `The <${ProcessingTag.Frontmatter}> tag should be the first Knyt tag matched in the document tree to be valid. Other tags will be ignored.`;
-          } else if (this.#hasProcessedFrontmatter) {
-            warningMessage = `Multiple <${ProcessingTag.Frontmatter}> tags found in document tree resulting from ${inputPath}. Only the first one will be processed.`;
-          } else if (hasEncounteredProcessingTag) {
-            warningMessage = `The <${ProcessingTag.Frontmatter}> tag should be the first Knyt tag matched in the document tree to be valid. Other tags will be ignored.`;
-          }
-
-          this.#hasProcessedFrontmatter = true;
-          hasEncounteredProcessingTag = true;
-
-          if (warningMessage) {
-            console.warn(warningMessage);
-          } else {
-            frontmatterSrc =
-              frontmatterElement.getAttribute("src") ?? undefined;
-          }
-
-          frontmatterElement.remove();
-        },
-      })
-      .on(ProcessingTag.Include, {
-        element: async (includeElement): Promise<void> => {
-          let include: Include;
-
-          try {
-            include = await importInclude(inputPath, includeElement);
-          } catch (error) {
-            console.error(`Error importing from ${inputPath}:`, error);
-
-            includeElement.remove();
-            return;
-          }
-
-          try {
-            if (isRendererInclude(include)) {
-              await this.#processRendererInclude(
-                inputPath,
-                includeElement,
-                include,
-              );
-              return;
+            if (inputPath !== mainInputPath) {
+              warningMessage = `The <${ProcessingTag.Frontmatter}> tag should be the first Knyt tag matched in the document tree to be valid. Other tags will be ignored.`;
+            } else if (this.#hasProcessedFrontmatter) {
+              warningMessage = `Multiple <${ProcessingTag.Frontmatter}> tags found in document tree resulting from ${inputPath}. Only the first one will be processed.`;
+            } else if (hasEncounteredProcessingTag) {
+              warningMessage = `The <${ProcessingTag.Frontmatter}> tag should be the first Knyt tag matched in the document tree to be valid. Other tags will be ignored.`;
             }
-          } catch (error) {
-            console.error(
-              `Error processing renderer include from ${inputPath}:`,
-              error,
+
+            this.#hasProcessedFrontmatter = true;
+            hasEncounteredProcessingTag = true;
+
+            if (warningMessage) {
+              console.warn(warningMessage);
+            } else {
+              frontmatterSrc =
+                frontmatterElement.getAttribute("src") ?? undefined;
+            }
+
+            frontmatterElement.remove();
+          },
+          text: (textChunk) => {
+            frontmatterText.push(textChunk.text);
+          },
+        });
+
+      outputHtml = frontmatterRewriter.transform(outputHtml);
+
+      const parsedFrontmatter = await normalizeFrontmatter(
+        frontmatterSrc,
+        frontmatterText,
+      );
+
+      if (parsedFrontmatter) {
+        frontmatterState.associate(this.request, parsedFrontmatter);
+      }
+    }
+
+    // If the input HTML contains a <knyt-include> tag, we need to process it.
+    {
+      const otherTagsRewriter = new HTMLRewriter()
+        .on(ProcessingTag.Env, {
+          element: (envElement) => {
+            const allow = parseEnvAttributeValue(
+              envElement.getAttribute("allow"),
+            );
+            const disallow = parseEnvAttributeValue(
+              envElement.getAttribute("disallow"),
             );
 
-            includeElement.remove();
-            return;
-          }
-
-          try {
-            if (isBunHTMLBundle(include)) {
-              await this.#processBunHTMLBundleInclude(
-                inputPath,
-                includeElement,
-                include,
-              );
+            if (disallow && disallow.includes(environment)) {
+              envElement.remove();
               return;
             }
-          } catch (error) {
-            console.error(
-              `Error processing HTML bundle from ${inputPath}:`,
-              error,
+            if (allow && !allow.includes(environment)) {
+              envElement.remove();
+              return;
+            }
+
+            envElement.removeAndKeepContent();
+          },
+        })
+        .on(ProcessingTag.Include, {
+          element: async (includeElement): Promise<void> => {
+            let include: Include;
+
+            try {
+              include = await importInclude(inputPath, includeElement);
+            } catch (error) {
+              console.error(`Error importing from ${inputPath}:`, error);
+
+              includeElement.remove();
+              return;
+            }
+
+            try {
+              if (isRendererInclude(include)) {
+                await this.#processRendererInclude(
+                  inputPath,
+                  includeElement,
+                  include,
+                );
+                return;
+              }
+            } catch (error) {
+              console.error(
+                `Error processing renderer include from ${inputPath}:`,
+                error,
+              );
+
+              includeElement.remove();
+              return;
+            }
+
+            try {
+              if (isBunHTMLBundle(include)) {
+                await this.#processBunHTMLBundleInclude(
+                  inputPath,
+                  includeElement,
+                  include,
+                );
+                return;
+              }
+            } catch (error) {
+              console.error(
+                `Error processing HTML bundle from ${inputPath}:`,
+                error,
+              );
+
+              includeElement.remove();
+              return;
+            }
+
+            typeCheck<never>(typeCheck.identify(include));
+
+            throw new Error(
+              `Invalid include type in "${inputPath}" with the src "${includeElement.getAttribute("src")}" Make sure the "src" attribute points to a valid module.`,
             );
+          },
+        });
 
-            includeElement.remove();
-            return;
-          }
-
-          typeCheck<never>(typeCheck.identify(include));
-
-          throw new Error(
-            `Invalid include type in "${inputPath}" with the src "${includeElement.getAttribute("src")}" Make sure the "src" attribute points to a valid module.`,
-          );
-        },
-      });
-
-    const outputHtml = rewriter.transform(inputHtml);
-    const parsedFrontmatter = await normalizeFrontmatter(
-      frontmatterSrc,
-      frontmatterText,
-    );
-
-    if (parsedFrontmatter) {
-      frontmatterState.associate(this.request, parsedFrontmatter);
+      outputHtml = otherTagsRewriter.transform(outputHtml);
     }
 
     // Run the transformation again to ensure that all
