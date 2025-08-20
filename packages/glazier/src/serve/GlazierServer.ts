@@ -1,3 +1,4 @@
+import defaultGlazierPlugin from "../plugin";
 import {
   assertBunHTMLBundleModule,
   transform,
@@ -10,8 +11,10 @@ import {
 declare const document: never;
 declare const window: never;
 
+export type GlazierServerFetch = (request: Request) => Promise<Response>;
+
 /**
- * @internal scope: workspace
+ * @internal scope: package
  */
 export class GlazierServer {
   #htmlModulePromise: Promise<BunHTMLBundleModule>;
@@ -19,7 +22,7 @@ export class GlazierServer {
 
   constructor(
     htmlModulePromise: Promise<BunHTMLBundleModule>,
-    options: GlazierPluginOptions = {},
+    options: GlazierPluginOptions = defaultGlazierPlugin.options,
   ) {
     this.#htmlModulePromise = htmlModulePromise.then(
       (htmlModule) => (assertBunHTMLBundleModule(htmlModule), htmlModule),
@@ -57,7 +60,7 @@ export class GlazierServer {
    *
    * @detachable
    */
-  readonly fetch = async (request: Request): Promise<Response> => {
+  readonly fetch: GlazierServerFetch = async (request) => {
     const { inputPath, text } = await this.#getHtml();
     const options: TransformOptions = { ...this.#options, request };
     const transformResult = await transform(inputPath, text, options);

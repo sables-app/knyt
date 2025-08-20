@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 
-import { glazierPlugin, serve } from "@knyt/glazier";
+import { serve } from "@knyt/glazier";
 
 import homepage from "./content/index.html";
 
@@ -13,7 +13,7 @@ Bun.serve({
   port: 3000,
   routes: {
     "/": homepage,
-    "/api/footer": serve(import("./content/footer.html"), glazierPlugin.options),
+    "/api/footer": serve(import("./content/footer.html")),
   },
   fetch(req) {
     return new Response("Not Found", { status: 404 });
