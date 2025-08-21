@@ -65,9 +65,7 @@ export class ConfigLoader {
   /**
    * @detachable
    */
-  readonly handleRequest = async (
-    request: Request,
-  ): Promise<Request | void> => {
+  readonly handleRequest: GlazierPluginOptions.OnRequest = async (request) => {
     const config = await this.#configImport;
 
     return config.onRequest?.(request);

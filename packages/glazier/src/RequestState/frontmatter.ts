@@ -10,6 +10,11 @@ export namespace Frontmatter {
  */
 export const frontmatterState = createRequestState<Frontmatter.Any>({});
 
+/**
+ * Retrieves the frontmatter associated with the request.
+ *
+ * @public
+ */
 export function getFrontmatter<T extends Frontmatter.Any = Frontmatter.Unknown>(
   request: Request,
 ): T {

@@ -1,3 +1,5 @@
+import type { BunRequest } from "bun";
+
 import type { TransformerRenderOptions } from "../types";
 
 /**
@@ -40,7 +42,7 @@ export namespace GlazierPluginOptions {
     onConfigureRender?: GlazierPluginOptions.OnConfigureRender;
   };
 
-  export type OnRequest = (request: Request) => Promise<Request | void>;
+  export type OnRequest = (request: BunRequest) => Promise<BunRequest | void>;
 
   export type OnConfigureRender = (
     inputPath: string,

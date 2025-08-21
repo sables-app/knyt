@@ -6,12 +6,13 @@ import { getTempDir } from "./getTempDir";
 import type { GlazierPlugin } from "./GlazierPlugin";
 import { KnytTagName } from "./importTags";
 import { default as glazierPlugin } from "./plugin";
-import { routePathState } from "./routePathState";
+import { routePathState } from "./RequestState/mod";
 import {
   assertBunHTMLBundleModule,
   prepareHtmlForTransformation,
   type BunHTMLBundleModule,
 } from "./transform/utils";
+import type { BunKnytConfig } from "./types";
 
 /**
  * The `HTMLBundle` type is the actual type that's returned by the
@@ -204,7 +205,7 @@ export class DocumentRouteBuilder {
     });
   }
 
-  #handleRequest = async (request: Request): Promise<void> => {
+  #handleRequest: BunKnytConfig.OnRequest = async (request): Promise<void> => {
     const resolvedOptions = await this.#getResolvedOptions();
     const urlBase = Bun.pathToFileURL(resolvedOptions.dest).toString();
     const routePath = request.url

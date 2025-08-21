@@ -1,4 +1,5 @@
 import type { RenderOptions } from "@knyt/weaver";
+import type { BunRequest } from "bun";
 
 /**
  * Options for module includes.
@@ -31,8 +32,8 @@ export type BunKnytConfig = {
 
 export namespace BunKnytConfig {
   export type OnRequest = (
-    request: Request,
-  ) => Request | void | Promise<Request | void>;
+    request: BunRequest,
+  ) => BunRequest | void | Promise<BunRequest | void>;
 
   export type OnConfigureRender = (
     /**

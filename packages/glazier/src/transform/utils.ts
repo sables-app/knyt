@@ -31,8 +31,8 @@ import {
 } from "../htmlSlots";
 import { hasSlotTag, KnytTagName, ProcessingTag } from "../importTags";
 import { isRelativePathWithDotSlash } from "../relativePathWithDotSlash";
+import type { TocValue } from "../RequestState/mod";
 import { rewriteIncludePaths } from "../rewriteIncludePaths";
-import type { TocValue } from "../toc";
 import type { GetRequestProps, IncludeOptions } from "../types";
 
 // Banned globals

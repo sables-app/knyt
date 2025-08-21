@@ -1,7 +1,7 @@
 import { ensureReference, type Reference } from "@knyt/artisan";
 import type { PluginBuilder } from "bun";
 
-import { isDependencyInjectionEnabled } from "./dependencyInjection";
+import { isDependencyInjectionEnabled } from "./RequestState/mod";
 import type { GlazierPluginOptions, TransformResult } from "./transform/mod";
 import { VirtualModuleManager } from "./VirtualModuleManager";
 

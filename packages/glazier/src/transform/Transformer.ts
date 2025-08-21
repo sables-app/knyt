@@ -4,10 +4,11 @@ import path from "node:path";
 
 import { typeCheck } from "@knyt/artisan";
 import { createHTMLBuilder, render, type RenderOptions } from "@knyt/weaver";
+import type { BunRequest } from "bun";
 
+import { createBunRequest } from "../createBunRequest";
 import { createPage, type Page } from "../domEnv";
 import { getNodeEnv } from "../env";
-import { frontmatterState } from "../frontmatter";
 import { DEFAULT_SLOT_NAME } from "../htmlSlots";
 import {
   hasFrontmatterTag,
@@ -15,8 +16,8 @@ import {
   KnytTagName,
   ProcessingTag,
 } from "../importTags";
+import { frontmatterState, tocState } from "../RequestState/mod";
 import { rewriteIncludePaths } from "../rewriteIncludePaths";
-import { tocState } from "../toc";
 import type { GetRequestProps, TransformerRenderOptions } from "../types";
 import type { GlazierPluginOptions } from "./GlazierPluginOptions";
 import {
@@ -66,7 +67,7 @@ export type TransformOptions = GlazierPluginOptions & {
    *
    * @internal scope: package
    */
-  request?: Request;
+  request?: BunRequest;
 };
 
 /**
@@ -76,7 +77,7 @@ export type TransformResult = {
   /**
    * The request object that was used to transform the HTML.
    */
-  request: Request;
+  request: BunRequest;
   /**
    * The path of the input HTML file.
    * This is the path that was passed to the transform function.
@@ -181,7 +182,7 @@ export class Transformer {
     return [...this.#rendererModulePaths];
   }
 
-  #request: Request | undefined;
+  #request: BunRequest | undefined;
 
   #demandMainInputPath(): string {
     if (!this.#mainInputPath) {
@@ -193,7 +194,7 @@ export class Transformer {
     return this.#mainInputPath;
   }
 
-  get request(): Request {
+  get request(): BunRequest {
     if (!this.#request) {
       const mainInputPath = this.#demandMainInputPath();
 
@@ -541,22 +542,47 @@ export class Transformer {
 export const KNYT_REQUEST_ID = "knyt-request-id";
 
 /**
- * Creates a Request object from an absolute path to the input file.
+ * Creates a `BunRequest` object from an absolute path to the input file.
  * This is used to create a request object that can be used
  * in the transformer to retrieve the frontmatter and other data
  * related to the input file.
  *
  * @param inputPath An absolute path to the input file.
- * @returns A Request object to be used in the transformer.
+ * @returns A `BunRequest` object to be used in the transformer.
  *
  * @internal scope: package
  */
-function createRequestFromInputPath(inputPath: string): Request {
-  return new Request(Bun.pathToFileURL(inputPath), {
+function createRequestFromInputPath(inputPath: string): BunRequest {
+  /**
+   * The URL of the input file.
+   * This is used to create a request object that can be used
+   * in the transformer to retrieve the frontmatter and other data
+   * related to the input file.
+   */
+  const url = Bun.pathToFileURL(inputPath);
+  /**
+   * Parameters for the request.
+   *
+   * @remarks
+   * .
+   * This is an empty object, since we don't need any parameters
+   * for file only requests.
+   * .
+   * If the request is used in a route handler, the parameters
+   * will be extracted from the URL.
+   */
+  const params = {};
+  const headers = {
+    /**
+     * This header is used to uniquely identify the request.
+     * It is used for logging and debugging purposes.
+     */
+    [KNYT_REQUEST_ID]: crypto.randomUUID(),
+  };
+
+  return createBunRequest(url, params, {
     // TODO: Add support for cancellation.
     // signal: new AbortController().signal,
-    headers: {
-      [KNYT_REQUEST_ID]: Math.random().toString(36).slice(2),
-    },
+    headers,
   });
 }

@@ -1,8 +1,10 @@
+import type { RouterTypes } from "bun";
+
 import type {
   BunHTMLBundleModule,
   GlazierPluginOptions,
 } from "../transform/mod";
-import { GlazierServer, type GlazierServerFetch } from "./GlazierServer";
+import { GlazierServer } from "./GlazierServer";
 
 /**
  * Creates a Bun request handler that serves HTML content
@@ -16,9 +18,9 @@ import { GlazierServer, type GlazierServerFetch } from "./GlazierServer";
  *
  * @beta This API is experimental and subject to change.
  */
-export function serve(
+export function serve<RoutePath extends string = string>(
   htmlModulePromise: Promise<BunHTMLBundleModule>,
   options?: GlazierPluginOptions,
-): GlazierServerFetch {
+): RouterTypes.RouteHandler<RoutePath> {
   return new GlazierServer(htmlModulePromise, options).fetch;
 }

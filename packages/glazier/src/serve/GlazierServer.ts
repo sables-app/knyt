@@ -1,4 +1,7 @@
+import type { RouterTypes } from "bun";
+
 import defaultGlazierPlugin from "../plugin";
+import { originServerState } from "../RequestState/mod";
 import {
   assertBunHTMLBundleModule,
   transform,
@@ -11,12 +14,10 @@ import {
 declare const document: never;
 declare const window: never;
 
-export type GlazierServerFetch = (request: Request) => Promise<Response>;
-
 /**
  * @internal scope: package
  */
-export class GlazierServer {
+export class GlazierServer<RoutePath extends string> {
   #htmlModulePromise: Promise<BunHTMLBundleModule>;
   #options: GlazierPluginOptions;
 
@@ -60,10 +61,15 @@ export class GlazierServer {
    *
    * @detachable
    */
-  readonly fetch: GlazierServerFetch = async (request) => {
+  readonly fetch: RouterTypes.RouteHandler<RoutePath> = async (
+    request,
+    server,
+  ) => {
     const { inputPath, text } = await this.#getHtml();
     const options: TransformOptions = { ...this.#options, request };
     const transformResult = await transform(inputPath, text, options);
+
+    originServerState.associate(request, server);
 
     const {
       html,
