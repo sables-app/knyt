@@ -10,8 +10,8 @@ This package contains all client-side features of [Knyt](https://knyt.dev/). <br
 
 </small>
 
-[![npm](https://img.shields.io/npm/v/@knyt/artisan?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/artisan)
-[![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444)](https://github.com/sables-app/knyt/tree/main/packages/artisan)
+[![npm](https://img.shields.io/npm/v/knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/knyt)
+[![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444)](https://github.com/sables-app/knyt/tree/main/packages/toolkit)
 [![License](https://img.shields.io/badge/License-BSD_3_Clause-blue?style=flat-square&labelColor=444)](https://github.com/sables-app/knyt/blob/main/LICENSE)
 <br />
 ![Built with TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-3178c6.svg?style=flat-square&logo=typescript&labelColor=444)
