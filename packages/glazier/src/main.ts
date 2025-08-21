@@ -7,6 +7,6 @@ export * from "./domEnv";
 export * from "./GlazierPlugin";
 export * from "./HtmlTemplate";
 export * from "./RequestState/mod";
-export * from "./serve/mod";
+export * from "./serveMarkup/mod";
 export * from "./transform/mod";
 export type * from "./types";
