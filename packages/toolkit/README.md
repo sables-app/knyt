@@ -10,12 +10,12 @@ This package contains all client-side features of [Knyt](https://knyt.dev/). <br
 
 </small>
 
-[ ![npm](https://img.shields.io/npm/v/@knyt/artisan?style=flat-square&labelColor=444) ](https://www.npmjs.com/package/@knyt/artisan)
-[ ![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444) ](https://github.com/sables-app/knyt/tree/main/packages/artisan)
-[ ![License](https://img.shields.io/badge/License-BSD_3_Clause-blue?style=flat-square&labelColor=444) ](https://github.com/sables-app/knyt/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@knyt/artisan?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/artisan)
+[![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444)](https://github.com/sables-app/knyt/tree/main/packages/artisan)
+[![License](https://img.shields.io/badge/License-BSD_3_Clause-blue?style=flat-square&labelColor=444)](https://github.com/sables-app/knyt/blob/main/LICENSE)
 <br />
 ![Built with TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-3178c6.svg?style=flat-square&logo=typescript&labelColor=444)
-![Built for the web](https://img.shields.io/badge/Built_for-the_web-e34f26.svg?style=flat-square&logo=HTML5&labelColor=444)
+![Built for The Web](https://img.shields.io/badge/Built_for-The_Web-e34f26.svg?style=flat-square&logo=HTML5&labelColor=444)
 
 </div>
 
