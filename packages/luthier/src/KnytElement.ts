@@ -58,6 +58,7 @@ import {
 import { KNYT_DEBUG_DATA_ATTR } from "./constants";
 import { convertPropertiesDefinition } from "./convertPropertiesDefinition";
 import { getConstructorStaticMember } from "./getConstructorStaticMember";
+import { HtmxIntegration, type HtmxObject } from "./HtmxIntegration";
 import {
   __reactiveAdapter,
   applyReactiveMixin,
@@ -66,17 +67,7 @@ import {
   type Reactive,
   type ReactiveAdapter,
 } from "./Reactive";
-import type {
-  ElementDefinition,
-  PropertiesDefinition,
-  PropertyName,
-} from "./types";
-
-type HtmxGlobal = {
-  process: (root: DocumentOrShadowRoot) => unknown;
-};
-
-declare const htmx: HtmxGlobal | undefined;
+import type { PropertiesDefinition, PropertyName } from "./types";
 
 /**
  * @alpha
@@ -149,11 +140,12 @@ export type KnytElementOptions = {
    *
    * @remarks
    *
-   * `htmx` must be globally available for this to work.
+   * For this to work, `htmx` must be either available globally,
+   * or passed as an option to the element.
    *
    * @see {@link https://htmx.org/examples/web-components/}
    */
-  htmx?: boolean;
+  htmx?: boolean | HtmxObject.Compat;
   /**
    * Determines whether the element is a "Container" element.
    *
@@ -507,7 +499,7 @@ export abstract class KnytElement
     const renderMode = preparedOptions.renderMode ?? RenderMode.Transparent;
     const shadowRootEnabled = preparedOptions.shadowRoot !== false;
     const shadowRootInit = preparedOptions.shadowRoot || { mode: "open" };
-    const htmxEnabled = preparedOptions.htmx ?? false;
+    const htmxInput = preparedOptions.htmx;
     const updateMode = preparedOptions.updateMode;
 
     if (preparedOptions.debug) {
@@ -536,8 +528,8 @@ export abstract class KnytElement
       this.#hadDeclarativeShadowRoot = wasDeclarative;
       this.#rootElement = shadowRoot;
 
-      if (htmxEnabled && typeof htmx !== "undefined") {
-        htmx.process(shadowRoot);
+      if (htmxInput) {
+        this.addController(new HtmxIntegration(htmxInput, shadowRoot));
       }
     } else {
       this.#rootElement = this;
