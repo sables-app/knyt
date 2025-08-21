@@ -19,7 +19,12 @@ function isHTMLEntryPoint(artifact: Bun.BuildArtifact): boolean {
   return artifact.kind === "entry-point" && artifact.path.endsWith(".html");
 }
 
-type RouteBuildResult = {
+/**
+ * Represents the result of building a route.
+ *
+ * @public
+ */
+export type RouteBuildResult = {
   /**
    * The build output for the route.
    */
@@ -44,7 +49,12 @@ type RouteBuildResult = {
   routeBuildDir: string;
 };
 
-type BuildOptions = {
+/**
+ * Options for building routes.
+ *
+ * @public
+ */
+export type BuildRoutesOptions = {
   /**
    * The directory where the built assets will be placed.
    *
@@ -151,19 +161,21 @@ const defaultConfigure = (buildConfig: BuildConfig): BuildConfig => {
 };
 
 /**
+ * The routes to build.
+ *
+ * @remarks
+ *
+ * This should be an object where the keys are the route paths and the values are the HTML bundles.
+ */
+export type BuildRoutesInput = Record<string, HTMLBundle>;
+
+/**
  * Builds the routes by processing each HTML entrypoint and rewriting
  * relative resource tags to absolute paths based on the provided options.
  */
 export async function buildRoutes(
-  /**
-   * The routes to build.
-   *
-   * @remarks
-   *
-   * This should be an object where the keys are the route paths and the values are the HTML bundles.
-   */
-  routes: Record<string, HTMLBundle>,
-  options: BuildOptions = {},
+  routes: BuildRoutesInput,
+  options: BuildRoutesOptions = {},
 ): Promise<RouteBuildResult[]> {
   const isProd = isProductionEnv();
 
@@ -201,7 +213,7 @@ export async function buildRoutes(
   // Building each route separately allows us to have more control
   // over the build process and to handle each route's output individually.
 
-  async function buildRoute({ route, entrypoint }: RouteBuildEntry) {
+  async function buildHTMLBundleRoute({ route, entrypoint }: RouteBuildEntry) {
     const routeBuildDir = path.resolve(
       buildDir,
       route === "/" ? ROOT_DIR_NAME : route.substring(1),
@@ -327,17 +339,10 @@ export async function buildRoutes(
 
   let activeBuilds = 0;
 
-  async function startRouteBuild(entry: RouteBuildEntry) {
+  async function startRouteBuild(buildProcess: () => Promise<void>) {
     activeBuilds++;
 
-    try {
-      await buildRoute(entry);
-    } catch (error) {
-      console.error(
-        `[glazier] Error building route ${entry.route} from ${entry.entrypoint}:`,
-        error,
-      );
-    }
+    await buildProcess();
 
     activeBuilds--;
 
@@ -345,12 +350,30 @@ export async function buildRoutes(
     routeBuildComplete = Promise.withResolvers<void>();
   }
 
-  for (const [route, { index: entrypoint }] of Object.entries(routes)) {
+  async function startHTMLBundleRouteBuild(entry: RouteBuildEntry) {
+    await startRouteBuild(async () => {
+      try {
+        await buildHTMLBundleRoute(entry);
+      } catch (error) {
+        console.error(
+          `[glazier] Error building route ${entry.route} from ${entry.entrypoint}:`,
+          error,
+        );
+      }
+    });
+  }
+
+  for (const [route, source] of Object.entries(routes)) {
     if (activeBuilds >= batchSize) {
       await routeBuildComplete.promise;
     }
 
-    routeBuilds.push(startRouteBuild({ route, entrypoint }));
+    const routeBuild = startHTMLBundleRouteBuild({
+      route,
+      entrypoint: source.index,
+    });
+
+    routeBuilds.push(routeBuild);
   }
 
   // Wait for all builds to complete
