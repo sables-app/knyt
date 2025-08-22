@@ -33,9 +33,7 @@ See https://knyt.dev/
 
 You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. This pre-configured devbox can be used to explore Knyt's features and capabilities without needing to set up a local environment.
 
-[![Edit in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)][codesandbox-fullstack]
-
-[codesandbox-fullstack]: /try/codesandbox
+[![Edit in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)][https://knyt.dev/try/codesandbox]
 
 ## Toolkit features
 
