@@ -1,5 +1,11 @@
 # create-knyt
 
+## 0.1.0-alpha.5
+
+### Patch Changes
+
+- cbd7485: Move bundled dependencies to `devDependencies`. This prevents them from being installed when `create-knyt` is installed as a dependency, which is unnecessary.
+
 ## 0.1.0-alpha.4
 
 ### Patch Changes
