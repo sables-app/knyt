@@ -3,6 +3,7 @@ export * from "./asyncMapAll";
 export * from "./attributeTransformers";
 export * from "./envDetection";
 export * from "./escapeHtml";
+export * from "./FetchMiddleware";
 export * from "./MiddlewareRunner";
 export * from "./ObjectMerger";
 export * from "./Observable/mod";
