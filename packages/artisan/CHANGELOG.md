@@ -1,5 +1,19 @@
 # @knyt/artisan
 
+## 0.1.0-alpha.2
+
+### Minor Changes
+
+- 5e4d5af: Renamed `MiddlewareRunner` methods to be more concise and intuitive:
+  - `addMiddleware` -> `add`
+  - `removeMiddleware` -> `remove`
+  - `hasMiddleware` -> `has`
+- 3c6a422: Add `FetchMiddleware` utility
+
+### Patch Changes
+
+- fa83e20: Correct `unwrapSubscriber` input type
+
 ## 0.1.0-alpha.1
 
 ### Minor Changes
