@@ -93,14 +93,14 @@ export class GlazierPlugin implements BunPlugin {
    * Add middleware for handling requests.
    */
   onRequest(middleware: BunKnytConfig.OnRequest): void {
-    this.#middleware.addMiddleware(Middleware.Kind.Request, middleware);
+    this.#middleware.add(Middleware.Kind.Request, middleware);
   }
 
   /**
    * Add middleware for configuring render options.
    */
   onConfigureRender(middleware: BunKnytConfig.OnConfigureRender): void {
-    this.#middleware.addMiddleware(Middleware.Kind.ConfigureRender, middleware);
+    this.#middleware.add(Middleware.Kind.ConfigureRender, middleware);
   }
 
   /*

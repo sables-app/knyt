@@ -34,14 +34,14 @@ describe("MiddlewareRunner", () => {
     console.warn = consoleWarn;
   });
 
-  describe("addMiddleware", () => {
+  describe("add", () => {
     it("should add middleware and verify its existence", () => {
       const runner = new MiddlewareRunner<B>();
       const middleware = mock();
 
-      runner.addMiddleware("test", middleware);
+      runner.add("test", middleware);
 
-      expect(runner.hasMiddleware("test", middleware)).toBe(true);
+      expect(runner.has("test", middleware)).toBe(true);
       expect(runner.length).toBe(1);
     });
 
@@ -49,24 +49,24 @@ describe("MiddlewareRunner", () => {
       const runner = new MiddlewareRunner<B>();
       const middleware = mock();
 
-      runner.addMiddleware("test", middleware);
-      runner.addMiddleware("test", middleware);
+      runner.add("test", middleware);
+      runner.add("test", middleware);
 
-      expect(runner.hasMiddleware("test", middleware)).toBe(true);
+      expect(runner.has("test", middleware)).toBe(true);
       expect(runner.length).toBe(1);
       expect(console.warn).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe("removeMiddleware", () => {
+  describe("remove", () => {
     it("should remove middleware", () => {
       const runner = new MiddlewareRunner<B>();
       const middleware = mock();
 
-      runner.addMiddleware("test", middleware);
-      runner.removeMiddleware("test", middleware);
+      runner.add("test", middleware);
+      runner.remove("test", middleware);
 
-      expect(runner.hasMiddleware("test", middleware)).toBe(false);
+      expect(runner.has("test", middleware)).toBe(false);
       expect(runner.length).toBe(0);
     });
   });
@@ -76,7 +76,7 @@ describe("MiddlewareRunner", () => {
       const runner = new MiddlewareRunner<B>();
       const middleware = mock();
 
-      runner.addMiddleware("test", middleware);
+      runner.add("test", middleware);
 
       await runner.forEach("test", async (mw) => {
         await mw(9001);
@@ -89,7 +89,7 @@ describe("MiddlewareRunner", () => {
       const runner = new MiddlewareRunner<B>();
       const middleware = mock();
 
-      runner.addMiddleware("test", middleware);
+      runner.add("test", middleware);
 
       await runner.forEach("other", async (mw) => {
         await mw("Hello");
@@ -105,8 +105,8 @@ describe("MiddlewareRunner", () => {
       const middleware1 = mock(async (value: number) => value + 1);
       const middleware2 = mock(async (value: number) => value * 2);
 
-      runner.addMiddleware("test", middleware1);
-      runner.addMiddleware("test", middleware2);
+      runner.add("test", middleware1);
+      runner.add("test", middleware2);
 
       const result = await runner.chain("test", 1);
 
@@ -130,8 +130,8 @@ describe("MiddlewareRunner", () => {
       const middleware1 = mock();
       const middleware2 = mock();
 
-      runner.addMiddleware("test", middleware1);
-      runner.addMiddleware("other", middleware2);
+      runner.add("test", middleware1);
+      runner.add("other", middleware2);
 
       const middlewares = Array.from(runner);
 

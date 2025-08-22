@@ -9,7 +9,7 @@ export class MiddlewareRunner<B> {
     return this.#middlewareList.length;
   }
 
-  hasMiddleware(...targetEntry: MiddlewareRunner.Entry<B>): boolean {
+  has(...targetEntry: MiddlewareRunner.Entry<B>): boolean {
     return this.#middlewareList.some((entry) => {
       const [kind, middleware] = entry;
       const [targetKind, targetMiddleware] = targetEntry;
@@ -18,8 +18,11 @@ export class MiddlewareRunner<B> {
     });
   }
 
-  addMiddleware(...entry: MiddlewareRunner.Entry<B>): void {
-    if (this.hasMiddleware(...entry)) {
+  // NOTE: Decided to name this method `add` instead of `use` for consistency with `Map` and `Set`.
+  // Additionally, this is intended to be a "Runner" rather than a typical middleware handler,
+  // so `add` seems more appropriate.
+  add(...entry: MiddlewareRunner.Entry<B>): void {
+    if (this.has(...entry)) {
       const [kind, middleware] = entry;
       console.warn(`Middleware already exists: [${kind}, ${middleware.name}]`);
       return;
@@ -28,7 +31,7 @@ export class MiddlewareRunner<B> {
     this.#middlewareList.push(entry);
   }
 
-  removeMiddleware(...targetEntry: MiddlewareRunner.Entry<B>): void {
+  remove(...targetEntry: MiddlewareRunner.Entry<B>): void {
     const indexToRemove = this.#middlewareList.findIndex((entry) => {
       const [kind, middleware] = entry;
       const [targetKind, targetMiddleware] = targetEntry;
