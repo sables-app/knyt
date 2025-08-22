@@ -1,5 +1,11 @@
 # create-knyt
 
+## 0.1.0-alpha.4
+
+### Patch Changes
+
+- cefa4b1: Fix the target path in Get Started message when the target path is the same as the current working directory.
+
 ## 0.1.0-alpha.3
 
 ### Patch Changes
