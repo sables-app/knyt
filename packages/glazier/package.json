@@ -29,7 +29,7 @@
     "yaml": "^2.2.1"
   },
   "devDependencies": {
-    "knyt": "0.1.0-alpha.2",
+    "knyt": "0.1.0-alpha.3",
     "@types/bun": "^1.2.4"
   },
   "scripts": {
