@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/docs/artisan/)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/artisan)
 
 🖌️ A reactive foundation for modern web solutions. <br /> Lightweight observables—memory-safe, microtask-optimized, and rigorously type-safe.
 
@@ -44,7 +44,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/docs/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 
@@ -82,7 +82,7 @@ count$.set(2); // Console: Count is: 2
 
 ## Documentation
 
-See https://knyt.dev/docs/artisan/
+See https://knyt.dev/pkg/artisan
 
 ## Updates
 

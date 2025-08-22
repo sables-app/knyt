@@ -35,7 +35,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 [![Edit in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)][codesandbox-fullstack]
 
-[codesandbox-fullstack]: https://codesandbox.io/p/devbox/determined-cohen-g2yzmh
+[codesandbox-fullstack]: /try/codesandbox
 
 ## Toolkit features
 
@@ -46,7 +46,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **Component Hydration**: Enables seamless server-side rendering and client-side hydration for interactive components
 - [and more...][Knyt Luthier]
 
-[Knyt Luthier]: https://knyt.dev/docs/luthier/
+[Knyt Luthier]: https://knyt.dev/pkg/luthier
 
 #### Server-side capabilities (🧊 _[Knyt Glazier][]_)
 
@@ -54,7 +54,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **Dependency management**: Automatic dependency resolution, bundling, injection, and hydration
 - [and more...][Knyt Glazier]
 
-[Knyt Glazier]: https://knyt.dev/docs/glazier/
+[Knyt Glazier]: https://knyt.dev/pkg/glazier
 
 #### Declarative DOM renderer (🧵 _[Knyt Weaver][]_)
 
@@ -63,7 +63,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
 - [and more...][Knyt Weaver]
 
-[Knyt Weaver]: https://knyt.dev/docs/weaver/
+[Knyt Weaver]: https://knyt.dev/pkg/weaver
 
 #### Reactive essentials (🖌️ _[Knyt Artisan][]_)
 
@@ -71,7 +71,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **RxJS interoperability** – Seamlessly integrates with RxJS and similar observable libraries
 - [and more...][Knyt Artisan]
 
-[Knyt Artisan]: https://knyt.dev/docs/artisan/
+[Knyt Artisan]: https://knyt.dev/pkg/artisan
 
 #### Type-safe, composable CSS-in-JS (👔 _[Knyt Tailor][]_)
 
@@ -79,7 +79,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Seamless integration with [Constructable Stylesheets][] for SSR and shadow DOM
 - [and more...][Knyt Tailor]
 
-[Knyt Tailor]: https://knyt.dev/docs/tailor/
+[Knyt Tailor]: https://knyt.dev/pkg/tailor
 [adoptedStyleSheets]: https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/adoptedStyleSheets
 [Constructable Stylesheets]: https://web.dev/articles/constructable-stylesheets
 
@@ -89,7 +89,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **Reactive State**: Hydratable state with computed/mapped values & effects
 - [and more...][Knyt Tasker]
 
-[Knyt Tasker]: https://knyt.dev/docs/tasker/
+[Knyt Tasker]: https://knyt.dev/pkg/tasker
 
 #### Lightweight, observable state management (🗃️ _[Knyt Clerk][]_)
 
@@ -97,14 +97,14 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 - **Batteries-included**: Provides built-in utilities for reducers, action creators, selectors, and debug logging.
 - [and more...][Knyt Clerk]
 
-[Knyt Clerk]: https://knyt.dev/docs/clerk/
+[Knyt Clerk]: https://knyt.dev/pkg/clerk
 
 #### Scaffolding CLI tool (🎬 _[Knyt Gaffer][]_)
 
 - **Scaffold Knyt projects**: Quickly set up new Knyt projects with a single command
 - Get started by running `npm create knyt` in your terminal
 
-[Knyt Gaffer]: https://knyt.dev/docs/gaffer/
+[Knyt Gaffer]: https://knyt.dev/pkg/gaffer
 
 ## Usage
 
@@ -134,7 +134,7 @@ You can then add the element to the document:
 const counterElement = document.createElement("my-counter");
 ```
 
-Alternatively, you can use [Knyt Glazier](https://knyt.dev/docs/glazier/) to render and include your custom element in an HTML page. For example, create an HTML file like this:
+Alternatively, you can use [Knyt Glazier](https://knyt.dev/pkg/glazier) to render and include your custom element in an HTML page. For example, create an HTML file like this:
 
 ```html
 <!doctype html>

@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/docs/tasker/)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/tasker)
 
 🗺️ A collection of [Lit](https://lit.dev/)-compatible reactive controllers designed for [Knyt](https://knyt.dev/).
 
@@ -30,7 +30,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/docs/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 
@@ -54,7 +54,7 @@ To create a simple counter custom element, you could use the following code:
 
 ## Documentation
 
-See https://knyt.dev/docs/tasker/
+See https://knyt.dev/pkg/tasker
 
 ## Updates
 

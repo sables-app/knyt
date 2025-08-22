@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/docs/glazier/)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/glazier)
 
 🧊 A smart [Bun](https://bun.sh/) plugin for HTML includes—embed HTML, MDX, Web Components, and Views into your pages.
 
@@ -56,7 +56,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - Extensible through middleware with utilities for request data association/overrides
 
 [htmx]: https://htmx.org
-[Luthier]: https://knyt.dev/docs/luthier
+[Luthier]: https://knyt.dev/pkg/luthier
 
 #### Batteries-included
 
@@ -114,7 +114,7 @@ NODE_ENV=production bun index.html
 
 ## Documentation
 
-See https://knyt.dev/docs/glazier/
+See https://knyt.dev/pkg/glazier
 
 ## Updates
 
