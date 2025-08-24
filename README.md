@@ -10,7 +10,7 @@
 <br />
 ![Built with TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-3178c6.svg?style=flat-square&logo=typescript&labelColor=444)
 ![Built for The Web](https://img.shields.io/badge/Built_for-The_Web-e34f26.svg?style=flat-square&logo=HTML5&labelColor=444)
-![Server on Bun](https://img.shields.io/badge/Server-Bun-b49090.svg?style=flat-square&logo=bun&labelColor=444)
+![SSG with Bun](https://img.shields.io/badge/SSG_with-Bun-b49090.svg?style=flat-square&logo=bun&labelColor=444)
 
 </div>
 
