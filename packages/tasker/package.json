@@ -23,8 +23,7 @@
     "@knyt/weaver": "^0.1.0-alpha",
     "@knyt/clerk": "^0.1.0-alpha",
     "@knyt/tailor": "^0.1.0-alpha.2",
-    "event-station": "^2.0.0",
-    "jsesc": "^3.1.0"
+    "event-station": "^2.0.0"
   },
   "scripts": {
     "demo": "bun ./demo/index.html"

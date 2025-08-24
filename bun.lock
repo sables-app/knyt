@@ -14,7 +14,7 @@
     },
     "packages/artisan": {
       "name": "@knyt/artisan",
-      "version": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
       "devDependencies": {
         "rxjs": "^7.8.2",
       },
@@ -30,18 +30,18 @@
     },
     "packages/create": {
       "name": "create-knyt",
-      "version": "0.1.0-alpha.3",
+      "version": "0.1.0-alpha.5",
       "bin": {
         "create-knyt": "bin/create-knyt.bundle.js",
       },
-      "dependencies": {
+      "devDependencies": {
         "@clack/prompts": "^0.10.1",
         "picocolors": "^1.1.1",
       },
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.1.0-alpha.0",
+      "version": "0.1.0-alpha.2",
       "dependencies": {
         "@knyt/artisan": "^0.1.0-alpha",
         "@knyt/luthier": "^0.1.0-alpha",
@@ -63,7 +63,7 @@
     },
     "packages/luthier": {
       "name": "@knyt/luthier",
-      "version": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
       "dependencies": {
         "@knyt/artisan": "^0.1.0-alpha.1",
         "@knyt/tailor": "^0.1.0-alpha",
@@ -74,9 +74,9 @@
     },
     "packages/tailor": {
       "name": "@knyt/tailor",
-      "version": "0.1.0-alpha",
+      "version": "0.1.0-alpha.2",
       "dependencies": {
-        "@knyt/artisan": "^0.1.0-alpha",
+        "@knyt/artisan": "^0.1.0-alpha.2",
         "@knyt/clerk": "^0.1.0-alpha",
         "@knyt/html-type": "^0.1.0-alpha",
         "@knyt/weaver": "^0.1.0-alpha",
@@ -85,19 +85,18 @@
     },
     "packages/tasker": {
       "name": "@knyt/tasker",
-      "version": "0.1.0-alpha",
+      "version": "0.1.0-alpha.2",
       "dependencies": {
-        "@knyt/artisan": "^0.1.0-alpha",
+        "@knyt/artisan": "^0.1.0-alpha.2",
         "@knyt/clerk": "^0.1.0-alpha",
-        "@knyt/tailor": "^0.1.0-alpha",
+        "@knyt/tailor": "^0.1.0-alpha.2",
         "@knyt/weaver": "^0.1.0-alpha",
         "event-station": "^2.0.0",
-        "jsesc": "^3.1.0",
       },
     },
     "packages/toolkit": {
       "name": "knyt",
-      "version": "0.1.0-alpha.2",
+      "version": "0.1.0-alpha.3",
       "dependencies": {
         "@knyt/artisan": "^0.1.0-alpha",
         "@knyt/clerk": "^0.1.0-alpha",
@@ -772,7 +771,7 @@
 
     "js-yaml": ["js-yaml@4.1.0", "", { "dependencies": { "argparse": "^2.0.1" }, "bin": { "js-yaml": "bin/js-yaml.js" } }, "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA=="],
 
-    "jsesc": ["jsesc@3.1.0", "", { "bin": { "jsesc": "bin/jsesc" } }, "sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA=="],
+    "jsesc": ["jsesc@2.5.2", "", { "bin": { "jsesc": "bin/jsesc" } }, "sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA=="],
 
     "json-buffer": ["json-buffer@3.0.1", "", {}, "sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ=="],
 
@@ -1117,8 +1116,6 @@
     "@babel/code-frame/picocolors": ["picocolors@1.0.1", "", {}, "sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew=="],
 
     "@babel/core/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
-
-    "@babel/generator/jsesc": ["jsesc@2.5.2", "", { "bin": { "jsesc": "bin/jsesc" } }, "sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA=="],
 
     "@babel/helper-compilation-targets/lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
