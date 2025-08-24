@@ -14,13 +14,15 @@ import {
 
 type RendererFn<PD extends PropertiesDefinition<any>> = (
   /**
-   * TODO: Consider deprecating; the host should be retrieved from the lifecycle function.
+   * @deprecated The host should be retrieved from the lifecycle function.
+   *
+   * ### As this API was only available in an alpha version, this WILL be removed without a major release.
    */
   this: KnytElement.FromPropertiesDefinition<PD>,
-  // Passing the host here is effectively the same as passing `props`,
-  // which would allow render functions to be more easily reused.
   /**
-   * TODO: Consider deprecating; this is now a confusing API, because `defineComponent` was added.
+   * @deprecated The host should be retrieved from the lifecycle function.
+   *
+   * ### As this API was only available in an alpha version, this WILL be removed without a major release.
    */
   host: KnytElement.FromPropertiesDefinition<PD>,
 ) => RenderResult;
