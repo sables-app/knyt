@@ -7,8 +7,11 @@ import type { Observable, Observer, Subscription } from "./types";
  *
  * The promise resolves when the observable emits a value that satisfies
  * the `shouldResolve` function or when the observable completes with a value.
+ *
  * The promise rejects if the observable completes without a value, emits an error,
  * is aborted, or times out.
+ *
+ * By default, the promise resolves with the first emitted value.
  *
  * @public
  */
@@ -30,9 +33,9 @@ export class ObservablePromise<T> implements Observer<T> {
   ) {
     this.#observable = observable;
 
-    const { shouldResolve = Boolean, signal, timeout } = options ?? {};
+    const { shouldResolve, signal, timeout } = options ?? {};
 
-    this.#shouldResolve = shouldResolve;
+    this.#shouldResolve = shouldResolve ?? (() => true);
     this.#subscription = this.#observable.subscribe(this);
 
     signal?.addEventListener("abort", () => {
