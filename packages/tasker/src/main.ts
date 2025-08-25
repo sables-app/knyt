@@ -18,6 +18,7 @@ export * from "./hydrateRef";
 export * from "./InputStateController";
 export * from "./Lifecycle";
 export * from "./LifecycleDelegate";
+export * from "./LifecycleInterrupt";
 export * from "./listenTo";
 export * from "./normalizeHost";
 export * from "./ReactiveController";

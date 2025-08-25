@@ -4,6 +4,7 @@ import {
   type Subscription,
 } from "@knyt/artisan";
 
+import type { LifecycleInterrupt } from "./LifecycleInterrupt";
 import type { ReactiveController } from "./ReactiveController";
 
 /**
@@ -41,6 +42,21 @@ export type LifecycleDelegate<P> = {
    * is connected to the DOM or not.
    */
   hostBeforeUpdate?: LifecycleDelegate.BeforeUpdateHook<P>;
+  /**
+   * Called by the host when the element's lifecycle is interrupted.
+   *
+   * @remarks
+   *
+   * A lifecycle interruption occurs when the normal flow is halted by
+   * an external factor. An interruption is not an error, and is distinct
+   * from aborting an update or mount via an `AbortController`.
+   *
+   * Use this hook to perform cleanup or state changes in response to
+   * an interruption.
+   *
+   * Errors thrown here are forwarded to `hostErrorCaptured` handlers.
+   */
+  hostInterrupted?: LifecycleDelegate.InterruptedHook<unknown>;
   /**
    * A method called by the host when an error occurs during
    * a lifecycle event, such as during the `hostBeforeUpdate` method.
@@ -140,6 +156,19 @@ export namespace LifecycleDelegate {
    */
   export type BeforeUpdateHook<P> = {
     (payload: BeforeUpdatePayload<P>): void | Promise<void>;
+  };
+
+  /**
+   * A lifecycle hook that is called by the host
+   * when the host's lifecycle is interrupted.
+   *
+   * @remarks
+   *
+   * The hook may return a promise to indicate that the interruption
+   * handling should be completed before proceeding.
+   */
+  export type InterruptedHook<TReason> = {
+    (interrupt: LifecycleInterrupt<TReason>): void | Promise<void>;
   };
 
   /**
@@ -362,6 +391,16 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     }
   }
 
+  async #invokeInterrupted<TReason>(
+    interrupt: LifecycleInterrupt<TReason>,
+  ): Promise<void> {
+    try {
+      await this.invokeHooks((hooks) => hooks.hostInterrupted?.(interrupt));
+    } catch (error) {
+      this.#handleInvokeError(error);
+    }
+  }
+
   async #invokeBeforeMount(
     payload: LifecycleDelegate.BeforeMountPayload,
   ): Promise<void> {
@@ -440,6 +479,36 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
   ): void | Promise<void> {
     if (this.#shouldInvokeHooks("hostBeforeUpdate")) {
       return this.#invokeBeforeUpdate(payload);
+    }
+  }
+
+  /**
+   * Performs the `hostInterrupted` lifecycle method for all hooks.
+   *
+   * @remarks
+   *
+   * This method is called by the host when the element's lifecycle is
+   * interrupted. It calls the `hostInterrupted` method of all hooks in
+   * parallel, and waits for all of them to complete before returning.
+   *
+   * If any hook throws an error, the error is re-thrown to propagate
+   * to the caller.
+   */
+  /*
+   * ### Private Remarks
+   *
+   * tldr; a bit of micro-optimization doesn't hurt.
+   *
+   * This method is intentionally not marked as `async`,
+   * because it may only perform synchronous operations
+   * and we want to avoid the overhead of creating a
+   * microtask for the promise resolution;
+   */
+  performInterrupted<TReason>(
+    interrupt: LifecycleInterrupt<TReason>,
+  ): void | Promise<void> {
+    if (this.#shouldInvokeHooks("hostInterrupted")) {
+      return this.#invokeInterrupted(interrupt);
     }
   }
 
@@ -546,6 +615,18 @@ export class LifecycleAdapter<P> extends BasicLifecycleDelegateHost<P> {
    */
   onUpdated(hostUpdated: LifecycleDelegate.UpdatedHook): Subscription {
     return this.addLifecycleHook("hostUpdated", hostUpdated);
+  }
+
+  /**
+   * Registers a lifecycle hook to be called when the host's lifecycle is interrupted.
+   *
+   * @param hostInterrupted - The callback to invoke when the host's lifecycle is interrupted.
+   * @returns A subscription object that can be used to remove the hook.
+   */
+  onInterrupted(
+    hostInterrupted: LifecycleDelegate.InterruptedHook<unknown>,
+  ): Subscription {
+    return this.addLifecycleHook("hostInterrupted", hostInterrupted);
   }
 
   /**

@@ -27,7 +27,9 @@ import {
   EventListenerController,
   EventListenerManager,
   hydrateRef,
+  isLifecycleInterrupt,
   LifecycleAdapter,
+  LifecycleInterrupt,
   listenTo,
   StyleSheetAdoptionController,
   type Controllable,
@@ -282,6 +284,7 @@ export abstract class KnytElement
   declare onBeforeMount: LifecycleAdapter<any>["onBeforeMount"];
   declare onMounted: LifecycleAdapter<any>["onMounted"];
   declare onBeforeUpdate: LifecycleAdapter<any>["onBeforeUpdate"];
+  declare onInterrupted: LifecycleAdapter<any>["onInterrupted"];
   declare onUpdated: LifecycleAdapter<any>["onUpdated"];
   declare onUnmounted: LifecycleAdapter<any>["onUnmounted"];
   declare onErrorCaptured: LifecycleAdapter<any>["onErrorCaptured"];
@@ -873,6 +876,7 @@ export abstract class KnytElement
    * This method should be public, because it is called by the Web Components API.
    */
   async #handleConnectedSignal(): Promise<void> {
+    // TODO: Have the build process remove these logs in production builds.
     this.#debugLog("#handleConnectedSignal called");
 
     try {
@@ -885,8 +889,8 @@ export abstract class KnytElement
         this[__lifecycle].performMounted();
         this.#debugLog("#handleConnectedSignal: after mounted lifecycle hook");
       }
-    } catch (error) {
-      this.#handleLifecycleError(error);
+    } catch (exception) {
+      this.#handleLifecycleException(exception);
     } finally {
       this[__hostAdapter].connectedCallback();
     }
@@ -903,15 +907,50 @@ export abstract class KnytElement
         this[__lifecycle].performUpdated();
         this.#debugLog("#handleUpdateSignal: after updated lifecycle hook");
       }
-    } catch (error) {
-      this.#handleLifecycleError(error);
+    } catch (exception) {
+      this.#handleLifecycleException(exception);
+    }
+  }
+
+  #handleLifecycleException(exception: unknown): void {
+    if (isLifecycleInterrupt(exception)) {
+      this.#handleInterrupted(exception);
+    } else {
+      this.#handleLifecycleError(exception);
+    }
+  }
+
+  #handleInterrupted(interrupt: LifecycleInterrupt<unknown>): void {
+    this.#debugLog(`Lifecycle interrupt: ${interrupt.message}`);
+
+    try {
+      // Notify the lifecycle hooks about the interrupt.
+      this[__lifecycle].performInterrupted<unknown>(interrupt);
+    } catch (exception) {
+      // If an exception occurs while handling the interrupt,
+      // invoke the exception handler again.
+      //
+      // NOTE: This could potentially result in infinite recursion
+      // if the exception handler throws another interrupt in response
+      // to the original one. While unlikely, it is possible.
+      //
+      // This is intentional, as each interrupt includes a `reason`
+      // property that can be used to control logic flow. Although
+      // throwing an interrupt in response to another is not recommended,
+      // the design allows for it if necessary.
+      this.#handleLifecycleException(exception);
     }
   }
 
   /**
    * Handles errors that occur during the element's lifecycle.
    *
-   * This is the private implementation of the `handleLifecycleError` method.
+   * @remarks
+   *
+   * This is the private implementation of the `handleLifecycleError` method,
+   * that can't be overridden by subclasses. It calls the public `handleLifecycleError`
+   * method if it exists, but ensures that the lifecycle hooks are always notified
+   * about the error, and that unhandled errors are logged to the console.
    */
   #handleLifecycleError(error: unknown): void {
     this.#debugLog(`Lifecycle error: ${error}`);
