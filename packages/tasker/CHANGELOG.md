@@ -1,5 +1,17 @@
 # @knyt/tasker
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 1fda277: Add support for lifecycle interrupts.
+
+### Patch Changes
+
+- 7f7b136: Remove unused `jsesc` dependency.
+- Updated dependencies [0f62709]
+  - @knyt/artisan@0.1.0-alpha.4
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes
