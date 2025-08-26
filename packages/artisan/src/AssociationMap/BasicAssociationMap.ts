@@ -16,25 +16,25 @@ export class BasicAssociationMap<K extends WeakKey, V>
   implements AssociationMap<K, V | undefined>
 {
   #fallback: V | undefined;
-  #valueByRequest = new WeakMap<K, V>();
+  #valueByKey = new WeakMap<K, V>();
 
   constructor(fallback?: V) {
     this.#fallback = fallback;
   }
 
-  associate(request: K, value: V) {
-    this.#valueByRequest.set(request, value);
+  associate(key: K, value: V) {
+    this.#valueByKey.set(key, value);
   }
 
-  from(request: K): V | undefined {
-    if (!this.#valueByRequest.has(request)) {
+  from(key: K): V | undefined {
+    if (!this.#valueByKey.has(key)) {
       return this.#fallback;
     }
 
-    return this.#valueByRequest.get(request);
+    return this.#valueByKey.get(key);
   }
 
-  dissociate(request: K) {
-    this.#valueByRequest.delete(request);
+  dissociate(key: K) {
+    this.#valueByKey.delete(key);
   }
 }
