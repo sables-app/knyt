@@ -7,7 +7,7 @@ import { DynamicObserver } from "../DynamicObserver";
 import type { Observable } from "../types";
 
 describe("DynamicObserver", () => {
-  it.only("forwards next values to the current subscriber", () => {
+  it("forwards next values to the current subscriber", () => {
     const observerEmitter = Beacon.withEmitter<Observable.Subscriber<number>>();
     const valueEmitter = Beacon.withEmitter<number>();
     const dynamicObserver = new DynamicObserver(observerEmitter.beacon);

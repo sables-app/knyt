@@ -236,7 +236,10 @@ describe("define", () => {
       }
 
       // Wait for the host to be connected.
-      await observableToPromise(hostMonitor.isHostConnected$);
+      await observableToPromise(hostMonitor.isHostConnected$, {
+        shouldResolve: (isConnected) => isConnected === true,
+        timeout: 100,
+      });
 
       // Assert state of component after the host is connected
       {
