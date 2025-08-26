@@ -24,6 +24,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 - **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
+- **Concurrent rendering**: Supports asynchronous rendering for responsive interfaces and seamless async data handling
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
 - **Explicit contracts**: Props, children, and refs are strictly separated (no runtime ambiguity)
 - **SSR-ready**: Render declarations, elements, and components to static markup
