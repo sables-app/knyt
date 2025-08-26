@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 /// <reference lib="dom" />
-import { isObserver, observableToPromise } from "@knyt/artisan";
+import { isObserver, refToPromise } from "@knyt/artisan";
 import { HostMonitor } from "@knyt/tasker";
 import {
   build,
@@ -236,10 +236,7 @@ describe("define", () => {
       }
 
       // Wait for the host to be connected.
-      await observableToPromise(hostMonitor.isHostConnected$, {
-        shouldResolve: (isConnected) => isConnected === true,
-        timeout: 100,
-      });
+      await refToPromise(hostMonitor.isHostConnected$, { timeout: 100 });
 
       // Assert state of component after the host is connected
       {
