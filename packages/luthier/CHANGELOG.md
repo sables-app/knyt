@@ -1,5 +1,20 @@
 # @knyt/luthier
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 649b3f1: Deprecate usage of `this` and `host` in render functions.
+- 1fda277: Add support for lifecycle interrupts.
+
+### Patch Changes
+
+- Updated dependencies [7f7b136]
+- Updated dependencies [0f62709]
+- Updated dependencies [1fda277]
+  - @knyt/tasker@0.1.0-alpha.4
+  - @knyt/artisan@0.1.0-alpha.4
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes

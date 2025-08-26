@@ -1,6 +1,6 @@
 {
   "name": "@knyt/tasker",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.4",
   "description": "Knyt Controller",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -19,7 +19,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha.2",
+    "@knyt/artisan": "^0.1.0-alpha.4",
     "@knyt/weaver": "^0.1.0-alpha",
     "@knyt/clerk": "^0.1.0-alpha",
     "@knyt/tailor": "^0.1.0-alpha.2",

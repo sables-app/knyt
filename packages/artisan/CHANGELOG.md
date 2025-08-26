@@ -1,5 +1,11 @@
 # @knyt/artisan
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 0f62709: Update `ObservablePromise` to resolve the promise with the first emitted value by default.
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes
