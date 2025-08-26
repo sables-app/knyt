@@ -27,9 +27,21 @@ export async function getTempDir(salt: string): Promise<string> {
   // So we use a directory inside the current working directory
   // instead of the system's temp directory.
   //
-  // TODO: Uncomment this when Bun supports bundling from directories
-  // outside the project root.
-  // const tempDirBase = path.resolve(os.tmpdir(), "knyt/glazier");
+  // TODO: When Bun supports bundling from directories outside the project root,
+  // provide an option to switch to using the system's temp directory.
+  //
+  // Personally, I think it's better to have a temp directory inside the project
+  // root anyway, so that it's easier to find and clean up, but there should
+  // at least be an option for users who prefer the system temp directory.
+  //
+  // For reference, Cloudflare's Wrangler CLI uses a temp directory inside
+  // the project root for building workers locally (`.wrangler`). Some projects put
+  // temp files inside `node_modules/.temp`, but `node_modules` location
+  // can vary based on the package manager and its configuration (i.e. workspaces),
+  // so it's less reliable. In general, it's best to avoid relying on `node_modules`
+  // for anything.
+  //
+  //    const tempDirBase = path.resolve(os.tmpdir(), "knyt/glazier");
   const tempDirBase = path.resolve(process.cwd(), ".knyt/glazier");
 
   return path.resolve(tempDirBase, hash);
