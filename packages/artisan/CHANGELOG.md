@@ -1,5 +1,13 @@
 # @knyt/artisan
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- 0287e64: Add `fallbackRef` utility function. A convenience function that creates a reference which falls back to a specified value
+  when the source reference's value is `null` or `undefined`.
+- d153558: - Add `refToPromise` utility to convert a `Reference` to a `Promise`.
+
 ## 0.1.0-alpha.4
 
 ### Minor Changes
