@@ -197,6 +197,7 @@ export class ComponentController<P extends AnyProps, E extends Element>
   declare track: ControllableAdapter["track"];
   declare untrack: ControllableAdapter["untrack"];
   declare updateComplete: ControllableAdapter["updateComplete"];
+  declare _getReactiveControllers: ControllableAdapter["_getReactiveControllers"];
 
   hostConnected(): void {
     this.#isHostConnected = true;
@@ -352,6 +353,7 @@ applyControllableMixin(ComponentController, [
   "track",
   "untrack",
   "updateComplete",
+  "_getReactiveControllers",
 ]);
 
 export namespace ComponentController {
