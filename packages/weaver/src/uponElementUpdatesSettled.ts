@@ -17,22 +17,33 @@ export type UpdatableHost = {
  * @internal scope: workspace
  *
  * @param host - The element to wait for updates to complete.
- * @param reactiveElementTimeout - The timeout in milliseconds to wait for the element to finish updates.
+ * @param timeout - The timeout in milliseconds to wait for the element to finish updates.
  * If `null`, the function will wait indefinitely.
  * @returns A promise that resolves when the element has finished all queued updates.
  * If the timeout is exceeded, the promise will reject with an error.
  *
  * @remarks
  *
+ * #### How it works
+ *
  * This function waits for a series of updates to complete on a
  * `ReactiveControllerHost`. It uses the `updateComplete` property
  * to determine when the element has finished its current update cycle.
  * It will continue to wait until the element has no more updates
  * queued in the current or subsequent microtask.
+ *
+ * #### Timeout
+ *
+ * The `timeout` parameter is required to prevent infinite waiting
+ * in case the element continuously requests updates. If the timeout
+ * is exceeded, the promise will reject with an error. A sane default
+ * is not provided to force the caller to consider the appropriate
+ * timeout for their specific use case. If the caller wishes to
+ * wait indefinitely, they can pass `null` as the timeout value.
  */
 export async function uponElementUpdatesSettled(
   host: UpdatableHost,
-  reactiveElementTimeout: number | null,
+  timeout: number | null,
 ): Promise<void> {
   // Wait one microtask before starting the timeout. This ensures all
   // initial updates are requested before waiting for them to complete.
@@ -48,15 +59,13 @@ export async function uponElementUpdatesSettled(
   function triggerAbort() {
     abortController.abort(
       new Error(
-        `Timeout waiting for element to finish updates. Timeout: ${reactiveElementTimeout}ms`,
+        `Timeout waiting for element to finish updates. Timeout: ${timeout}ms`,
       ),
     );
   }
 
   const timeoutId =
-    typeof reactiveElementTimeout === "number"
-      ? setTimeout(triggerAbort, reactiveElementTimeout)
-      : null;
+    typeof timeout === "number" ? setTimeout(triggerAbort, timeout) : null;
 
   const abortPromise = new Promise<void>((_, reject) => {
     abortController.signal.addEventListener("abort", () => {
@@ -67,7 +76,7 @@ export async function uponElementUpdatesSettled(
   const startTime = performance.now();
 
   function shouldContinue() {
-    if (reactiveElementTimeout === null) {
+    if (timeout === null) {
       // If the timeout is `null`, we will wait indefinitely
       // for the element to finish updates.
       return true;
@@ -78,7 +87,7 @@ export async function uponElementUpdatesSettled(
     const currentTime = Math.floor(performance.now());
     const elapsedTime = currentTime - startTime;
 
-    return elapsedTime <= reactiveElementTimeout;
+    return elapsedTime <= timeout;
   }
 
   while (shouldContinue()) {
