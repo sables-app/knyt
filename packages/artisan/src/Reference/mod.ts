@@ -2,6 +2,7 @@ export * from "./BasicReference";
 export * from "./computeRef";
 export * from "./createReference";
 export * from "./ensureReference";
+export * from "./fallbackRef";
 export * from "./mapRef";
 export * from "./rateLimitMutatorRef";
 export * from "./ReferenceCompute";
