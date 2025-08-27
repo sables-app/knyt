@@ -1,5 +1,24 @@
 # @knyt/luthier
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- 80c6d14: Add support for deferred content rendering.
+
+  - Added the `DeferredContent` element which hides its children until all async operations registered by child elements are complete.
+  - Added the `defer()` function to register async operations with the nearest enclosing `DeferredContent` element.
+    `defer().thenRender()` can be used to defer rendering until the given async operations complete.
+  - Added the `KnytElement.defer()` method for easier access to the `defer()` function within custom elements.
+
+### Patch Changes
+
+- Updated dependencies [0287e64]
+- Updated dependencies [f4acf1c]
+- Updated dependencies [d153558]
+  - @knyt/artisan@0.1.0-alpha.5
+  - @knyt/weaver@0.1.0-alpha.5
+
 ## 0.1.0-alpha.4
 
 ### Minor Changes
