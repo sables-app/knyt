@@ -366,4 +366,16 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
       `ReactiveControllerHostAdapter: notified controllers of ${eventName}`,
     );
   }
+
+  /**
+   * @internal scope: test
+   */
+  // TODO: Remove this in production builds
+  _getReactiveControllers(): ReactiveController[] {
+    if (typeof process !== "undefined" && process.env.NODE_ENV === "test") {
+      return [...this.#reactiveControllers];
+    }
+
+    throw new ReferenceError("`_getReactiveControllers` is not implemented.");
+  }
 }
