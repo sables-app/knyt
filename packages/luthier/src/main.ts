@@ -1,7 +1,11 @@
 export * from "./adoptStyleSheetTemplate";
 export * from "./constants";
+export * from "./DeferredContent/defer";
+export * from "./DeferredContent/DeferredContent";
+export * from "./DeferredContent/mod";
 export * from "./define/mod";
 export * from "./KnytElement";
 export * from "./lazy";
 export * from "./typeGuards";
+export type * from "./DeferredContent/PromiseReference";
 export type * from "./types";

@@ -97,6 +97,8 @@ export type DefineElementOptions<
 /**
  * @internal scope: package
  */
+// TODO: Update parameters to start with `tagName` like:
+// `defineKnytElement(tagName, options);`
 export function defineKnytElement<TN extends string, PropInfoDict>(
   params: DefineElementOptions<TN, PropInfoDict>,
 ): ElementDefinition.FromPropertiesDefinition<

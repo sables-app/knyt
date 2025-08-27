@@ -59,6 +59,8 @@ import {
 
 import { KNYT_DEBUG_DATA_ATTR } from "./constants";
 import { convertPropertiesDefinition } from "./convertPropertiesDefinition";
+import { defer } from "./DeferredContent/defer";
+import type { PromiseReference } from "./DeferredContent/PromiseReference";
 import { getConstructorStaticMember } from "./getConstructorStaticMember";
 import { HtmxIntegration, type HtmxObject } from "./HtmxIntegration";
 import {
@@ -756,6 +758,34 @@ export abstract class KnytElement
    */
   effect(setup: Effect.Setup<this>): Effect {
     return createEffect(this, setup);
+  }
+
+  /**
+   * Signals a parent `DeferredContent` element to delay revealing its
+   * content until the provided promise settles
+   */
+  // TODO: Move to `ControllableAdapter`
+  defer<T>(promise: Promise<T>): void;
+
+  /**
+   * Signals a parent `DeferredContent` element to delay revealing its
+   * content while any of the promises of the given references are unresolved.
+   *
+   * @remarks
+   *
+   * The returned `DeferredContentRenderer` instance can be used to create
+   * a render function that receives the resolved values of the promises.
+   * This allows rendering the content with the resolved data once all
+   * promises have settled.
+   */
+  // TODO: Move to `ControllableAdapter`
+  defer<T extends PromiseReference.Collection<any>>(
+    ...references: T
+  ): defer.Renderer<T>;
+
+  // TODO: Move to `ControllableAdapter`
+  defer(...args: any[]): any {
+    return defer(this, ...args);
   }
 
   /**
