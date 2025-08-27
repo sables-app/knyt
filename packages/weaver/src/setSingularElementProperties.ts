@@ -1,3 +1,4 @@
+import { guessPropertyResetValue } from "./guessPropertyResetValue";
 import type { SingularElement } from "./types/mod";
 
 /**
@@ -26,6 +27,14 @@ enum UnsupportedPropertyName {
   OuterText = "outerText",
 }
 
+/**
+ * Determines if a property name is an attribute-writable property.
+ *
+ * @remarks
+ *
+ * An attribute-writable property is a property that is read-only,
+ * but can be assigned by setting an attribute of the same name.
+ */
 function isAttributeWritablePropertyName(
   value: string,
 ): value is AttributeWritablePropertyName {
@@ -52,13 +61,13 @@ export function setSingularElementProperties(
   const mergedProps = { ...prevProps, ...nextProps };
 
   for (const propertyName in mergedProps) {
-    // Fallback to an empty string if the property is not set,
-    // to reset the property to its default value.
-    const nextValue = nextProps[propertyName] ?? "";
+    const nextValue = Object.hasOwn(nextProps, propertyName)
+      ? nextProps[propertyName]
+      : guessPropertyResetValue(prevProps, propertyName);
 
     if (
       prevProps &&
-      propertyName in prevProps &&
+      Object.hasOwn(prevProps, propertyName) &&
       prevProps[propertyName] === nextValue
     ) {
       // If the value is the same, skip changing the property.
