@@ -1,5 +1,30 @@
 # @knyt/luthier
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- d27bcaa: Lifecycle hooks update
+  - **Changed**
+    - All lifecycle hooks are now called asynchronously.
+    - Property change events are emitted before requesting an update on the host element.
+  - **Removed**
+    - The `hostUpdate` lifecycle hook.
+  - **Renamed**
+    - `hostBeforeUpdate` is now `hostUpdateRequested` for improved accuracy.
+    - `LifecycleDelegate.hostUpdated` is now `LifecycleDelegate.hostAfterUpdate` to avoid confusion with `ReactiveController.hostUpdated`.
+  - **Added**
+    - New `hostBeforeUpdate` lifecycle hook.
+
+- fe91b90: Add support for server-side concurrent rendering with `defer()`
+  -  Now the same component logic can be used on both client and server, with proper handling of async data fetching and rendering.
+  - This is considered a low-level API. Additional utility functions/controllers will be added in future releases to facilitate common server-side rendering -> hydration -> client-side rendering workflows.
+
+### Patch Changes
+
+- Updated dependencies [d27bcaa]
+  - @knyt/tasker@0.1.0-alpha.6
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes
