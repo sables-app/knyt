@@ -10,7 +10,7 @@
     "preview": "bunx http-server ./dist -p 3000"
   },
   "dependencies": {
-    "@knyt/glazier": "0.1.0-alpha.0",
-    "knyt": "0.1.0-alpha.2"
+    "@knyt/glazier": "latest",
+    "knyt": "latest"
   }
 }

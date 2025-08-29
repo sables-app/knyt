@@ -8,6 +8,6 @@
     "dev": "bun ./index.html"
   },
   "dependencies": {
-    "knyt": "0.1.0-alpha.2"
+    "knyt": "latest"
   }
 }
