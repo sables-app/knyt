@@ -1,13 +1,6 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
 /**
- * Knyt is made compatible with Lit by implementing the ReactiveController interface.
- *
- * Copied from @lit/reactive-element
- * @see https://github.com/lit/lit/blob/main/packages/reactive-element/src/reactive-controller.ts
- */
-
-/**
  * Determines whether the input is a {@link ReactiveControllerHost}.
  *
  * @public
@@ -25,6 +18,16 @@ export function isReactiveControllerHost(
     typeof (value as ReactiveControllerHost).requestUpdate === "function"
   );
 }
+
+/**
+ * Knyt is made compatible with Lit by implementing the
+ * `ReactiveController` and `ReactiveControllerHost` interfaces.
+ *
+ * The following interfaces were originally copied from `@lit/reactive-element` package,
+ * and comments modified to fit accommodate the lifecycle hooks in Knyt.
+ *
+ * @see https://github.com/lit/lit/blob/main/packages/reactive-element/src/reactive-controller.ts
+ */
 
 // -------------------------------
 
@@ -90,17 +93,20 @@ export interface ReactiveController {
    */
   hostDisconnected?(): void;
   /**
-   * Called during the client-side host update, just
-   * before the host proceeds with its update.
+   * Called during a host update, immediately before the host commits changes to the DOM.
    *
-   *
-   * Code in `update()` can depend on the DOM as it is not called in
-   * server-side rendering.
+   * @clientOnly It is not invoked during server-side rendering.
    */
   hostUpdate?(): void;
   /**
-   * Called after a host update, just after the host performs `afterUpdate()`.
-   * It is not called in server-side rendering.
+   * Called after the host has finished updating and committed changes to the DOM.
+   *
+   * @remarks
+   *
+   * This method is invoked immediately following the host's `hostAfterUpdate` lifecycle.
+   * It is not invoked during server-side rendering.
+   *
+   * @clientOnly It is not invoked during server-side rendering.
    */
   hostUpdated?(): void;
 }

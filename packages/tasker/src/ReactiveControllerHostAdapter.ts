@@ -212,11 +212,11 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * @public
    */
   updateCallback() {
-    if (isClientSide()) {
-      // The `hostUpdate` methods should only called on the client-side
-      // for compatibility with Lit.
-      this.#notifyControllers("hostUpdate");
-    }
+    if (!isClientSide()) return;
+
+    // The `hostUpdate` methods should only called on the client-side
+    // for compatibility with Lit.
+    this.#notifyControllers("hostUpdate");
   }
 
   /**
@@ -231,11 +231,11 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * @public
    */
   updatedCallback() {
-    if (isClientSide()) {
-      // The `hostUpdated` methods should only called on the client-side
-      // for compatibility with Lit.
-      this.#notifyControllers("hostUpdated");
-    }
+    if (!isClientSide()) return;
+
+    // The `hostUpdated` methods should only called on the client-side
+    // for compatibility with Lit.
+    this.#notifyControllers("hostUpdated");
   }
 
   /**

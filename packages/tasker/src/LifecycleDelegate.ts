@@ -34,6 +34,24 @@ export type LifecycleDelegate<P> = {
    */
   hostBeforeMount?: LifecycleDelegate.BeforeMountHook;
   /**
+   * A method called by the host when the host is mounted.
+   *
+   * @remarks
+   *
+   * This is the equivalent of the `connectedCallback` in a custom element,
+   * and is called when the host is connected to the DOM.
+   */
+  hostMounted?: LifecycleDelegate.MountedHook;
+  /**
+   * A method called by the host when the host is unmounted.
+   *
+   * @remarks
+   *
+   * This is the equivalent of the `disconnectedCallback` in a custom element,
+   * and is called when the host is disconnected from the DOM.
+   */
+  hostUnmounted?: LifecycleDelegate.UnmountedHook;
+  /**
    * Called by the host before rendering a new declaration during an update.
    *
    * @remarks
@@ -52,6 +70,24 @@ export type LifecycleDelegate<P> = {
    * be used for lightweight operations only.
    */
   hostUpdateRequested?: LifecycleDelegate.UpdateRequestedHook<P>;
+  /**
+   * A method called by the host when an update is performed on the host.
+   *
+   * @remarks
+   *
+   * This is the equivalent of the `hostUpdate` in a reactive controller,
+   * and is called when an update is performed on the host.
+   */
+  hostBeforeUpdate?: LifecycleDelegate.BeforeUpdateHook<P>;
+  /**
+   * A method called by the host when the host is updated.
+   *
+   * @remarks
+   *
+   * This is the equivalent of the `hostUpdated` in a reactive controller,
+   * and is called after the host is updated.
+   */
+  hostAfterUpdate?: LifecycleDelegate.AfterUpdateHook<P>;
   /**
    * Called by the host when the element's lifecycle is interrupted.
    *
@@ -72,42 +108,6 @@ export type LifecycleDelegate<P> = {
    * a lifecycle event, such as during the `hostUpdateRequested` method.
    */
   hostErrorCaptured?: LifecycleDelegate.ErrorCapturedHook;
-  /**
-   * A method called by the host when the host is mounted.
-   *
-   * @remarks
-   *
-   * This is the equivalent of the `connectedCallback` in a custom element,
-   * and is called when the host is connected to the DOM.
-   */
-  hostMounted?: LifecycleDelegate.MountedHook;
-  /**
-   * A method called by the host when an update is performed on the host.
-   *
-   * @remarks
-   *
-   * This is the equivalent of the `hostUpdate` in a reactive controller,
-   * and is called when an update is performed on the host.
-   */
-  hostBeforeUpdate?: LifecycleDelegate.BeforeUpdateHook<P>;
-  /**
-   * A method called by the host when the host is updated.
-   *
-   * @remarks
-   *
-   * This is the equivalent of the `hostUpdated` in a reactive controller,
-   * and is called after the host is updated.
-   */
-  hostAfterUpdate?: LifecycleDelegate.AfterUpdateHook<P>;
-  /**
-   * A method called by the host when the host is unmounted.
-   *
-   * @remarks
-   *
-   * This is the equivalent of the `disconnectedCallback` in a custom element,
-   * and is called when the host is disconnected from the DOM.
-   */
-  hostUnmounted?: LifecycleDelegate.UnmountedHook;
 };
 
 export namespace LifecycleDelegate {
