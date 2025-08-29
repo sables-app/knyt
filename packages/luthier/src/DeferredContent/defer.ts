@@ -1,6 +1,7 @@
 import {
   debounce,
   isPromiseLike,
+  isServerSide,
   ref,
   SubscriptionRegistry,
   type Observer,
@@ -17,6 +18,7 @@ import type { KnytContent } from "@knyt/weaver";
 
 import { DeferredContentNotifier } from "./DeferredContentNotifier";
 import type { PromiseReference } from "./PromiseReference";
+import { SkipRenderSignal } from "./SkipRenderSignal";
 
 /**
  * A reference type that holds either the unwrapped values of multiple promises
@@ -63,13 +65,59 @@ export class DeferredContentRenderer<T extends PromiseReference.Collection<any>>
     }
   }
 
-  async #updateData(): Promise<void> {
-    const currentPromises = this.#references.map(
+  #getCurrentPromises(): Promise<unknown>[] {
+    return this.#references.map(
       // Do not remove undefined promises here,
       // as maintaining the order of references is important.
       // Instead, replace undefined promises with a resolved promise.
       (r) => r.value ?? Promise.resolve(undefined),
     );
+  }
+
+  #handleRejection(error: unknown): void {
+    // Unable to recover from a rejected promise.
+    //
+    // The error is logged and the data is not updated. This approach
+    // encourages consistent error handling outside of deferred content.
+    //
+    // Handling errors within deferred content can reduce encapsulation
+    // and complicate application logic. For clarity and maintainability,
+    // please manage side effects and error handling separately from
+    // content rendering.
+    //
+    // TODO: Use a shorter message in production builds.
+    // TODO: Add a link to documentation about handling rejected promises.
+    console.error(
+      [
+        "Knyt: An error occurred while resolving deferred content ",
+        "promises. Please note that Knyt does not handle rejected ",
+        "promises within deferred content. To ensure proper behavior, ",
+        "please handle promise rejections outside of deferred content.",
+      ].join("\n"),
+      error,
+    );
+  }
+
+  async #getData(): Promise<
+    PromiseReference.Collection.Unwrapped<T> | undefined
+  > {
+    try {
+      const values = await Promise.all(this.#getCurrentPromises());
+
+      if (values.includes(SkipRenderSignal)) {
+        return undefined;
+      }
+
+      return values as PromiseReference.Collection.Unwrapped<T>;
+    } catch (error) {
+      this.#handleRejection(error);
+
+      return undefined;
+    }
+  }
+
+  async #updateData(): Promise<void> {
+    const currentPromises = this.#getCurrentPromises();
 
     for (const promise of currentPromises) {
       this.#activePromises.add(promise);
@@ -79,33 +127,17 @@ export class DeferredContentRenderer<T extends PromiseReference.Collection<any>>
     try {
       const values = await Promise.all(currentPromises);
 
+      if (values.includes(SkipRenderSignal)) {
+        return;
+      }
+
       for (const promise of currentPromises) {
         this.#activePromises.delete(promise);
       }
 
       this.#data$.set(values as PromiseReference.Collection.Unwrapped<T>);
     } catch (error) {
-      // Unable to recover from a rejected promise.
-      //
-      // The error is logged and the data is not updated. This approach
-      // encourages consistent error handling outside of deferred content.
-      //
-      // Handling errors within deferred content can reduce encapsulation
-      // and complicate application logic. For clarity and maintainability,
-      // please manage side effects and error handling separately from
-      // content rendering.
-      //
-      // TODO: Use a shorter message in production builds.
-      // TODO: Add a link to documentation about handling rejected promises.
-      console.error(
-        [
-          "Knyt: An error occurred while resolving deferred content ",
-          "promises. Please note that Knyt does not handle rejected ",
-          "promises within deferred content. To ensure proper behavior, ",
-          "please handle promise rejections outside of deferred content.",
-        ].join("\n"),
-        error,
-      );
+      this.#handleRejection(error);
     }
   }
 
@@ -179,17 +211,29 @@ export class DeferredContentRenderer<T extends PromiseReference.Collection<any>>
       ...data: PromiseReference.Collection.Unwrapped<T>
     ) => KnytContent | Promise<KnytContent>,
   ): () => KnytContent | Promise<KnytContent> {
-    return () => {
-      const data = this.#data$.value;
-
-      // Do not check whether isLoading from notifier, because
+    const renderWithData = (
+      data: PromiseReference.Collection.Unwrapped<T> | undefined,
+    ) => {
+      // Do not check `isLoading` state from the notifier, because
       // it may still be loading promises from other elements.
       // This render should only concern itself with its own data.
-      if (data === undefined) {
-        return null;
-      }
+      return data ? renderFn(...data) : null;
+    };
 
-      return renderFn(...data);
+    if (isServerSide()) {
+      // On the server, we want to wait for all promises to resolve
+      // before rendering the content. This ensures that the initial
+      // HTML sent to the client is fully rendered with all data.
+      return async () => {
+        return renderWithData(await this.#getData());
+      };
+    }
+
+    return () => {
+      // On the client, we can render immediately with the
+      // current data, which may be undefined if the promises
+      // have not yet resolved.
+      return renderWithData(this.#data$.value);
     };
   }
 

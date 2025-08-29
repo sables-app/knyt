@@ -3,6 +3,7 @@ export * from "./constants";
 export * from "./DeferredContent/defer";
 export * from "./DeferredContent/DeferredContent";
 export * from "./DeferredContent/mod";
+export * from "./DeferredContent/SkipRenderSignal";
 export * from "./define/mod";
 export * from "./KnytElement";
 export * from "./lazy";

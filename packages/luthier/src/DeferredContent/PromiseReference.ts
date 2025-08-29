@@ -1,5 +1,7 @@
 import type { Reference } from "@knyt/artisan";
 
+import type { SkipRenderSignal } from "./SkipRenderSignal";
+
 /**
  * A type representing a reference that holds a Promise, or may be undefined.
  *
@@ -14,9 +16,9 @@ import type { Reference } from "@knyt/artisan";
  */
 export type PromiseReference<T> =
   // A reference that may hold a promise or undefined
-  | Reference.Readonly<Promise<T> | undefined>
+  | Reference.Readonly<Promise<T | typeof SkipRenderSignal> | undefined>
   // A reference that holds a promise
-  | Reference.Readonly<Promise<T>>;
+  | Reference.Readonly<Promise<T | typeof SkipRenderSignal>>;
 
 export namespace PromiseReference {
   /**
@@ -33,10 +35,12 @@ export namespace PromiseReference {
    */
   export type Unwrapped<T> =
     // Check if T is a Reference holding a Promise
-    T extends Reference.Readonly<Promise<infer U>>
+    T extends Reference.Readonly<Promise<infer U | typeof SkipRenderSignal>>
       ? U
       : // Check if T is a Reference holding a Promise or undefined
-        T extends Reference.Readonly<Promise<infer U> | undefined>
+        T extends Reference.Readonly<
+            Promise<infer U | typeof SkipRenderSignal> | undefined
+          >
         ? U | undefined
         : never;
 
