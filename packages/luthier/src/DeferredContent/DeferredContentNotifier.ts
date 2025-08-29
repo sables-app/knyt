@@ -52,6 +52,9 @@ export class DeferredContentNotifier
    */
   #consumerSubscription: Subscription;
 
+  /**
+   * @internal scope: package
+   */
   readonly isLoading$: Reference.Readonly<boolean>;
 
   constructor(host: ReactiveControllerHost & HTMLElement) {

@@ -35,7 +35,9 @@
     "check": "tsc --build --pretty --force --verbose --noEmit ./tsconfig.test.json",
     "check:watch": "tsc --build --watch --pretty --force --verbose --noEmit ./tsconfig.test.json",
     "clean": "rm -rf ./packages/*/dist",
-    "test": "bun test",
+    "test": "bun run test:other && bun run test:deferred-content",
+    "test:other": "bun test",
+    "test:deferred-content": "TEST_DEFERRED_CONTENT=true bun test DeferredContent.test.ts --rerun-each=5",
     "test:watch": "bun test --watch"
   }
 }

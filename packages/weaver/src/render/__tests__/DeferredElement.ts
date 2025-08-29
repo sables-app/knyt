@@ -28,7 +28,7 @@ export class DeferredElement extends HTMLElement {
   set strategy(strategy: UpdateStrategy) {
     this.#strategy = strategy;
 
-    // ALl side effects are asynchronous, so we need to wait for the next
+    // All side effects are asynchronous, so we need to wait for the next
     // microtask to run the completion strategy.
     queueMicrotask(() => {
       this.#runCompletionStrategy();
