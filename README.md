@@ -167,6 +167,10 @@ By leveraging Bun's static site generation, you can use the `<knyt-include>` tag
 
 This project is licensed under the [BSD 3-Clause License](./LICENSE).
 
+## Versioning
+
+All Knyt packages follow [Semantic Versioning v2](https://semver.org/spec/v2.0.0.html).
+
 ## Open-Source Initiative
 
 This project is supported by [Sables Applications LLC](https://sables.app) as part of its open-source initiatives.
