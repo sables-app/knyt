@@ -6,7 +6,6 @@ import {
   isPromiseLike,
   isServerSide,
   isShadowRoot,
-  type BoundMap,
   type DOMAttributeValue,
   type OptionalAndComplete,
   type Reference,
@@ -286,9 +285,10 @@ export abstract class KnytElement
   declare addDelegate: LifecycleAdapter<any>["addDelegate"];
   declare onBeforeMount: LifecycleAdapter<any>["onBeforeMount"];
   declare onMounted: LifecycleAdapter<any>["onMounted"];
-  declare onBeforeUpdate: LifecycleAdapter<any>["onBeforeUpdate"];
+  declare onUpdateRequested: LifecycleAdapter<any>["onUpdateRequested"];
   declare onInterrupted: LifecycleAdapter<any>["onInterrupted"];
-  declare onUpdated: LifecycleAdapter<any>["onUpdated"];
+  declare onBeforeUpdate: LifecycleAdapter<any>["onBeforeUpdate"];
+  declare onAfterUpdate: LifecycleAdapter<any>["onAfterUpdate"];
   declare onUnmounted: LifecycleAdapter<any>["onUnmounted"];
   declare onErrorCaptured: LifecycleAdapter<any>["onErrorCaptured"];
   declare removeDelegate: LifecycleAdapter<any>["removeDelegate"];
@@ -387,10 +387,26 @@ export abstract class KnytElement
   async #updateRoot(): Promise<void> {
     this.#debugLog("#updateRoot called");
 
-    return this[__hostAdapter].stageModification({
+    const hostAdapter = this[__hostAdapter];
+    const lifecycle = this[__lifecycle];
+
+    return hostAdapter.stageModification({
       shouldModify: this.isConnected,
       modification: async () => {
         this.#debugLog("#updateRoot: before update");
+
+        const abortController = new AbortController();
+        const changedProperties =
+          this[__reactiveAdapter]._flushChangedProperties("update");
+
+        await lifecycle.performBeforeUpdate({
+          abortController,
+          changedProperties,
+        });
+
+        if (abortController.signal.aborted) return;
+
+        hostAdapter.updateCallback();
 
         await update(this.#rootElement, await this.#renderRootContents(), {
           document: this.#renderingDocument,
@@ -398,6 +414,11 @@ export abstract class KnytElement
         });
 
         this.#debugLog("#updateRoot: after update");
+
+        lifecycle.performAfterUpdate({ changedProperties });
+        hostAdapter.updatedCallback();
+
+        this.#debugLog("#updateRoot: after updated lifecycle hook");
       },
     });
   }
@@ -788,76 +809,6 @@ export abstract class KnytElement
     return defer(this, ...args);
   }
 
-  /**
-   * Clears the root element, then builds and inserts new
-   * elements into the root element.
-   *
-   * @internal scope: package
-   */
-  /*
-   * ### Private Remarks
-   *
-   * Inserting into the root is faster than updating the root upon
-   * the first render, if the the element didn't have a declarative
-   * shadow root initially.
-   */
-  // TODO: Test the performance of inserting vs updating the root,
-  // when the element doesn't have a declarative shadow root, and
-  // it's the first render after being connected to the DOM
-  // for the first time. That's extra logic that may not be worth it
-  // adding, if the performance difference is negligible.
-  //
-  // Time would be probably better spent on optimizing the `update`
-  // declaration processor instead.
-  //
-  // Example implementation:
-  //
-  // if (this.#isFirstEverRender && !this.#hadDeclarativeShadowRoot) {
-  //   await this.#insertRoot();
-  // } else {
-  //   await this.#updateRoot();
-  // }
-  // async #insertRoot(): Promise<void> {
-  //   return this[__hostAdapter].stageModification({
-  //     shouldModify: this.isConnected,
-  //     modification: async () => {
-  //       this.#debugLog("#insert: before build");
-
-  //       const contents = await build(await this.#renderRootContents(), {
-  //         document: this.#renderingDocument,
-  //       });
-
-  //       this.#debugLog("#insert: after build");
-
-  //       if (!contents) return;
-
-  //       this.#debugLog("#insert: before append");
-
-  //       removeAllChildren(this.#rootElement);
-  //       this.#rootElement.appendChild(contents);
-
-  //       this.#debugLog("#insert: after append");
-  //     },
-  //   });
-  // }
-
-  /**
-   * A map of changed properties since the last update.
-   */
-  #changedProperties = new Map<string, any>();
-
-  /**
-   * Retrieves the changed properties since the last call to this method,
-   * and resets the changed properties map.
-   */
-  #refreshChangedProperties() {
-    const changedProperties = this.#changedProperties;
-
-    this.#changedProperties = new Map();
-
-    return changedProperties as BoundMap.Readonly<any>;
-  }
-
   async #shouldMount(): Promise<boolean> {
     if (this.#isContainer) {
       // If the element is a container, it should not "mount".
@@ -875,6 +826,11 @@ export abstract class KnytElement
     return !abortController.signal.aborted;
   }
 
+  /**
+   * This is NOT the same as `shouldUpdate` in Lit.
+   * This determines whether the element should update its content,
+   * and is called after every `requestUpdate` invocation.
+   */
   async #shouldUpdate(): Promise<boolean> {
     if (this.#isContainer) {
       // If the element is a container, it should not "update".
@@ -884,9 +840,10 @@ export abstract class KnytElement
     }
 
     const abortController = new AbortController();
-    const changedProperties = this.#refreshChangedProperties();
+    const changedProperties =
+      this[__reactiveAdapter]._flushChangedProperties("updateRequested");
 
-    await this[__lifecycle].performBeforeUpdate({
+    await this[__lifecycle].performUpdateRequested({
       abortController,
       changedProperties,
     });
@@ -935,8 +892,6 @@ export abstract class KnytElement
         this.#debugLog("#handleUpdateSignal: before update");
         await this.#updateRoot();
         this.#debugLog("#handleUpdateSignal: after update");
-        this[__lifecycle].performUpdated();
-        this.#debugLog("#handleUpdateSignal: after updated lifecycle hook");
       }
     } catch (exception) {
       this.#handleLifecycleException(exception);
@@ -1040,9 +995,9 @@ export abstract class KnytElement
    * This method should be public, because it is called by the Web Components API.
    */
   disconnectedCallback() {
+    this[__lifecycle].performUnmounted();
     // NOTE: This can't be mixed in, because it should be accessible via `super.disconnectedCallback()`.
     this[__hostAdapter].disconnectedCallback();
-    this[__lifecycle].performUnmounted();
   }
 
   /**
@@ -1118,8 +1073,9 @@ applyLifecycleMixin(KnytElement, [
   "addDelegate",
   "onBeforeMount",
   "onMounted",
+  "onUpdateRequested",
   "onBeforeUpdate",
-  "onUpdated",
+  "onAfterUpdate",
   "onUnmounted",
   "onErrorCaptured",
   "removeDelegate",

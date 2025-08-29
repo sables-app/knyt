@@ -9,6 +9,7 @@ import {
   strictEqual,
   unknownToAttributeValue,
   unwrapRef,
+  type BoundMap,
   type DOMAttributeValue,
   type ObjectToFunctionPropertyNames,
   type Observable,
@@ -111,6 +112,15 @@ type ReactiveInternal = {
   [__reactiveProperties]: ReactiveProperties;
 };
 
+enum HookName {
+  Update = "update",
+  UpdateRequest = "updateRequested",
+}
+
+const hookNames = Object.values(HookName);
+
+type ChangedPropertiesByHookName<T = any> = Record<`${HookName}`, BoundMap<T>>;
+
 /**
  * A reactive adapter for managing reactive properties on an element.
  */
@@ -169,6 +179,15 @@ export class ReactiveAdapter<
    * construction is not allowed and will throw an error.
    */
   #isConstructed = false;
+
+  /**
+   * A record of changed properties since the occurrence
+   * of certain lifecycle hooks.
+   */
+  #changedProperties: ChangedPropertiesByHookName = {
+    [HookName.Update]: new Map<string, any>() as BoundMap<any>,
+    [HookName.UpdateRequest]: new Map<string, any>() as BoundMap<any>,
+  };
 
   constructor({
     reactiveProperties,
@@ -520,6 +539,24 @@ export class ReactiveAdapter<
     }
 
     if (!comparator(previousValue, nextValue)) {
+      const changedProperties = this.#changedProperties;
+
+      for (const hookName of hookNames) {
+        changedProperties[hookName].set(propertyName, nextValue);
+      }
+
+      // Emit a property change event first, before requesting an update.
+      //
+      // All side effects are asynchronous, so we need to wait for the next
+      // microtask to request the update.
+      queueMicrotask(() => {
+        this.#reactivePropertyEmitter.emit(PropertyChangeEventName, {
+          currentValue: nextValue,
+          previousValue,
+          propertyName,
+        });
+      });
+
       if (
         // Updates are only requested when the element is connected to the DOM,
         // because:
@@ -536,7 +573,7 @@ export class ReactiveAdapter<
         isElementConnected &&
         this.#updateMode === ReactiveUpdateMode.Reactive
       ) {
-        // ALl side effects are asynchronous, so we need to wait for the next
+        // All side effects are asynchronous, so we need to wait for the next
         // microtask to request the update.
         //
         // !!! Important !!!
@@ -557,14 +594,6 @@ export class ReactiveAdapter<
           this.#hooks.requestUpdate?.();
         });
       }
-
-      queueMicrotask(() => {
-        this.#reactivePropertyEmitter.emit(PropertyChangeEventName, {
-          currentValue: nextValue,
-          previousValue,
-          propertyName,
-        });
-      });
     }
 
     this.#isPropertyUpdating$.set(false);
@@ -581,6 +610,18 @@ export class ReactiveAdapter<
     return this.#propValues.get(config.propertyName) as
       | PropertyDefinition.ToValue<T>
       | undefined;
+  }
+
+  /**
+   * Retrieves the changed properties since the last call to this method,
+   * and resets the changed properties map.
+   */
+  _flushChangedProperties(hookName: `${HookName}`): BoundMap.Readonly<any> {
+    const changedProperties = this.#changedProperties[hookName];
+
+    this.#changedProperties[hookName] = new Map();
+
+    return changedProperties as BoundMap.Readonly<any>;
   }
 
   /**

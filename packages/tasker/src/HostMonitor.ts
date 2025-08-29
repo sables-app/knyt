@@ -1,6 +1,9 @@
 import { createReference } from "@knyt/artisan";
 
-import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController";
+import type {
+  ReactiveController,
+  ReactiveControllerHost,
+} from "./ReactiveController";
 
 /**
  * HostMonitor tracks the connection and update status of a host.
