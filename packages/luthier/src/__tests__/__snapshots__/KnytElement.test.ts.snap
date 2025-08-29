@@ -1,0 +1,152 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`KnytElement lifecycle call order should call all lifecycle hooks in the correct order 1`] = `
+[
+  [
+    "action: build with color and speed properties",
+  ],
+  [
+    "reactiveElement.onPropChange",
+  ],
+  [
+    "reactiveElement.onPropChange",
+  ],
+  [
+    "action: build complete",
+  ],
+  [
+    "action: append to DOM",
+  ],
+  [
+    "action: appended to DOM",
+  ],
+  [
+    "delegate.hostBeforeMount",
+  ],
+  [
+    "delegate.hostUpdateRequested",
+    {
+      "changedProperties": 
+Map {
+        "color" => "red",
+        "speed" => 100,
+      }
+,
+    },
+  ],
+  [
+    "action: change speed property",
+  ],
+  [
+    "action: speed property changed",
+  ],
+  [
+    "reactiveElement.onPropChange",
+  ],
+  [
+    "delegate.hostUpdateRequested",
+    {
+      "changedProperties": 
+Map {
+        "speed" => 120,
+      }
+,
+    },
+  ],
+  [
+    "delegate.hostBeforeUpdate",
+    {
+      "changedProperties": 
+Map {
+        "color" => "red",
+        "speed" => 120,
+      }
+,
+    },
+  ],
+  [
+    "controller.hostUpdate",
+  ],
+  [
+    "controller.hostUpdated",
+  ],
+  [
+    "delegate.hostAfterUpdate",
+    {
+      "changedProperties": 
+Map {
+        "color" => "red",
+        "speed" => 120,
+      }
+,
+    },
+  ],
+  [
+    "delegate.hostUpdateRequested",
+    {
+      "changedProperties": Map {},
+    },
+  ],
+  [
+    "controller.hostConnected",
+  ],
+  [
+    "delegate.hostMounted",
+  ],
+  [
+    "delegate.hostBeforeUpdate",
+    {
+      "changedProperties": Map {},
+    },
+  ],
+  [
+    "controller.hostUpdate",
+  ],
+  [
+    "controller.hostUpdated",
+  ],
+  [
+    "delegate.hostAfterUpdate",
+    {
+      "changedProperties": Map {},
+    },
+  ],
+  [
+    "action: change color property",
+  ],
+  [
+    "action: color property changed",
+  ],
+  [
+    "reactiveElement.onPropChange",
+  ],
+  [
+    "delegate.hostUpdateRequested",
+    {
+      "changedProperties": 
+Map {
+        "color" => "blue",
+      }
+,
+    },
+  ],
+  [
+    "delegate.hostUpdateRequested:abort",
+  ],
+  [
+    "delegate.hostUpdateRequested:aborted",
+  ],
+  [
+    "action: remove from DOM",
+  ],
+  [
+    "controller.hostDisconnected",
+  ],
+  [
+    "action: removed from DOM",
+  ],
+  [
+    "delegate.hostUnmounted",
+  ],
+]
+`;

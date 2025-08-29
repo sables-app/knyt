@@ -31,13 +31,6 @@ type ReactiveControllerHostAdapterHooks = {
   performUpdate(): void | Promise<void>;
 };
 
-enum LifecycleEventName {
-  Connected = "hostConnected",
-  Disconnected = "hostDisconnected",
-  Update = "hostUpdate",
-  Updated = "hostUpdated",
-}
-
 /**
  * A private symbol used to store the `updateComplete` promise
  */
@@ -204,7 +197,7 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * Do not rename. The name is standardized by the Custom Elements API.
    */
   connectedCallback() {
-    this.#notifyControllers(LifecycleEventName.Connected);
+    this.#notifyControllers("hostConnected");
   }
 
   /**
@@ -219,7 +212,11 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * @public
    */
   updateCallback() {
-    this.#notifyControllers(LifecycleEventName.Update);
+    if (isClientSide()) {
+      // The `hostUpdate` methods should only called on the client-side
+      // for compatibility with Lit.
+      this.#notifyControllers("hostUpdate");
+    }
   }
 
   /**
@@ -234,7 +231,11 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * @public
    */
   updatedCallback() {
-    this.#notifyControllers(LifecycleEventName.Updated);
+    if (isClientSide()) {
+      // The `hostUpdated` methods should only called on the client-side
+      // for compatibility with Lit.
+      this.#notifyControllers("hostUpdated");
+    }
   }
 
   /**
@@ -250,7 +251,7 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
    * @public
    */
   disconnectedCallback() {
-    this.#notifyControllers(LifecycleEventName.Disconnected);
+    this.#notifyControllers("hostDisconnected");
   }
 
   /**
@@ -308,11 +309,6 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
 
     // Performs an update of the view and notifies the controllers.
     try {
-      if (isClientSide()) {
-        // The `hostUpdate` methods should only called on the client-side
-        this.#notifyControllers(LifecycleEventName.Update);
-      }
-
       // `performUpdate` should be called for every update request.
       // It's NOT the responsibility of this adapter to determine
       // how or when the update is performed, it just calls the
@@ -322,11 +318,6 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
       // `Controllable` mixin, which implements the `stageModification`
       // method to handle the update logic.
       await this.#hooks.performUpdate();
-
-      if (isClientSide()) {
-        // The `hostUpdated` methods should only called on the client-side
-        this.#notifyControllers(LifecycleEventName.Updated);
-      }
     } catch (error) {
       updateComplete.reject(error);
       return;
@@ -344,7 +335,7 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
     );
   }
 
-  #notifyControllers(eventName: LifecycleEventName) {
+  #notifyControllers(eventName: keyof ReactiveController): void {
     this.debugLog(
       `ReactiveControllerHostAdapter: notifying controllers of ${eventName}`,
     );

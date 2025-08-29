@@ -34,14 +34,24 @@ export type LifecycleDelegate<P> = {
    */
   hostBeforeMount?: LifecycleDelegate.BeforeMountHook;
   /**
-   * A method called by the host before the element is updated.
+   * Called by the host before rendering a new declaration during an update.
    *
    * @remarks
    *
-   * This method is called before an update occurs, whether the host
-   * is connected to the DOM or not.
+   * This hook runs after an update has started and just before a new declaration
+   * is rendered, regardless of the host's connection to the DOM.
+   *
+   * Use this to perform setup or to abort the render if needed. If aborted,
+   * the update cycle completes without rendering a new declaration or changing the DOM.
+   *
+   * This hook is invoked during both server-side and client-side rendering.
+   *
+   * It may be called multiple times before an actual update, such as when several
+   * properties change quickly. Unlike the update itself, this hook is triggered
+   * on every update request and is not debounced or throttled. As such, it should
+   * be used for lightweight operations only.
    */
-  hostBeforeUpdate?: LifecycleDelegate.BeforeUpdateHook<P>;
+  hostUpdateRequested?: LifecycleDelegate.UpdateRequestedHook<P>;
   /**
    * Called by the host when the element's lifecycle is interrupted.
    *
@@ -59,7 +69,7 @@ export type LifecycleDelegate<P> = {
   hostInterrupted?: LifecycleDelegate.InterruptedHook<unknown>;
   /**
    * A method called by the host when an error occurs during
-   * a lifecycle event, such as during the `hostBeforeUpdate` method.
+   * a lifecycle event, such as during the `hostUpdateRequested` method.
    */
   hostErrorCaptured?: LifecycleDelegate.ErrorCapturedHook;
   /**
@@ -72,6 +82,15 @@ export type LifecycleDelegate<P> = {
    */
   hostMounted?: LifecycleDelegate.MountedHook;
   /**
+   * A method called by the host when an update is performed on the host.
+   *
+   * @remarks
+   *
+   * This is the equivalent of the `hostUpdate` in a reactive controller,
+   * and is called when an update is performed on the host.
+   */
+  hostBeforeUpdate?: LifecycleDelegate.BeforeUpdateHook<P>;
+  /**
    * A method called by the host when the host is updated.
    *
    * @remarks
@@ -79,7 +98,7 @@ export type LifecycleDelegate<P> = {
    * This is the equivalent of the `hostUpdated` in a reactive controller,
    * and is called after the host is updated.
    */
-  hostUpdated?: LifecycleDelegate.UpdatedHook;
+  hostAfterUpdate?: LifecycleDelegate.AfterUpdateHook<P>;
   /**
    * A method called by the host when the host is unmounted.
    *
@@ -124,7 +143,7 @@ export namespace LifecycleDelegate {
   };
 
   /**
-   * A payload that is passed to the `hostBeforeUpdate` lifecycle method.
+   * A payload that is passed to the `hostUpdateRequested` lifecycle method.
    *
    * @beta This os an experimental API and may change in the future.
    */
@@ -146,6 +165,53 @@ export namespace LifecycleDelegate {
   };
 
   /**
+   * A lifecycle hook that is called by the host before an update
+   * is performed on the host.
+   *
+   * @remarks
+   *
+   * The hook may return a promise to indicate that the update
+   * should be delayed until the promise is resolved.
+   */
+  /*
+   * ### Private Remarks
+   *
+   * The method is named `hostBeforeUpdate` to avoid clashing with the `hostUpdate` method
+   * in `ReactiveController`. They have different type signatures, and this naming allows
+   * both interfaces to be implemented in the same class.
+   *
+   * The primary use case for this method is to perform lightweight
+   * operations or to abort the update if needed. If aborted,
+   * the update cycle completes without rendering a new declaration
+   * or changing the DOM.
+   */
+  export type BeforeUpdateHook<P> = {
+    (payload: BeforeUpdatePayload<P>): void | Promise<void>;
+  };
+
+  /**
+   * A payload that is passed to the `hostUpdateRequested` lifecycle method.
+   *
+   * @beta This os an experimental API and may change in the future.
+   */
+  export type UpdateRequestedPayload<P> = {
+    /**
+     * An `AbortController` that can be used to abort the update operation.
+     *
+     * @remarks
+     *
+     * This is useful for preventing a component from updating for any reason.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/AbortController | MDN: AbortController}
+     */
+    abortController: AbortController;
+    /**
+     * The properties that have changed since the last update request.
+     */
+    changedProperties: BoundMap.Readonly<P>;
+  };
+
+  /**
    * A lifecycle hook that is called by the host
    * before the host is updated.
    *
@@ -154,8 +220,8 @@ export namespace LifecycleDelegate {
    * The hook may return a promise to indicate that the update should be delayed
    * until the promise is resolved.
    */
-  export type BeforeUpdateHook<P> = {
-    (payload: BeforeUpdatePayload<P>): void | Promise<void>;
+  export type UpdateRequestedHook<P> = {
+    (payload: UpdateRequestedPayload<P>): void | Promise<void>;
   };
 
   /**
@@ -191,27 +257,34 @@ export namespace LifecycleDelegate {
   };
 
   /**
+   * A payload that is passed to the `hostAfterUpdate` lifecycle method.
+   */
+  export type AfterUpdatePayload<P> = {
+    /**
+     * The properties that have changed during the last update.
+     */
+    changedProperties: BoundMap.Readonly<P>;
+  };
+
+  /**
    * A lifecycle hook that is called by the host when the host is updated.
    *
    * @remarks
    *
-   * This is the equivalent of the `hostUpdated` in a reactive controller,
+   * This is invoked before the `hostUpdated` hook in a reactive controllers.
    */
   /*
    * ### Private Remarks
    *
-   * While this method is named `hostUpdated`, like the method in `ReactiveController`,
-   * it is not required to have the same implementation. However, both can be used
-   * interchangeably. So, to ensure consistency and prevent confusion or interface
-   * incompatibilities, we enforce that both methods use the same name and type signature.
+   * The method is named `hostAfterUpdate` to avoid clashing with the `hostUpdated` method
+   * in `ReactiveController`. They have different type signatures, and this naming allows
+   * both interfaces to be implemented in the same class.
    *
-   * This is very much an intentional design choice to ensure that
-   * `LifecycleDelegate` can be used as a replacement for `ReactiveController` when writing
-   * logic specific to a Knyt component. I didn't want to always have to implement both interfaces
-   * in the same class, so I made sure that the `hostUpdated` method in `LifecycleDelegate`
-   * has the same type signature as the `hostUpdated` method in `ReactiveController`.
+   * In practice, both methods can generally be used interchangeably.
    */
-  export type UpdatedHook = NonNullable<ReactiveController["hostUpdated"]>;
+  export type AfterUpdateHook<P> = {
+    (payload: AfterUpdatePayload<P>): void | Promise<void>;
+  };
 
   /**
    * A lifecycle hook that is called by the host when the host is unmounted.
@@ -227,10 +300,7 @@ export namespace LifecycleDelegate {
   export type HookName = keyof LifecycleDelegate<any>;
 
   export namespace HookName {
-    export type WithoutPayload =
-      | "hostMounted"
-      | "hostUpdated"
-      | "hostUnmounted";
+    export type WithoutPayload = "hostMounted" | "hostUnmounted";
   }
 }
 
@@ -349,9 +419,14 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
   /**
    * Invokes the provided callback for each registered lifecycle hooks.
    */
-  async invokeHooks(
+  async #invokeHooks(
     callback: (hooks: LifecycleDelegate<P>) => void | Promise<void>,
   ): Promise<void> {
+    // All side effects should be asynchronous.
+    // Wait until the next microtask to ensure that
+    // all side effects are async.
+    await Promise.resolve();
+
     // All hooks are called in parallel, so we can use
     // add them to an array and then use `Promise.all`
     // to wait for all of them to complete.
@@ -377,15 +452,15 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     }
 
     // Re-throw the error here, as we want to propagate it
-    // to the caller of `performBeforeUpdate`.
+    // to the caller of `performUpdateRequested`.
     throw error;
   }
 
-  async #invokeBeforeUpdate(
-    payload: LifecycleDelegate.BeforeUpdatePayload<P>,
+  async #invokeUpdateRequested(
+    payload: LifecycleDelegate.UpdateRequestedPayload<P>,
   ): Promise<void> {
     try {
-      await this.invokeHooks((hooks) => hooks.hostBeforeUpdate?.(payload));
+      await this.#invokeHooks((hooks) => hooks.hostUpdateRequested?.(payload));
     } catch (error) {
       this.#handleInvokeError(error, payload.abortController);
     }
@@ -395,7 +470,7 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     interrupt: LifecycleInterrupt<TReason>,
   ): Promise<void> {
     try {
-      await this.invokeHooks((hooks) => hooks.hostInterrupted?.(interrupt));
+      await this.#invokeHooks((hooks) => hooks.hostInterrupted?.(interrupt));
     } catch (error) {
       this.#handleInvokeError(error);
     }
@@ -405,9 +480,29 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     payload: LifecycleDelegate.BeforeMountPayload,
   ): Promise<void> {
     try {
-      await this.invokeHooks((hooks) => hooks.hostBeforeMount?.(payload));
+      await this.#invokeHooks((hooks) => hooks.hostBeforeMount?.(payload));
     } catch (error) {
       this.#handleInvokeError(error, payload.abortController);
+    }
+  }
+
+  async #invokeBeforeUpdate(
+    payload: LifecycleDelegate.BeforeUpdatePayload<P>,
+  ): Promise<void> {
+    try {
+      await this.#invokeHooks((hooks) => hooks.hostBeforeUpdate?.(payload));
+    } catch (error) {
+      this.#handleInvokeError(error, payload.abortController);
+    }
+  }
+
+  async #invokeAfterUpdate(
+    payload: LifecycleDelegate.AfterUpdatePayload<P>,
+  ): Promise<void> {
+    try {
+      await this.#invokeHooks((hooks) => hooks.hostAfterUpdate?.(payload));
+    } catch (error) {
+      this.#handleInvokeError(error);
     }
   }
 
@@ -415,7 +510,7 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     hookName: LifecycleDelegate.HookName.WithoutPayload,
   ): Promise<void> {
     try {
-      await this.invokeHooks((hooks) => hooks[hookName]?.());
+      await this.#invokeHooks((hooks) => hooks[hookName]?.());
     } catch (error) {
       this.#handleInvokeError(error);
     }
@@ -453,12 +548,12 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
   }
 
   /**
-   * Performs the `hostBeforeUpdate` lifecycle method for all hooks.
+   * Performs the `hostUpdateRequested` lifecycle method for all hooks.
    *
    * @remarks
    *
    * This method is called by the host before the element is updated.
-   * It calls the `hostBeforeUpdate` method of all hooks in parallel,
+   * It calls the `hostUpdateRequested` method of all hooks in parallel,
    * and waits for all of them to complete before returning.
    *
    * If any hook throws an error, the operation is aborted and the error
@@ -474,11 +569,11 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
    * and we want to avoid the overhead of creating a
    * microtask for the promise resolution;
    */
-  performBeforeUpdate(
-    payload: LifecycleDelegate.BeforeUpdatePayload<P>,
+  performUpdateRequested(
+    payload: LifecycleDelegate.UpdateRequestedPayload<P>,
   ): void | Promise<void> {
-    if (this.#shouldInvokeHooks("hostBeforeUpdate")) {
-      return this.#invokeBeforeUpdate(payload);
+    if (this.#shouldInvokeHooks("hostUpdateRequested")) {
+      return this.#invokeUpdateRequested(payload);
     }
   }
 
@@ -518,10 +613,16 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
     this.#invokeHookWithoutPayload("hostMounted");
   }
 
-  performUpdated(): void {
+  performBeforeUpdate(payload: LifecycleDelegate.BeforeUpdatePayload<P>): void {
     // This is intentionally not awaited: post-event hooks are not async/cancelable.
     // If async, they run in parallel.
-    this.#invokeHookWithoutPayload("hostUpdated");
+    this.#invokeBeforeUpdate(payload);
+  }
+
+  performAfterUpdate(payload: LifecycleDelegate.AfterUpdatePayload<P>): void {
+    // These are intentionally not awaited: post-event hooks are not async/cancelable.
+    // If async, they run in parallel.
+    this.#invokeAfterUpdate(payload);
   }
 
   performUnmounted(): void {
@@ -596,9 +697,21 @@ export class LifecycleAdapter<P> extends BasicLifecycleDelegateHost<P> {
   }
 
   /**
-   * Registers a lifecycle hook to be called before the host is updated.
+   * Registers a lifecycle hook to be called when an update is requested on the host.
    *
-   * @param hostBeforeUpdate - The callback to invoke before updating.
+   * @param hostUpdateRequested - The callback to invoke before updating.
+   * @returns A subscription object that can be used to remove the hook.
+   */
+  onUpdateRequested(
+    hostUpdateRequested: LifecycleDelegate.UpdateRequestedHook<P>,
+  ): Subscription {
+    return this.addLifecycleHook("hostUpdateRequested", hostUpdateRequested);
+  }
+
+  /**
+   * Registers a lifecycle hook to be called before an update is performed on the host.
+   *
+   * @param hostBeforeUpdate - The callback to invoke when an update is performed.
    * @returns A subscription object that can be used to remove the hook.
    */
   onBeforeUpdate(
@@ -610,11 +723,13 @@ export class LifecycleAdapter<P> extends BasicLifecycleDelegateHost<P> {
   /**
    * Registers a lifecycle hook to be called after the host has been updated.
    *
-   * @param hostUpdated - The callback to invoke after the host update is complete.
+   * @param hostAfterUpdate - The callback to invoke after the host update is complete.
    * @returns A subscription object that can be used to remove the hook.
    */
-  onUpdated(hostUpdated: LifecycleDelegate.UpdatedHook): Subscription {
-    return this.addLifecycleHook("hostUpdated", hostUpdated);
+  onAfterUpdate(
+    hostAfterUpdate: LifecycleDelegate.AfterUpdateHook<P>,
+  ): Subscription {
+    return this.addLifecycleHook("hostAfterUpdate", hostAfterUpdate);
   }
 
   /**
