@@ -4,23 +4,17 @@
 
 ### Minor Changes
 
-- d27bcaa: ### Changed
-
-  - All lifecycle hooks are now called asynchronously.
-  - Property change events are emitted before requesting an update on the host element.
-
-  ### Removed
-
-  - The `hostUpdate` lifecycle hook.
-
-  ### Renamed
-
-  - `hostBeforeUpdate` is now `hostUpdateRequested` for improved accuracy.
-  - `LifecycleDelegate.hostUpdated` is now `LifecycleDelegate.hostAfterUpdate` to avoid confusion with `ReactiveController.hostUpdated`.
-
-  ### Added
-
-  - New `hostBeforeUpdate` lifecycle hook.
+- d27bcaa: Lifecycle hooks update
+  - **Changed**
+    - All lifecycle hooks are now called asynchronously.
+    - Property change events are emitted before requesting an update on the host element.
+  - **Removed**
+    - The `hostUpdate` lifecycle hook.
+  - **Renamed**
+    - `hostBeforeUpdate` is now `hostUpdateRequested` for improved accuracy.
+    - `LifecycleDelegate.hostUpdated` is now `LifecycleDelegate.hostAfterUpdate` to avoid confusion with `ReactiveController.hostUpdated`.
+  - **Added**
+    - New `hostBeforeUpdate` lifecycle hook.
 
 ## 0.1.0-alpha.4
 
