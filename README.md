@@ -58,7 +58,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 - **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
-- **Concurrent rendering**: Supports asynchronous rendering for responsive interfaces and seamless async data handling
+- **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
 - [and more...][Knyt Weaver]
 
