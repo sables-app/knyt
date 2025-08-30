@@ -167,8 +167,6 @@ export namespace Reference {
 
   /**
    * A `Reference` that retains a strong reference to an observer.
-   *
-   * @see {@link Subscription.SubscriberRetaining}
    */
   export type SubscriberRetaining<T, U = T> = Readonly<T> & {
     readonly subscription: Subscription.SubscriberRetaining<U>;
