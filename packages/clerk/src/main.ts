@@ -9,7 +9,7 @@ export {
 
 export { createSelector };
 
-export * from "./createArraySelector";
+export * from "./ensureReadonlyArray";
 export * from "./logDispatch";
 export * from "./Store";
 export * from "./utils/mod";

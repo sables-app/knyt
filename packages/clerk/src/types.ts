@@ -1,4 +1,4 @@
-import type { Observable, Reference, Subscription } from "@knyt/artisan";
+import type { Reference, Subscription } from "@knyt/artisan";
 
 import type {
   Action,
