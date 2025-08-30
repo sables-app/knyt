@@ -4,7 +4,7 @@ export * from "./debounce";
 export * from "./elementHasFocus";
 export * from "./getLastDefinedProperty";
 export * from "./kebabCaseToPascalCase";
-export * from "./memoizeSingleArgument";
+export * from "./memoize";
 export * from "./mergeEntityCollections";
 export * from "./numericEqual";
 export * from "./shallowEqual";
