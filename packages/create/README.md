@@ -20,11 +20,15 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
+## Documentation
+
+View the [quick start guide](https://knyt.dev/guide/quick-start) to get started with creating a new Knyt project.
+
 ## Running the CLI
 
 To run the CLI, you can use one of the following commands:
 
-> **Note:** You need to have Node.js installed on your machine.
+> **Prerequisite:** Either Node.js or Bun must be installed in your environment.
 
 _With npm:_
 
@@ -43,10 +47,6 @@ _With pnpm:_
 ```sh
 pnpm create knyt@latest
 ```
-
-## Documentation
-
-See https://knyt.dev/guide/quick-start/
 
 ## Updates
 

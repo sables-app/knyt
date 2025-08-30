@@ -28,6 +28,22 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Universal Rendering**: SSR + client-side compatible execution
 - **Essential Controllers**: Provides controllers for features such as hotkeys, async DOM events, and dynamic style handling
 
+## Documentation
+
+Documentation is available at [knyt.dev](https://knyt.dev), including guides for:
+
+- [Reactivity](https://knyt.dev/guide/web-components/reactivity)
+- [Controllers](https://knyt.dev/guide/web-components/controllers)
+- [Lifecycle](https://knyt.dev/guide/web-components/lifecycle)
+
+## Usage
+
+To create a simple counter custom element, you could use the following code:
+
+```ts
+
+```
+
 ## Install
 
 You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
@@ -43,18 +59,6 @@ _Standalone:_
 ```sh
 npm install @knyt/tasker
 ```
-
-## Usage
-
-To create a simple counter custom element, you could use the following code:
-
-```ts
-
-```
-
-## Documentation
-
-See https://knyt.dev/pkg/tasker
 
 ## Updates
 

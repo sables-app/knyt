@@ -29,21 +29,18 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Component Hydration**: Enables seamless server-side rendering and client-side hydration for interactive components
 - **Developer-Friendly**: Clean shorthand syntax and debug-friendly errors
 
-## Install
+## Documentation
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+Documentation is available at [knyt.dev](https://knyt.dev), including an [introduction to Web Components with Knyt](https://knyt.dev/guide/web-components/introduction). Documentation also includes guides for:
 
-_Knyt Toolkit:_
-
-```sh
-npm install knyt
-```
-
-_Standalone:_
-
-```sh
-npm install @knyt/luthier
-```
+- [Reactive properties](https://knyt.dev/guide/web-components/reactive-properties)
+- [Reactivity](https://knyt.dev/guide/web-components/reactivity)
+- [Controllers](https://knyt.dev/guide/web-components/controllers)
+- [Styling](https://knyt.dev/guide/web-components/styling)
+- [Lifecycle](https://knyt.dev/guide/web-components/lifecycle)
+- [Hydration](https://knyt.dev/guide/web-components/hydration)
+- [Containers](https://knyt.dev/guide/web-components/containers)
+- [Options](https://knyt.dev/guide/web-components/options)
 
 ## Usage
 
@@ -91,9 +88,21 @@ const Counter = define.element(
 const counterElement = document.createElement("my-counter");
 ```
 
-## Documentation
+## Install
 
-See https://knyt.dev/pkg/luthier
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+
+_Knyt Toolkit:_
+
+```sh
+npm install knyt
+```
+
+_Standalone:_
+
+```sh
+npm install @knyt/luthier
+```
 
 ## Updates
 

@@ -72,22 +72,13 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - Memory-efficient virtual module system (no filesystem clutter)
 - Seamless Bun integration: Leverages Bun's native toolchain and module system
 
-## Install
+## Documentation
 
-```sh
-bun add @knyt/glazier
-```
+Documentation is available at [knyt.dev](https://knyt.dev), including guides for:
 
-Then, add the plugin to your `bunfig.toml` file:
-
-```toml [bunfig.toml]
-preload = ["@knyt/glazier/preload"]
-
-[serve.static]
-plugins = ["@knyt/glazier/plugin"]
-```
-
-Now you can use the plugin in your HTML files.
+- [Server-side-includes](https://knyt.dev/guide/server-side-includes)
+- [Server-side-rendering](https://knyt.dev/guide/server-side-rendering)
+- [Static-site-generation](https://knyt.dev/guide/static-site-generation)
 
 ## Usage
 
@@ -112,9 +103,22 @@ Then, run the Bun server:
 NODE_ENV=production bun index.html
 ```
 
-## Documentation
+## Install
 
-See https://knyt.dev/pkg/glazier
+```sh
+bun add @knyt/glazier
+```
+
+Then, add the plugin to your `bunfig.toml` file:
+
+```toml [bunfig.toml]
+preload = ["@knyt/glazier/preload"]
+
+[serve.static]
+plugins = ["@knyt/glazier/plugin"]
+```
+
+Now you can use the plugin in your HTML files.
 
 ## Updates
 

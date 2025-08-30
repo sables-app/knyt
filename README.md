@@ -16,7 +16,7 @@
 
 ## Documentation
 
-See https://knyt.dev/
+Documentation is available at [knyt.dev](https://knyt.dev).
 
 ## Key benefits
 
@@ -56,7 +56,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 #### Declarative DOM renderer (🧵 _[Knyt Weaver][]_)
 
-- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements
+- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements and markup
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
 - **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards

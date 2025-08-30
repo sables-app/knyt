@@ -33,21 +33,9 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 [adoptedStyleSheets]: https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/adoptedStyleSheets
 [Constructable Stylesheets]: https://web.dev/articles/constructable-stylesheets
 
-## Install
+## Documentation
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
-
-_Knyt Toolkit:_
-
-```sh
-npm install knyt
-```
-
-_Standalone:_
-
-```sh
-npm install @knyt/tailor
-```
+Documentation is available at [knyt.dev](https://knyt.dev), including a [guide on styling Web Components](https://knyt.dev/guide/web-components/styling).
 
 ## Usage
 
@@ -98,9 +86,21 @@ styles.addTo(document);
 styles.removeFrom(document);
 ```
 
-## Documentation
+## Install
 
-See https://knyt.dev/pkg/tailor
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+
+_Knyt Toolkit:_
+
+```sh
+npm install knyt
+```
+
+_Standalone:_
+
+```sh
+npm install @knyt/tailor
+```
 
 ## Updates
 

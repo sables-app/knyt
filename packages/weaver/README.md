@@ -22,7 +22,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 ## Key features
 
-- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements
+- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements and markup
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
 - **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
@@ -33,21 +33,9 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Lightweight**: Minimal dependencies, minimal footprint
 - **htmx-compatible**: First-class support for [htmx](https://htmx.org/) attributes
 
-## Install
+## Documentation
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
-
-_Knyt Toolkit:_
-
-```sh
-npm install knyt
-```
-
-_Standalone:_
-
-```sh
-npm install @knyt/weaver
-```
+Documentation is available at [knyt.dev](https://knyt.dev), including a [guide on declarative rendering](https://knyt.dev/guide/declarative-rendering).
 
 ## Usage
 
@@ -69,9 +57,21 @@ update(root, heading);
 
 For cases that require more functionality, such as encapsulated behavior or custom lifecycle management, you can define custom web components using [Knyt Luthier](https://knyt.dev/pkg/luthier).
 
-## Documentation
+## Install
 
-See https://knyt.dev/pkg/weaver
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+
+_Knyt Toolkit:_
+
+```sh
+npm install knyt
+```
+
+_Standalone:_
+
+```sh
+npm install @knyt/weaver
+```
 
 ## Updates
 

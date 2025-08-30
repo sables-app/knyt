@@ -27,6 +27,12 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Async**: Seamlessly handles dispatched async functions and exposes actions as an observable stream.
 - **Familiar API**: Follows Flux Standard Action (FSA) for easy adoption by Flux/Redux developers.
 
+## Documentation
+
+Documentation is available at [knyt.dev](https://knyt.dev), including a [guide on state management](https://knyt.dev/guide/state-management).
+
+## Usage
+
 ## Install
 
 You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
@@ -42,12 +48,6 @@ _Standalone:_
 ```sh
 npm install @knyt/clerk
 ```
-
-## Usage
-
-## Documentation
-
-See https://knyt.dev/pkg/clerk
 
 ## Updates
 

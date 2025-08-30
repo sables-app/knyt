@@ -51,7 +51,7 @@ This package contains all client-side features of [Knyt](https://knyt.dev/). <br
 
 #### Declarative DOM renderer (🧵 _[Knyt Weaver][]_)
 
-- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements
+- **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements and markup
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
 - **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
@@ -100,11 +100,9 @@ This package contains all client-side features of [Knyt](https://knyt.dev/). <br
 
 [Knyt Gaffer]: https://knyt.dev/pkg/gaffer
 
-## Install
+## Documentation
 
-```bash
-npm install knyt
-```
+Documentation is available at [knyt.dev](https://knyt.dev).
 
 ## Usage
 
@@ -150,9 +148,11 @@ Alternatively, you can use [Knyt Glazier](https://knyt.dev/pkg/glazier) to rende
 
 By leveraging Bun's static site generation, you can use the `<knyt-include>` tag to embed your custom element in the page. This tag is part of Knyt's composition system, enabling seamless inclusion and hydration of web components.
 
-## Documentation
+## Install
 
-See https://knyt.dev/
+```bash
+npm install knyt
+```
 
 ## Updates
 

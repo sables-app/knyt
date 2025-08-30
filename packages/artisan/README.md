@@ -42,21 +42,9 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Middleware utilities** – Tools for building strongly-typed, async-ready processing pipelines
 - **Essential utilities** - Optimized equality checks, debouncing and TypeScript helpers
 
-## Install
+## Documentation
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
-
-_Knyt Toolkit:_
-
-```sh
-npm install knyt
-```
-
-_Standalone:_
-
-```sh
-npm install @knyt/artisan
-```
+Documentation is available at [knyt.dev](https://knyt.dev), including a [guide on observables](https://knyt.dev/guide/observables).
 
 ## Usage
 
@@ -80,9 +68,21 @@ const subscription = label$.subscribe(log);
 count$.set(2); // Console: Count is: 2
 ```
 
-## Documentation
+## Install
 
-See https://knyt.dev/pkg/artisan
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+
+_Knyt Toolkit:_
+
+```sh
+npm install knyt
+```
+
+_Standalone:_
+
+```sh
+npm install @knyt/artisan
+```
 
 ## Updates
 
