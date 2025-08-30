@@ -12,6 +12,8 @@ const NO_ARG_KEY = Symbol("knyt.artisan.noArgKey");
  * This function is designed to be as simple as possible,
  * and should be used with pure functions that are expensive to compute.
  *
+ * **Functions with rest parameters are not supported.**
+ *
  * @internal scope: package
  */
 export function memoizeOne<T extends (payload?: any) => any>(
@@ -92,6 +94,8 @@ export function memoizeMany<T extends (...args: any[]) => any>(
  *
  * Chooses between `memoizeOne` and `memoizeMany` based on the number of arguments.
  * The cache will only store the last `maxCacheSize` results.
+ *
+ * **Functions with rest parameters are not supported.**
  *
  * @public
  */

@@ -1,6 +1,6 @@
+import { actionCreatorFactory } from "../action/fsa";
 import { Store } from "../Store";
 import type { AnyAction } from "../types";
-import { actionCreatorFactory } from "../typescript-fsa";
 import { reduceToProperty } from "../utils/mod";
 
 export type CounterState = {

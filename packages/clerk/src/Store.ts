@@ -10,6 +10,12 @@ import {
   type Subscription,
 } from "@knyt/artisan";
 
+import {
+  actionCreatorFactory,
+  isAction,
+  type ActionCreatorFactory,
+  type BoundActionCreator,
+} from "./action/fsa";
 import { logDispatch } from "./logDispatch";
 import type {
   Action,
@@ -19,12 +25,6 @@ import type {
   Selector,
   SubscriptionFactory,
 } from "./types";
-import {
-  actionCreatorFactory,
-  isAction,
-  type ActionCreatorFactory,
-  type BoundActionCreator,
-} from "./typescript-fsa";
 
 /**
  * An `Reference` that can dispatch actions to update its state.
@@ -318,7 +318,7 @@ export class Store<S> extends BasicReference<S> {
 
 export namespace Store {
   // Re-export types from `typescript-fsa` for convenience.
-  export type Action<T> = import("./typescript-fsa").Action<T>;
+  export type Action<T> = import("./action/fsa").Action<T>;
 
   export type Options<S> = {
     /**

@@ -19,9 +19,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha",
-    "event-station": "^2.0.0",
-    "reselect": "^5"
+    "@knyt/artisan": "^0.1.0-alpha"
   },
   "files": [
     "dist",

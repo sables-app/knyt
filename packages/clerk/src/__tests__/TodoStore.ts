@@ -1,5 +1,4 @@
-import { createSelector } from "reselect";
-
+import { select } from "../select";
 import { Store } from "../Store";
 import {
   appendElement,
@@ -47,7 +46,7 @@ export class TodoStore extends Store<Readonly<TodoState>> {
 
   selectTodos = this.propertySelector("todos");
   selectLatestError = this.propertySelector("latestError");
-  selectLatestTodo = createSelector(this.selectTodos, selectLastELement);
+  selectLatestTodo = select(this.selectTodos).combine(selectLastELement);
 
   todos$ = this.ref(this.selectTodos);
   errors$ = this.ref(this.selectLatestError);

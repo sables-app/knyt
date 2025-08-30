@@ -1,7 +1,7 @@
 import type { Subscription } from "@knyt/artisan";
 import {
   actionCreatorFactory,
-  createSelector,
+  select,
   Store,
   type AnyAction,
 } from "@knyt/clerk";
@@ -430,29 +430,26 @@ export class StyleSheet<in out T extends CSSRules<string>>
     return state.serializedNamesByRuleName as ClassNameDictionary.FromRules<T>;
   };
 
-  #selectRulesCSS = createSelector(
+  #selectRulesCSS = select(
     this.#selectSerializedCache,
     this.#selectCSSObjectHashBySelectorCreator,
     this.#selectClassNames,
-    (serializedCache, cssObjectHashBySelectorCreator, classNames) => {
-      return Array.from(cssObjectHashBySelectorCreator.entries())
-        .map(([selectorCreator, hash]) => {
-          const selector = selectorCreator(classNames);
-          const styles = serializedCache[hash];
+  ).combine((serializedCache, cssObjectHashBySelectorCreator, classNames) => {
+    return Array.from(cssObjectHashBySelectorCreator.entries())
+      .map(([selectorCreator, hash]) => {
+        const selector = selectorCreator(classNames);
+        const styles = serializedCache[hash];
 
-          return `${selector} { ${styles} }`;
-        })
-        .join("\n");
-    },
-  );
+        return `${selector} { ${styles} }`;
+      })
+      .join("\n");
+  });
 
   #selectIncludedCSS(state: StyleSheetState<CSSRules.ToRuleName<T>>): string {
     return state.includedCSS.join("\n");
   }
 
-  #selectCSS = createSelector(
-    this.#selectRulesCSS,
-    this.#selectIncludedCSS,
+  #selectCSS = select(this.#selectRulesCSS, this.#selectIncludedCSS).combine(
     (rulesCSS, includedCSS) => [includedCSS, rulesCSS].join("\n").trim() + "\n",
   );
 
@@ -642,8 +639,7 @@ export class StyleSheet<in out T extends CSSRules<string>>
   #selectAddedRules = (state: StyleSheetState<CSSRules.ToRuleName<T>>) =>
     state.addedRules;
 
-  #selectRuleNames = createSelector(
-    this.#selectAddedRules,
+  #selectRuleNames = select(this.#selectAddedRules).combine(
     (addedRules): CSSRules.ToRuleName<T>[] =>
       addedRules.map((rule) => rule.ruleName),
   );
@@ -654,12 +650,12 @@ export class StyleSheet<in out T extends CSSRules<string>>
    *
    * @example "BgT¸¢\u001cØ@ôÂ»™_ê®û\u001e``ÿÇ•2·ÚÐ w×>V"
    */
-  #selectHash = createSelector(
-    this.#selectRuleNames,
-    this.#selectCSS,
+  #selectHash = select(this.#selectRuleNames, this.#selectCSS).combine(
     (ruleNames, css): string => {
       const input = `${ruleNames}${css}`;
 
+      // TODO: Replace with SubtleCrypto: digest() method
+      // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
       return new TextDecoder("latin1").decode(sha256(input));
     },
   );
