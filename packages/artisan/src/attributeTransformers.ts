@@ -127,10 +127,3 @@ export function stringOrBooleanToAttributeValue(
     ? booleanToAttributeValue(propertyValue)
     : stringToAttributeValue(propertyValue);
 }
-
-// const dateTransformers = createNumericTransformers(Date);
-
-// export const attributeValueToDate =
-//   dateTransformers.toPropertyValue satisfies PropertyValueTransformer<Date>;
-// export const dateToAttributeValue =
-//   dateTransformers.toAttributeValue satisfies AttributeValueTransformer<Date>;

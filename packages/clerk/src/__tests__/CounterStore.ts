@@ -25,8 +25,14 @@ export class CounterStore extends Store<CounterState> {
 
   // Bound action creators with reducers; recommended for most cases
   actions = this.createActions({
-    incrementOne: reduce.toProperty("count", (count, payload: void) => ++count),
-    decrementOne: reduce.toProperty("count", (count, payload: void) => --count),
+    incrementOne: reduce.createPropTransform(
+      "count",
+      (count, payload: void) => ++count,
+    ),
+    decrementOne: reduce.createPropTransform(
+      "count",
+      (count, payload: void) => --count,
+    ),
   });
 
   reduce(state: CounterState, action: AnyAction): CounterState {

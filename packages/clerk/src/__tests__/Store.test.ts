@@ -227,7 +227,7 @@ describe("Store", () => {
       // Create an action that adds a book.
       const addBook = bookStore.createAction<Book>(
         "addBook",
-        reduce.toProperty("books", reduce.appendElement),
+        reduce.createPropTransform("books", reduce.elementAppend),
       );
 
       addBook({ title: "1984", author: "George Orwell" });

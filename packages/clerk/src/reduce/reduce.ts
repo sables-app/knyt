@@ -7,17 +7,17 @@ import type { Action } from "../types";
  * @public
  */
 
-export function removeElement<T>(
+export function elementRemove<T>(
   array: ReadonlyArray<T>,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T>;
 
-export function removeElement<T>(
+export function elementRemove<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T> | undefined;
 
-export function removeElement<T>(
+export function elementRemove<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T> | undefined {
@@ -32,25 +32,28 @@ export function removeElement<T>(
 
 /**
  * Updates an element within an array and returns a new array.
+ *
+ * @remarks
+ *
  * If the element is not found, or if the element is the same as the new value,
  * the original array is returned.
  *
  * @public
  */
 
-export function updateElement<T>(
+export function elementUpdate<T>(
   array: ReadonlyArray<T>,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
 ): ReadonlyArray<T>;
 
-export function updateElement<T>(
+export function elementUpdate<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
 ): ReadonlyArray<T> | undefined;
 
-export function updateElement<T>(
+export function elementUpdate<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
@@ -74,7 +77,7 @@ export function updateElement<T>(
  *
  * @public
  */
-export function appendElement<T>(
+export function elementAppend<T>(
   array: ReadonlyArray<T> | undefined,
   ...items: T[]
 ): ReadonlyArray<T> {
@@ -86,7 +89,7 @@ export function appendElement<T>(
  *
  * @public
  */
-export function prependElement<T>(
+export function elementPrepend<T>(
   array: ReadonlyArray<T> | undefined,
   ...items: T[]
 ): ReadonlyArray<T> {
@@ -100,12 +103,12 @@ export function prependElement<T>(
  *
  * @public
  */
-export function removeEntityElement<T, U>(
+export function entityRemove<T, U>(
   array: ReadonlyArray<T>,
   getId: (entity: T) => U,
   idToRemove: U,
 ): ReadonlyArray<T> {
-  return removeElement(array, (entity) => getId(entity) === idToRemove);
+  return elementRemove(array, (entity) => getId(entity) === idToRemove);
 }
 
 /**
@@ -114,7 +117,7 @@ export function removeEntityElement<T, U>(
  *
  * @public
  */
-export function swapElements<T>(
+export function elementSwap<T>(
   array: ReadonlyArray<T>,
   indexA: number,
   indexB: number,
@@ -139,7 +142,7 @@ export function swapElements<T>(
  *
  * @public
  */
-export function updateProperty<
+export function propUpdate<
   T extends Record<string | symbol, unknown>,
   K extends keyof T,
 >(state: T, propertyName: K, nextValue: T[K]): T {
@@ -170,12 +173,11 @@ export type ExpectedState = Readonly<Record<string | symbol, unknown>>;
  */
 export type Reducer<S extends ExpectedState, P> = {
   (state: S, action: Action<P>): S;
-
-  // onError: (errorReducer: Reducer<S, unknown>) => Reducer<S, P>;
 };
 
 /**
- * Reduce an action that updates a property in the state.
+ * Create a reducer that updates a specific property in the state
+ * with the action's payload.
  *
  * @remarks
  *
@@ -187,16 +189,20 @@ export type Reducer<S extends ExpectedState, P> = {
  *
  * @public
  */
-export function toProperty<S extends ExpectedState>(
+export function createPropTransform<S extends ExpectedState>(
   propertyName: keyof S,
 ): Reducer<S, S[keyof S]>;
 
-export function toProperty<S extends ExpectedState, K extends keyof S, P>(
+export function createPropTransform<
+  S extends ExpectedState,
+  K extends keyof S,
+  P,
+>(
   propertyName: K,
   transformValue: (currentValue: S[K], payload: P) => S[K],
 ): Reducer<S, P>;
 
-export function toProperty<S extends ExpectedState, K extends keyof S>(
+export function createPropTransform<S extends ExpectedState, K extends keyof S>(
   propertyName: K,
   transformValue?: (currentValue: S[K], payload: unknown) => S[K],
 ): Reducer<S, unknown> {
@@ -207,22 +213,20 @@ export function toProperty<S extends ExpectedState, K extends keyof S>(
       ? transformValue(currentValue, payload)
       : (payload as S[K]);
 
-    return updateProperty(state, propertyName, nextValue);
+    return propUpdate(state, propertyName, nextValue);
   };
 }
 
 /**
- * A reducer that checks if an action has an error.
+ * Reduces an action into a boolean indicating if the action has an error.
  *
  * @public
  */
-export function actionHasError<S extends ExpectedState, E extends Error>() {
-  return (
-    _state: S,
-    action: Action<unknown>,
-  ): action is Action.WithError<E> => {
-    return !!action.error;
-  };
+export function actionHasError<S extends ExpectedState, E extends Error>(
+  _state: S,
+  action: Action<unknown>,
+): action is Action.WithError<E> {
+  return !!action.error;
 }
 
 /**
@@ -231,7 +235,7 @@ export function actionHasError<S extends ExpectedState, E extends Error>() {
  *
  * @public
  */
-export function branch<S extends ExpectedState, TP, FP>(
+export function createBranch<S extends ExpectedState, TP, FP>(
   predicate: (state: S, action: Action<TP | FP>) => action is Action<TP>,
   trueReducer: Reducer<S, TP>,
   falseReducer: Reducer<S, FP>,
@@ -251,33 +255,21 @@ export function branch<S extends ExpectedState, TP, FP>(
  *
  * @public
  */
-export function onError<S extends ExpectedState, P, E extends Error>(
+export function createErrorBranch<S extends ExpectedState, P, E extends Error>(
   errorReducer: Reducer<S, E>,
   reducer: Reducer<S, P>,
 ): Reducer<S, P | E> {
-  return branch(actionHasError(), errorReducer, reducer);
+  return createBranch(actionHasError, errorReducer, reducer);
 }
 
 /**
- * A reducer that sets a given value to a property in the state.
+ * A reducer that sets a given value to a property in the given state.
  *
  * @public
  */
-export function toPropertyValue<S extends ExpectedState, K extends keyof S>(
+export function createPropReplace<S extends ExpectedState, K extends keyof S>(
   propertyName: K,
   value: (state: S) => S[K],
 ): Reducer<S, void> {
-  return (state) => updateProperty(state, propertyName, value(state));
-}
-
-/**
- * A reducer that sets a given value to a property in the state.
- *
- * @public
- */
-export function toValue<S extends ExpectedState, K extends keyof S>(
-  propertyName: K,
-  value: S,
-): Reducer<S, void> {
-  return (state) => (state === value ? state : value);
+  return (state) => propUpdate(state, propertyName, value(state));
 }

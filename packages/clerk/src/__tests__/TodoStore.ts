@@ -39,22 +39,22 @@ export class TodoStore extends Store<Readonly<TodoState>> {
   });
 
   actions = this.createActions({
-    addTodo: reduce.onError(
-      reduce.toProperty("latestError"),
-      reduce.toProperty("todos", (todos, newTodo: Todo) =>
-        reduce.appendElement(todos, newTodo),
+    addTodo: reduce.createErrorBranch(
+      reduce.createPropTransform("latestError"),
+      reduce.createPropTransform("todos", (todos, newTodo: Todo) =>
+        reduce.elementAppend(todos, newTodo),
       ),
     ),
-    toggleTodo: reduce.toProperty("todos", (todos, id: number) =>
-      reduce.updateElement(
+    toggleTodo: reduce.createPropTransform("todos", (todos, id: number) =>
+      reduce.elementUpdate(
         todos,
         (todo) => todo.id === id,
         (todo) => ({ ...todo, completed: !todo.completed }),
       ),
     ),
-    removeTodo: reduce.toProperty("todos", (todos, id: number) =>
-      reduce.removeElement(todos, (todo) => todo.id === id),
+    removeTodo: reduce.createPropTransform("todos", (todos, id: number) =>
+      reduce.elementRemove(todos, (todo) => todo.id === id),
     ),
-    clearError: reduce.toPropertyValue("latestError", () => undefined),
+    clearError: reduce.createPropReplace("latestError", () => undefined),
   });
 }

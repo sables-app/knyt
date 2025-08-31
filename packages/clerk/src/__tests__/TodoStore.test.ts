@@ -29,6 +29,19 @@ describe("TodoStore", () => {
     expect(store.accessor.todos).toEqual([sampleTodo]);
   });
 
+  it("should update reference value asynchronously", async () => {
+    expect(store.accessor.todos$.value).toEqual([]);
+
+    store.actions.addTodo(sampleTodo);
+
+    // The reference doesn't update synchronously
+    expect(store.accessor.todos$.value).toEqual([]);
+
+    await Promise.resolve();
+
+    expect(store.accessor.todos$.value).toEqual([sampleTodo]);
+  });
+
   it("should get a todo by id", () => {
     expect(store.getTodoById(sampleTodo.id)).toBeUndefined();
 

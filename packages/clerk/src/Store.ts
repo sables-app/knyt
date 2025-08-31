@@ -266,6 +266,8 @@ export class Store<S> extends BasicReference<S> {
 
   /**
    * A set of selectors for each property in the store's state.
+   *
+   * @public
    */
   readonly selectors: {
     readonly [K in keyof S as K extends string ? K : never]-?: Selector<

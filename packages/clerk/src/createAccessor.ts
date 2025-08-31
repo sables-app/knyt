@@ -35,7 +35,8 @@ export type ReferenceAccessor<T> = {
 };
 
 /**
- * Creates a `ReferenceAccessor` for the given `Reference` and selector dictionary.
+ * Creates an accessor that provides access to selected values from
+ * a given `Reference`.
  *
  * @internal scope: workspace
  */
@@ -55,6 +56,10 @@ export function createAccessor<S, T extends SelectorDictionary<S>>(
     accessor[selectorKey] = selector;
 
     Object.defineProperty(accessor, key, {
+      // The `selectedRef` shouldn't be used, because it's updated asynchronously.
+      // Instead, use the selector function to get the current value from the original reference.
+      // If the selector is memoized, like it should be, this potentially running the selector function
+      // directly on the reference shouldn't be a performance issue even if the selector is computationally expensive.
       get: () => selector(reference.value),
     });
   }
