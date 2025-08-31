@@ -1,6 +1,6 @@
 import { memoize } from "@knyt/artisan";
 
-import type { Selector } from "./types";
+import type { Selector } from "../types";
 
 /**
  * @internal scope: module
@@ -55,7 +55,7 @@ export namespace SelectorCollection {
  *
  * @public
  */
-export function select<TSelectors extends SelectorCollection<any>>(
+export function createSelector<TSelectors extends SelectorCollection<any>>(
   ...selectors: TSelectors
 ): SelectorBuilder<TSelectors> {
   return {

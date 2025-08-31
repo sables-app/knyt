@@ -1,14 +1,6 @@
-import { select } from "../select";
+import { reduce } from "../reduce/mod";
+import { select } from "../select/mod";
 import { Store } from "../Store";
-import {
-  appendElement,
-  reduceOnError,
-  reduceToProperty,
-  reduceToPropertyValue,
-  removeElement,
-  selectLastELement,
-  updateElement,
-} from "../utils/mod";
 
 export type Todo = {
   id: number;
@@ -37,51 +29,32 @@ export class TodoStore extends Store<Readonly<TodoState>> {
    * @public
    */
   getTodoById(id: number): Todo | undefined {
-    return this.get().todos.find((todo) => todo.id === id);
+    return this.accessor.todos.find((todo) => todo.id === id);
   }
 
-  createSelectors<T>(creator: (store: this) => T): T {
-    return creator(this);
-  }
-
-  selectTodos = this.propertySelector("todos");
-  selectLatestError = this.propertySelector("latestError");
-  selectLatestTodo = select(this.selectTodos).combine(selectLastELement);
-
-  todos$ = this.ref(this.selectTodos);
-  errors$ = this.ref(this.selectLatestError);
-  latestTodo$ = this.ref(this.selectLatestTodo);
-
-  get todos() {
-    return this.selectTodos(this.value);
-  }
-  get errors() {
-    return this.selectLatestError(this.value);
-  }
-  get latestTodo() {
-    return this.selectLatestTodo(this.value);
-  }
+  accessor = this.createAccessor({
+    todos: this.selectors.todos,
+    latestError: this.selectors.latestError,
+    latestTodo: select(this.selectors.todos).combine(select.lastELement),
+  });
 
   actions = this.createActions({
-    addTodo: reduceOnError(
-      reduceToProperty("latestError"),
-      reduceToProperty("todos", (todos, newTodo: Todo) =>
-        appendElement(todos, newTodo),
+    addTodo: reduce.onError(
+      reduce.toProperty("latestError"),
+      reduce.toProperty("todos", (todos, newTodo: Todo) =>
+        reduce.appendElement(todos, newTodo),
       ),
     ),
-
-    toggleTodo: reduceToProperty("todos", (todos, id: number) =>
-      updateElement(
+    toggleTodo: reduce.toProperty("todos", (todos, id: number) =>
+      reduce.updateElement(
         todos,
         (todo) => todo.id === id,
         (todo) => ({ ...todo, completed: !todo.completed }),
       ),
     ),
-
-    removeTodo: reduceToProperty("todos", (todos, id: number) =>
-      removeElement(todos, (todo) => todo.id === id),
+    removeTodo: reduce.toProperty("todos", (todos, id: number) =>
+      reduce.removeElement(todos, (todo) => todo.id === id),
     ),
-
-    clearError: reduceToPropertyValue("latestError", () => undefined),
+    clearError: reduce.toPropertyValue("latestError", () => undefined),
   });
 }

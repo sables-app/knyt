@@ -1,7 +1,7 @@
 import { actionCreatorFactory } from "../action/fsa";
+import { reduce } from "../reduce/mod";
 import { Store } from "../Store";
 import type { AnyAction } from "../types";
-import { reduceToProperty } from "../utils/mod";
 
 export type CounterState = {
   count: number;
@@ -25,8 +25,8 @@ export class CounterStore extends Store<CounterState> {
 
   // Bound action creators with reducers; recommended for most cases
   actions = this.createActions({
-    incrementOne: reduceToProperty("count", (count, payload: void) => ++count),
-    decrementOne: reduceToProperty("count", (count, payload: void) => --count),
+    incrementOne: reduce.toProperty("count", (count, payload: void) => ++count),
+    decrementOne: reduce.toProperty("count", (count, payload: void) => --count),
   });
 
   reduce(state: CounterState, action: AnyAction): CounterState {

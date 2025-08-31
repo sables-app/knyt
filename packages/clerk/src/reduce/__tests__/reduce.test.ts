@@ -2,18 +2,18 @@ import { describe, expect, it } from "bun:test";
 
 import type { Action } from "../../types";
 import {
+  actionHasError,
   appendElement,
+  branch,
+  onError,
   prependElement,
-  reduceActionHasError,
-  reduceBranch,
-  reduceOnError,
-  reduceToProperty,
-  reduceToPropertyValue,
   removeElement,
   removeEntityElement,
   swapElements,
+  toProperty,
+  toPropertyValue,
   updateProperty,
-} from "../reducers";
+} from "../reduce";
 
 describe("reducers", () => {
   describe("removeElement", () => {
@@ -122,11 +122,11 @@ describe("reducers", () => {
     });
   });
 
-  describe("reduceToProperty", () => {
+  describe("toProperty", () => {
     it("returns a reducer that updates property", () => {
       type State = { a: number };
 
-      const reducer = reduceToProperty<State>("a");
+      const reducer = toProperty<State>("a");
       const state = { a: 1 };
       const action = { type: "foo", payload: 2 };
 
@@ -136,7 +136,7 @@ describe("reducers", () => {
     it("returns original state if property is unchanged", () => {
       type State = { a: number };
 
-      const reducer = reduceToProperty<State>("a");
+      const reducer = toProperty<State>("a");
       const state = { a: 1 };
       const action = { type: "foo", payload: 1 };
 
@@ -146,7 +146,7 @@ describe("reducers", () => {
     it("supports transformValue function", () => {
       type State = { a: number };
 
-      const reducer = reduceToProperty<State, "a", number>(
+      const reducer = toProperty<State, "a", number>(
         "a",
         (current, payload) => current + payload,
       );
@@ -157,11 +157,11 @@ describe("reducers", () => {
     });
   });
 
-  describe("reduceActionHasError", () => {
+  describe("actionHasError", () => {
     it("returns true if action has error property set", () => {
       type State = { a: number };
 
-      const hasError = reduceActionHasError<State, Error>();
+      const hasError = actionHasError<State, Error>();
 
       const state = { a: 1 };
 
@@ -174,7 +174,7 @@ describe("reducers", () => {
     it("returns false if action has no error property", () => {
       type State = { a: number };
 
-      const hasError = reduceActionHasError<State, Error>();
+      const hasError = actionHasError<State, Error>();
       const state = { a: 1 };
       const action = { type: "foo", payload: 123 };
 
@@ -184,7 +184,7 @@ describe("reducers", () => {
     it("returns false if error property is false", () => {
       type State = { a: number };
 
-      const hasError = reduceActionHasError<State, Error>();
+      const hasError = actionHasError<State, Error>();
       const state = { a: 1 };
       const action = { type: "foo", payload: 123, error: false };
 
@@ -192,7 +192,7 @@ describe("reducers", () => {
     });
   });
 
-  describe("reduceBranch", () => {
+  describe("branch", () => {
     it("calls trueReducer if predicate matches", () => {
       type State = { a: number };
       type Payload = number;
@@ -211,7 +211,7 @@ describe("reducers", () => {
         a: -1,
       });
 
-      const reducer = reduceBranch(predicate, trueReducer, falseReducer);
+      const reducer = branch(predicate, trueReducer, falseReducer);
       const state = { a: 0 };
       const action = { type: "foo", payload: 42 };
 
@@ -234,7 +234,7 @@ describe("reducers", () => {
         ...state,
         a: -1,
       });
-      const reducer = reduceBranch(predicate, trueReducer, falseReducer);
+      const reducer = branch(predicate, trueReducer, falseReducer);
       const state = { a: 0 };
       const action = { type: "foo", payload: "not a number" };
 
@@ -242,7 +242,7 @@ describe("reducers", () => {
     });
   });
 
-  describe("reduceOnError", () => {
+  describe("onError", () => {
     it("calls errorReducer if action has error", () => {
       type State = { a: number };
 
@@ -256,7 +256,7 @@ describe("reducers", () => {
         ...state,
         a: action.payload,
       });
-      const combined = reduceOnError(errorReducer as any, reducer as any);
+      const combined = onError(errorReducer as any, reducer as any);
       const state = { a: 0 };
       const error = new Error("fail");
       const action = { type: "foo", payload: error, error: true };
@@ -277,7 +277,7 @@ describe("reducers", () => {
         ...state,
         a: action.payload,
       });
-      const combined = reduceOnError(errorReducer as any, reducer as any);
+      const combined = onError(errorReducer as any, reducer as any);
       const state = { a: 0 };
       const action = { type: "foo", payload: 123 };
 
@@ -285,11 +285,11 @@ describe("reducers", () => {
     });
   });
 
-  describe("reduceToPropertyValue", () => {
+  describe("toPropertyValue", () => {
     it("returns a reducer that sets a property to a value", () => {
       type State = { a: number };
 
-      const reducer = reduceToPropertyValue<State, "a">("a", () => 1);
+      const reducer = toPropertyValue<State, "a">("a", () => 1);
       const state = { a: 0 };
       const action = { type: "foo", payload: undefined };
 
@@ -299,7 +299,7 @@ describe("reducers", () => {
     it("returns original state if value is unchanged", () => {
       type State = { a: number };
 
-      const reducer = reduceToPropertyValue<State, "a">("a", () => 1);
+      const reducer = toPropertyValue<State, "a">("a", () => 1);
       const state = { a: 1 };
       const action = { type: "foo", payload: undefined };
 

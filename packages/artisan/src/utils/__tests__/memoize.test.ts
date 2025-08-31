@@ -63,7 +63,7 @@ describe("memoize", () => {
     it("should maintain 'this' context", () => {
       const obj = {
         factor: 3,
-        fn: mock(function (x: number) {
+        fn: mock(function (this: { factor: number }, x: number) {
           return x * this.factor;
         }),
       };
@@ -237,7 +237,7 @@ describe("memoize", () => {
     it("should maintain 'this' context", () => {
       const obj = {
         factor: 3,
-        fn: mock(function (x: number) {
+        fn: mock(function (this: { factor: number }, x: number) {
           return x * this.factor;
         }),
       };

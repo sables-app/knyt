@@ -1,6 +1,7 @@
 export * from "./action/mod";
-export * from "./logDispatch";
-export * from "./select";
+export * from "./createAccessor";
+export * from "./logDispatch"
+export * from "./reduce/mod";
+export * from "./select/mod";
 export * from "./Store";
-export * from "./utils/mod";
 export type * from "./types";

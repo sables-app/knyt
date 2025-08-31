@@ -2,8 +2,8 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
+import { reduce } from "../reduce/mod";
 import { Store } from "../Store";
-import { appendElement, reduceToProperty } from "../utils/mod";
 import { CounterStore, type CounterState } from "./CounterStore";
 
 describe("Store", () => {
@@ -227,7 +227,7 @@ describe("Store", () => {
       // Create an action that adds a book.
       const addBook = bookStore.createAction<Book>(
         "addBook",
-        reduceToProperty("books", appendElement),
+        reduce.toProperty("books", reduce.appendElement),
       );
 
       addBook({ title: "1984", author: "George Orwell" });

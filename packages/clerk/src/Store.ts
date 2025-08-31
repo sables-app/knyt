@@ -16,6 +16,11 @@ import {
   type ActionCreatorFactory,
   type BoundActionCreator,
 } from "./action/fsa";
+import {
+  createAccessor,
+  type ReferenceAccessor,
+  type SelectorDictionary,
+} from "./createAccessor";
 import { logDispatch } from "./logDispatch";
 import type {
   Action,
@@ -204,6 +209,8 @@ export class Store<S> extends BasicReference<S> {
   /**
    * Create an action creator that can be dispatched to
    * update the store's state using the given reducer.
+   *
+   * @public
    */
   createAction<P>(
     type: string,
@@ -216,6 +223,8 @@ export class Store<S> extends BasicReference<S> {
 
   /**
    * Create a set of action creators that can be dispatched to update the store's state.
+   *
+   * @public
    */
   createActions<
     Reducers extends Record<
@@ -242,7 +251,8 @@ export class Store<S> extends BasicReference<S> {
    * Define a selector that selects a value from the store's state.
    *
    * @detachable
-   * @public
+   *
+   * @deprecated
    */
   /*
    * ### Private Remarks
@@ -255,10 +265,39 @@ export class Store<S> extends BasicReference<S> {
   }
 
   /**
+   * A set of selectors for each property in the store's state.
+   */
+  readonly selectors: {
+    readonly [K in keyof S as K extends string ? K : never]-?: Selector<
+      S,
+      S[K]
+    >;
+  } = new Proxy(
+    {},
+    {
+      get(_target, property: string) {
+        return (state: S) => state[property as keyof S];
+      },
+    },
+  ) as any;
+
+  /**
+   * Create an accessor that provides access to selected values from the store's state.
+   *
+   * @public
+   */
+  createAccessor<T extends SelectorDictionary<S>>(
+    input: T,
+  ): ReferenceAccessor<T> {
+    return createAccessor(this, input);
+  }
+
+  /**
    * Define a selector that selects a property from the store's state.
    *
    * @detachable
-   * @public
+   *
+   * @deprecated Use `selectors` instead.
    */
   propertySelector = <K extends keyof S>(
     propertyName: K,
@@ -283,6 +322,10 @@ export class Store<S> extends BasicReference<S> {
 
   /**
    * Create a  reference that observes a selected value from the store's state.
+   *
+   * @deprecated Use `createAccessor` instead.
+   * @internal scope: workspace
+   * TODO: Make this private
    */
   /*
    * ### Private Remarks

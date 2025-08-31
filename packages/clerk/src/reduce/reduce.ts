@@ -187,16 +187,16 @@ export type Reducer<S extends ExpectedState, P> = {
  *
  * @public
  */
-export function reduceToProperty<S extends ExpectedState>(
+export function toProperty<S extends ExpectedState>(
   propertyName: keyof S,
 ): Reducer<S, S[keyof S]>;
 
-export function reduceToProperty<S extends ExpectedState, K extends keyof S, P>(
+export function toProperty<S extends ExpectedState, K extends keyof S, P>(
   propertyName: K,
   transformValue: (currentValue: S[K], payload: P) => S[K],
 ): Reducer<S, P>;
 
-export function reduceToProperty<S extends ExpectedState, K extends keyof S>(
+export function toProperty<S extends ExpectedState, K extends keyof S>(
   propertyName: K,
   transformValue?: (currentValue: S[K], payload: unknown) => S[K],
 ): Reducer<S, unknown> {
@@ -216,10 +216,7 @@ export function reduceToProperty<S extends ExpectedState, K extends keyof S>(
  *
  * @public
  */
-export function reduceActionHasError<
-  S extends ExpectedState,
-  E extends Error,
->() {
+export function actionHasError<S extends ExpectedState, E extends Error>() {
   return (
     _state: S,
     action: Action<unknown>,
@@ -234,7 +231,7 @@ export function reduceActionHasError<
  *
  * @public
  */
-export function reduceBranch<S extends ExpectedState, TP, FP>(
+export function branch<S extends ExpectedState, TP, FP>(
   predicate: (state: S, action: Action<TP | FP>) => action is Action<TP>,
   trueReducer: Reducer<S, TP>,
   falseReducer: Reducer<S, FP>,
@@ -254,11 +251,11 @@ export function reduceBranch<S extends ExpectedState, TP, FP>(
  *
  * @public
  */
-export function reduceOnError<S extends ExpectedState, P, E extends Error>(
+export function onError<S extends ExpectedState, P, E extends Error>(
   errorReducer: Reducer<S, E>,
   reducer: Reducer<S, P>,
 ): Reducer<S, P | E> {
-  return reduceBranch(reduceActionHasError(), errorReducer, reducer);
+  return branch(actionHasError(), errorReducer, reducer);
 }
 
 /**
@@ -266,10 +263,10 @@ export function reduceOnError<S extends ExpectedState, P, E extends Error>(
  *
  * @public
  */
-export function reduceToPropertyValue<
-  S extends ExpectedState,
-  K extends keyof S,
->(propertyName: K, value: (state: S) => S[K]): Reducer<S, void> {
+export function toPropertyValue<S extends ExpectedState, K extends keyof S>(
+  propertyName: K,
+  value: (state: S) => S[K],
+): Reducer<S, void> {
   return (state) => updateProperty(state, propertyName, value(state));
 }
 
@@ -278,7 +275,7 @@ export function reduceToPropertyValue<
  *
  * @public
  */
-export function reduceToValue<S extends ExpectedState, K extends keyof S>(
+export function toValue<S extends ExpectedState, K extends keyof S>(
   propertyName: K,
   value: S,
 ): Reducer<S, void> {

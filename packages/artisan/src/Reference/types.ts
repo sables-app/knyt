@@ -199,6 +199,13 @@ export namespace Reference {
      */
     readonly subscription: Subscription;
   };
+
+  /**
+   * Unwraps a reference type to its underlying value.
+   *
+   * @public
+   */
+  export type ToValue<R> = R extends Reference<infer T> ? T : never;
 }
 
 /**
