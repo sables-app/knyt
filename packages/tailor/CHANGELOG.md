@@ -1,5 +1,17 @@
 # @knyt/tailor
 
+## 0.1.0-alpha.7
+
+### Patch Changes
+
+- 322a223: - Add `select` utility to remove dependency on `reselect`.
+  - Remove unused `event-station` dependency from `@knyt/clerk`.
+- Updated dependencies [d68f71c]
+- Updated dependencies [322a223]
+- Updated dependencies [37211b0]
+  - @knyt/clerk@0.1.0-alpha.7
+  - @knyt/artisan@0.1.0-alpha.7
+
 ## 0.1.0-alpha.2
 
 ### Minor Changes

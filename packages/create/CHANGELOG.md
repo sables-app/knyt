@@ -1,5 +1,11 @@
 # create-knyt
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- dcbbca3: Update Knyt dependencies to `latest`
+
 ## 0.1.0-alpha.5
 
 ### Patch Changes
