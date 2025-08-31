@@ -1,6 +1,6 @@
 {
   "name": "@knyt/clerk",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0-alpha.7",
   "description": "A light-weight DOM Renderer supports Web components standard & TypeScript language",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -19,7 +19,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha"
+    "@knyt/artisan": "^0.1.0-alpha.7"
   },
   "files": [
     "dist",

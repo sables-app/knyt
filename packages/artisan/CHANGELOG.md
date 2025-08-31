@@ -1,5 +1,24 @@
 # @knyt/artisan
 
+## 0.1.0-alpha.7
+
+### Minor Changes
+
+- 37211b0: - Remove `memoizeSingleArgument` function
+  - Add `memoize` function for function with any number of arguments
+
+### Patch Changes
+
+- d68f71c: - Add `Reference.ToValue<T>` type to `@knyt/artisan` to extract the value type from a `Reference<T>`.
+  - Revise `@knyt/clerk` data selection APIs.
+    - Add `createAccessor()` utility to create data accessors for any `Reference<T>`.
+    - Add `.createAccessor()` method to `Store<T>` instances to create accessors for the store's data.
+    - Add `.selectors` property to `Store<T>` instances to dynamically create selectors for the store's data.
+    - Reorganize all reducers utilities under a single `reducer` namespace.
+    - Deprecate `defineSelector()` method.
+    - Deprecate `propertySelector()` method.
+    - Deprecate `ref()` method.
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes
