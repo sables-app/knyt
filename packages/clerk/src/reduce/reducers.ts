@@ -6,18 +6,18 @@ import type { Action } from "../types";
  *
  * @public
  */
-
-export function elementRemove<T>(
+// TODO: Add support for `Set`
+export function itemRemove<T>(
   array: ReadonlyArray<T>,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T>;
 
-export function elementRemove<T>(
+export function itemRemove<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T> | undefined;
 
-export function elementRemove<T>(
+export function itemRemove<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
 ): ReadonlyArray<T> | undefined {
@@ -28,6 +28,13 @@ export function elementRemove<T>(
   if (index === -1) return array;
 
   return array.toSpliced(index, 1);
+}
+
+// TODO: Add support for `Set`
+export function withItemRemove<T>(
+  predicate: (item: T) => boolean,
+): (array: ReadonlyArray<T> | undefined) => ReadonlyArray<T> | undefined {
+  return (array) => itemRemove(array, predicate);
 }
 
 /**
@@ -41,19 +48,19 @@ export function elementRemove<T>(
  * @public
  */
 
-export function elementUpdate<T>(
+export function itemUpdate<T>(
   array: ReadonlyArray<T>,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
 ): ReadonlyArray<T>;
 
-export function elementUpdate<T>(
+export function itemUpdate<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
 ): ReadonlyArray<T> | undefined;
 
-export function elementUpdate<T>(
+export function itemUpdate<T>(
   array: ReadonlyArray<T> | undefined,
   predicate: (item: T) => boolean,
   update: (item: T) => T,
@@ -77,7 +84,8 @@ export function elementUpdate<T>(
  *
  * @public
  */
-export function elementAppend<T>(
+// TODO: Add support for `Set`
+export function itemAppend<T>(
   array: ReadonlyArray<T> | undefined,
   ...items: T[]
 ): ReadonlyArray<T> {
@@ -89,7 +97,8 @@ export function elementAppend<T>(
  *
  * @public
  */
-export function elementPrepend<T>(
+// TODO: Add support for `Set`
+export function itemPrepend<T>(
   array: ReadonlyArray<T> | undefined,
   ...items: T[]
 ): ReadonlyArray<T> {
@@ -103,12 +112,11 @@ export function elementPrepend<T>(
  *
  * @public
  */
-export function entityRemove<T, U>(
-  array: ReadonlyArray<T>,
-  getId: (entity: T) => U,
-  idToRemove: U,
-): ReadonlyArray<T> {
-  return elementRemove(array, (entity) => getId(entity) === idToRemove);
+// TODO: Add support for `Set` and `Map`
+export function withEntityRemove<T extends { id: U }, U>() {
+  return (collection: ReadonlyArray<T>, idToRemove: U): ReadonlyArray<T> => {
+    return itemRemove(collection, (entity) => entity.id === idToRemove);
+  };
 }
 
 /**
@@ -117,7 +125,8 @@ export function entityRemove<T, U>(
  *
  * @public
  */
-export function elementSwap<T>(
+// TODO: Add support for `Set`
+export function itemSwap<T>(
   array: ReadonlyArray<T>,
   indexA: number,
   indexB: number,
@@ -176,48 +185,6 @@ export type Reducer<S extends ExpectedState, P> = {
 };
 
 /**
- * Create a reducer that updates a specific property in the state
- * with the action's payload.
- *
- * @remarks
- *
- * If the property's value is the same as the new value, return the state.
- * Otherwise, return a new state with the updated property.
- *
- * Optionally provide a transform function to modify the new value
- * based on the current value and the action's payload.
- *
- * @public
- */
-export function createPropTransform<S extends ExpectedState>(
-  propertyName: keyof S,
-): Reducer<S, S[keyof S]>;
-
-export function createPropTransform<
-  S extends ExpectedState,
-  K extends keyof S,
-  P,
->(
-  propertyName: K,
-  transformValue: (currentValue: S[K], payload: P) => S[K],
-): Reducer<S, P>;
-
-export function createPropTransform<S extends ExpectedState, K extends keyof S>(
-  propertyName: K,
-  transformValue?: (currentValue: S[K], payload: unknown) => S[K],
-): Reducer<S, unknown> {
-  return (state, action) => {
-    const payload = action.payload;
-    const currentValue = state[propertyName];
-    const nextValue = transformValue
-      ? transformValue(currentValue, payload)
-      : (payload as S[K]);
-
-    return propUpdate(state, propertyName, nextValue);
-  };
-}
-
-/**
  * Reduces an action into a boolean indicating if the action has an error.
  *
  * @public
@@ -235,17 +202,29 @@ export function actionHasError<S extends ExpectedState, E extends Error>(
  *
  * @public
  */
-export function createBranch<S extends ExpectedState, TP, FP>(
+export function withBranch<S extends ExpectedState, TP, FP>(
   predicate: (state: S, action: Action<TP | FP>) => action is Action<TP>,
   trueReducer: Reducer<S, TP>,
   falseReducer: Reducer<S, FP>,
-): Reducer<S, TP | FP> {
+): Reducer<S, TP | FP>;
+
+export function withBranch<S extends ExpectedState, P>(
+  predicate: (state: S, action: Action<P>) => boolean,
+  trueReducer: Reducer<S, P>,
+  falseReducer: Reducer<S, P>,
+): Reducer<S, P>;
+
+export function withBranch(
+  predicate: (state: ExpectedState, action: Action<unknown>) => boolean,
+  trueReducer: Reducer<ExpectedState, unknown>,
+  falseReducer: Reducer<ExpectedState, unknown>,
+): Reducer<ExpectedState, unknown> {
   return (state, action) => {
     if (predicate(state, action)) {
       return trueReducer(state, action);
     }
 
-    return falseReducer(state, action as Action<FP>);
+    return falseReducer(state, action as Action<unknown>);
   };
 }
 
@@ -255,21 +234,66 @@ export function createBranch<S extends ExpectedState, TP, FP>(
  *
  * @public
  */
-export function createErrorBranch<S extends ExpectedState, P, E extends Error>(
+export function withErrorBranch<S extends ExpectedState, P, E extends Error>(
   errorReducer: Reducer<S, E>,
   reducer: Reducer<S, P>,
 ): Reducer<S, P | E> {
-  return createBranch(actionHasError, errorReducer, reducer);
+  return withBranch(actionHasError, errorReducer, reducer);
 }
 
 /**
- * A reducer that sets a given value to a property in the given state.
+ * A reducer that sets the action payload as the value of a specific property in the state.
+ *
+ * @remarks
+ *
+ * If the property's value is the same as the new value, return the state.
+ * Otherwise, return a new state with the updated property.
  *
  * @public
  */
-export function createPropReplace<S extends ExpectedState, K extends keyof S>(
+export function withPropSet<S extends ExpectedState, K extends keyof S>(
   propertyName: K,
-  value: (state: S) => S[K],
-): Reducer<S, void> {
-  return (state) => propUpdate(state, propertyName, value(state));
+): Reducer<S, S[K]>;
+
+/**
+ * A reducer that updates a specific property in the state,
+ * using a function to compute the new value from the current state and action payload.
+ *
+ * @remarks
+ *
+ * If the property's value is the same as the new value, return the state.
+ * Otherwise, return a new state with the updated property.
+ *
+ * @public
+ */
+export function withPropSet<S extends ExpectedState, K extends keyof S, P>(
+  propertyName: K,
+  getValue: (currentValue: S[K], payload: P) => S[K],
+): Reducer<S, P>;
+
+export function withPropSet<S extends ExpectedState, K extends keyof S, P>(
+  propertyName: K,
+  _getValue?: (currentValue: S[K], payload: P) => S[K],
+): Reducer<S, P> {
+  return (state, action) => {
+    const getValue = _getValue ?? ((c: S[K], p: P) => p as S[K]);
+
+    return propUpdate(
+      state,
+      propertyName,
+      getValue(state[propertyName], action.payload),
+    );
+  };
+}
+
+// An alias for withPropSet that may be more intuitive in some contexts
+export const toProp = withPropSet;
+
+/**
+ * A no-op utility that helps to define the type of a reducer.
+ */
+export function define<S, P, T = S>(
+  reducer: (state: S, action: Action<P>) => T,
+): (state: S, action: Action<P>) => T {
+  return reducer;
 }

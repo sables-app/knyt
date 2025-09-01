@@ -1,1 +1,1 @@
-export * as reduce from "./reduce";
+export * as reduce from "./reducers";

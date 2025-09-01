@@ -1,6 +1,6 @@
 /// <reference types="bun-types" />
 
-import { beforeEach, describe, expect, it, mock } from "bun:test";
+import { beforeEach, describe, expect, it, mock, test } from "bun:test";
 
 import { reduce } from "../reduce/mod";
 import { Store } from "../Store";
@@ -123,6 +123,32 @@ describe("Store", () => {
       // Not called, because the subscription was unsubscribed.
       expect(actionSubscriber).toHaveBeenCalledTimes(2);
     });
+
+    test("state management demo", async () => {
+      type State = { messages: readonly string[] };
+
+      const messageStore = new Store<State>({ messages: [] });
+      const addMessage = messageStore.createAction(
+        "addMessage",
+        reduce.toProp("messages", reduce.itemAppend<string>),
+      );
+
+      const subscriber = mock();
+
+      messageStore.action$.subscribe(subscriber);
+
+      addMessage("Hello, World!");
+
+      expect(subscriber).not.toHaveBeenCalled();
+
+      await Promise.resolve();
+
+      expect(subscriber).toHaveBeenCalledTimes(1);
+      expect(subscriber).toHaveBeenLastCalledWith({
+        type: "addMessage",
+        payload: "Hello, World!",
+      });
+    });
   });
 
   describe("createSubscriptionFactory", () => {
@@ -227,7 +253,7 @@ describe("Store", () => {
       // Create an action that adds a book.
       const addBook = bookStore.createAction<Book>(
         "addBook",
-        reduce.createPropTransform("books", reduce.elementAppend),
+        reduce.toProp("books", reduce.itemAppend),
       );
 
       addBook({ title: "1984", author: "George Orwell" });

@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, mock } from "bun:test";
+import { computeRef, ref } from "@knyt/artisan";
+import { beforeEach, describe, expect, it, mock, test } from "bun:test";
 
 import { createAccessor } from "../createAccessor";
 import { select } from "../select/mod";
@@ -14,7 +15,7 @@ describe("createAccessor", () => {
   function prepAccessor() {
     return createAccessor(todoStore, {
       count: (state) => state.todos.length,
-      lastTodo: select(todoStore.selectors.todos).combine(select.lastELement),
+      lastTodo: select(todoStore.select.todos).combine(select.last),
     });
   }
 
@@ -84,5 +85,58 @@ describe("createAccessor", () => {
     expect(subscriber).toHaveBeenLastCalledWith(secondTodo);
 
     subscription.unsubscribe();
+  });
+
+  describe("$values", () => {
+    describe("returned object", () => {
+      it("should be enumerable", () => {
+        expect(Object.keys(accessor.$values())).toEqual(["count", "lastTodo"]);
+      });
+
+      it("should be able to be cloned with spread operator", () => {
+        expect(accessor.$values().count).toBe(1);
+        expect(accessor.$values().lastTodo).toBe(firstTodo);
+
+        const cloned = { ...accessor.$values() };
+
+        expect(cloned).toEqual({ count: 1, lastTodo: firstTodo });
+      });
+    });
+
+    it("should return a new object each time", () => {
+      expect(accessor.$values()).not.toBe(accessor.$values());
+    });
+  });
+
+  test("demo", async () => {
+    const collectionA = ref([1, 2, 3, 4, 5]);
+    const collectionB = ref([6, 7, 8, 9, 10]);
+    const combinedCollection = computeRef(collectionA, collectionB, (a, b) => [
+      ...a,
+      ...b,
+    ]);
+    const accessor = createAccessor(combinedCollection, {
+      count: select.count,
+      max: select.max<number>,
+      min: select.min<number>,
+      evenNumbers: select.withFilter((num) => num % 2 === 0),
+    });
+
+    expect(accessor.count).toBe(10);
+    expect(accessor.max).toBe(10);
+    expect(accessor.min).toBe(1);
+    expect(accessor.evenNumbers).toEqual([2, 4, 6, 8, 10]);
+
+    collectionA.value = [20, 30];
+    collectionB.value = [40, 50];
+
+    // Wait exactly two microtasks for the updates to propagate
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(accessor.count).toBe(4);
+    expect(accessor.max).toBe(50);
+    expect(accessor.min).toBe(20);
+    expect(accessor.evenNumbers).toEqual([20, 30, 40, 50]);
   });
 });

@@ -1,81 +1,69 @@
 import { describe, expect, it } from "bun:test";
 
 import type { Action } from "../../types";
-import {
-  actionHasError,
-  createBranch,
-  createErrorBranch,
-  createPropReplace,
-  createPropTransform,
-  elementAppend,
-  elementPrepend,
-  elementRemove,
-  elementSwap,
-  entityRemove,
-  propUpdate,
-} from "../reduce";
+import * as reduce from "../reducers";
 
 describe("reducers", () => {
-  describe("elementRemove", () => {
+  describe("itemRemove", () => {
     it("removes an item matching the predicate", () => {
       const arr = [1, 2, 3];
-      const result = elementRemove(arr, (x) => x === 2);
+      const result = reduce.itemRemove(arr, (x) => x === 2);
 
       expect(result).toEqual([1, 3]);
     });
 
     it("returns the original array if no item matches", () => {
       const arr = [1, 2, 3];
-      const result = elementRemove(arr, (x) => x === 4);
+      const result = reduce.itemRemove(arr, (x) => x === 4);
 
       expect(result).toBe(arr);
     });
 
     it("returns undefined if input array is undefined", () => {
-      expect(elementRemove(undefined, () => true)).toBeUndefined();
+      expect(reduce.itemRemove(undefined, () => true)).toBeUndefined();
     });
   });
 
-  describe("elementAppend", () => {
+  describe("itemAppend", () => {
     it("appends items to the array", () => {
-      expect(elementAppend([1, 2], 3, 4)).toEqual([1, 2, 3, 4]);
+      expect(reduce.itemAppend([1, 2], 3, 4)).toEqual([1, 2, 3, 4]);
     });
 
     it("returns new array", () => {
       const arr = [1, 2];
-      const result = elementAppend(arr, 3, 4);
+      const result = reduce.itemAppend(arr, 3, 4);
 
       expect(result).not.toBe(arr);
       expect(result).toEqual([1, 2, 3, 4]);
     });
 
     it("returns new array if input is undefined", () => {
-      expect(elementAppend(undefined, 1, 2)).toEqual([1, 2]);
+      expect(reduce.itemAppend(undefined, 1, 2)).toEqual([1, 2]);
     });
   });
 
-  describe("elementPrepend", () => {
+  describe("itemPrepend", () => {
     it("prepends items to the array", () => {
-      expect(elementPrepend([3, 4], 1, 2)).toEqual([1, 2, 3, 4]);
+      expect(reduce.itemPrepend([3, 4], 1, 2)).toEqual([1, 2, 3, 4]);
     });
 
     it("returns new array", () => {
       const arr = [3, 4];
-      const result = elementPrepend(arr, 1, 2);
+      const result = reduce.itemPrepend(arr, 1, 2);
 
       expect(result).not.toBe(arr);
       expect(result).toEqual([1, 2, 3, 4]);
     });
 
     it("returns new array if input is undefined", () => {
-      expect(elementPrepend(undefined, 1, 2)).toEqual([1, 2]);
+      expect(reduce.itemPrepend(undefined, 1, 2)).toEqual([1, 2]);
     });
   });
 
-  describe("entityRemove", () => {
+  describe("withEntityRemove", () => {
     it("removes entity by id", () => {
       const arr = [{ id: 1 }, { id: 2 }];
-      const result = entityRemove(arr, (e) => e.id, 2);
+      const result = reduce.withEntityRemove()(arr, 2);
 
       expect(result).toEqual([{ id: 1 }]);
     });
@@ -83,32 +71,32 @@ describe("reducers", () => {
     it("returns original array if id not found", () => {
       const arr = [{ id: 1 }];
 
-      expect(entityRemove(arr, (e) => e.id, 2)).toBe(arr);
+      expect(reduce.withEntityRemove()(arr, 2)).toBe(arr);
     });
   });
 
-  describe("elementSwap", () => {
+  describe("itemSwap", () => {
     it("swaps two elements", () => {
-      expect(elementSwap([1, 2, 3], 0, 2)).toEqual([3, 2, 1]);
+      expect(reduce.itemSwap([1, 2, 3], 0, 2)).toEqual([3, 2, 1]);
     });
 
     it("returns original array if indices are the same", () => {
       const arr = [1, 2, 3];
 
-      expect(elementSwap(arr, 1, 1)).toBe(arr);
+      expect(reduce.itemSwap(arr, 1, 1)).toBe(arr);
     });
 
     it("returns original array if index out of bounds", () => {
       const arr = [1, 2, 3];
 
-      expect(elementSwap(arr, 0, 5)).toBe(arr);
+      expect(reduce.itemSwap(arr, 0, 5)).toBe(arr);
     });
   });
 
   describe("propUpdate", () => {
     it("returns new object with updated property", () => {
       const state = { a: 1, b: 2 };
-      const result = propUpdate(state, "a", 3);
+      const result = reduce.propUpdate(state, "a", 3);
 
       expect(result).toEqual({ a: 3, b: 2 });
 
@@ -118,15 +106,15 @@ describe("reducers", () => {
     it("returns original object if property is unchanged", () => {
       const state = { a: 1, b: 2 };
 
-      expect(propUpdate(state, "a", 1)).toBe(state);
+      expect(reduce.propUpdate(state, "a", 1)).toBe(state);
     });
   });
 
-  describe("createPropTransform", () => {
+  describe("toProp / withPropSet", () => {
     it("returns a reducer that updates property", () => {
       type State = { a: number };
 
-      const reducer = createPropTransform<State>("a");
+      const reducer = reduce.toProp<State, "a">("a");
       const state = { a: 1 };
       const action = { type: "foo", payload: 2 };
 
@@ -136,7 +124,7 @@ describe("reducers", () => {
     it("returns original state if property is unchanged", () => {
       type State = { a: number };
 
-      const reducer = createPropTransform<State>("a");
+      const reducer = reduce.toProp<State, "a">("a");
       const state = { a: 1 };
       const action = { type: "foo", payload: 1 };
 
@@ -146,7 +134,7 @@ describe("reducers", () => {
     it("supports transformValue function", () => {
       type State = { a: number };
 
-      const reducer = createPropTransform<State, "a", number>(
+      const reducer = reduce.toProp<State, "a", number>(
         "a",
         (current, payload) => current + payload,
       );
@@ -161,7 +149,7 @@ describe("reducers", () => {
     it("returns true if action has error property set", () => {
       type State = { a: number };
 
-      const hasError = actionHasError<State, Error>;
+      const hasError = reduce.actionHasError<State, Error>;
 
       const state = { a: 1 };
 
@@ -174,7 +162,7 @@ describe("reducers", () => {
     it("returns false if action has no error property", () => {
       type State = { a: number };
 
-      const hasError = actionHasError<State, Error>;
+      const hasError = reduce.actionHasError<State, Error>;
       const state = { a: 1 };
       const action = { type: "foo", payload: 123 };
 
@@ -184,7 +172,7 @@ describe("reducers", () => {
     it("returns false if error property is false", () => {
       type State = { a: number };
 
-      const hasError = actionHasError<State, Error>;
+      const hasError = reduce.actionHasError<State, Error>;
       const state = { a: 1 };
       const action = { type: "foo", payload: 123, error: false };
 
@@ -192,7 +180,7 @@ describe("reducers", () => {
     });
   });
 
-  describe("createBranch", () => {
+  describe("withBranch", () => {
     it("calls trueReducer if predicate matches", () => {
       type State = { a: number };
       type Payload = number;
@@ -211,7 +199,7 @@ describe("reducers", () => {
         a: -1,
       });
 
-      const reducer = createBranch(predicate, trueReducer, falseReducer);
+      const reducer = reduce.withBranch(predicate, trueReducer, falseReducer);
       const state = { a: 0 };
       const action = { type: "foo", payload: 42 };
 
@@ -234,7 +222,7 @@ describe("reducers", () => {
         ...state,
         a: -1,
       });
-      const reducer = createBranch(predicate, trueReducer, falseReducer);
+      const reducer = reduce.withBranch(predicate, trueReducer, falseReducer);
       const state = { a: 0 };
       const action = { type: "foo", payload: "not a number" };
 
@@ -242,7 +230,7 @@ describe("reducers", () => {
     });
   });
 
-  describe("createErrorBranch", () => {
+  describe("withErrorBranch", () => {
     it("calls errorReducer if action has error", () => {
       type State = { a: number };
 
@@ -256,7 +244,10 @@ describe("reducers", () => {
         ...state,
         a: action.payload,
       });
-      const combined = createErrorBranch(errorReducer as any, reducer as any);
+      const combined = reduce.withErrorBranch(
+        errorReducer as any,
+        reducer as any,
+      );
       const state = { a: 0 };
       const error = new Error("fail");
       const action = { type: "foo", payload: error, error: true };
@@ -277,33 +268,14 @@ describe("reducers", () => {
         ...state,
         a: action.payload,
       });
-      const combined = createErrorBranch(errorReducer as any, reducer as any);
+      const combined = reduce.withErrorBranch(
+        errorReducer as any,
+        reducer as any,
+      );
       const state = { a: 0 };
       const action = { type: "foo", payload: 123 };
 
       expect(combined(state, action)).toEqual({ a: 123 });
-    });
-  });
-
-  describe("createPropReplace", () => {
-    it("returns a reducer that sets a property to a value", () => {
-      type State = { a: number };
-
-      const reducer = createPropReplace<State, "a">("a", () => 1);
-      const state = { a: 0 };
-      const action = { type: "foo", payload: undefined };
-
-      expect(reducer(state, action)).toEqual({ a: 1 });
-    });
-
-    it("returns original state if value is unchanged", () => {
-      type State = { a: number };
-
-      const reducer = createPropReplace<State, "a">("a", () => 1);
-      const state = { a: 1 };
-      const action = { type: "foo", payload: undefined };
-
-      expect(reducer(state, action)).toBe(state);
     });
   });
 });

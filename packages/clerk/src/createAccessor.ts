@@ -14,25 +14,43 @@ export type SelectorDictionary<S> = Record<string, Selector<S, any>>;
  *
  * @internal scope: workspace
  */
-export type ReferenceAccessor<T> = {
-  [K in keyof T as K extends string ? `${K}$` : never]: T[K] extends Selector<
-    infer I,
-    infer O
-  >
-    ? Reference.Readonly<O>
-    : never;
-} & {
-  [K in keyof T as K extends string ? `${K}` : never]: T[K] extends Selector<
-    infer I,
-    infer O
-  >
-    ? O
-    : never;
-} & {
-  [K in keyof T as K extends string
-    ? `select${Capitalize<K>}`
-    : never]: T[K] extends Selector<any, any> ? T[K] : never;
-};
+export type ReferenceAccessor<T> =
+  // `Reference` instances for each selector
+  ReferenceAccessor.References<T> &
+    // Getters for each selected value
+    ReferenceAccessor.Props<T> &
+    // The original selectors
+    ReferenceAccessor.Selectors<T> & {
+      /**
+       * Returns an object containing the current selected values.
+       */
+      // NOTE: This is named `$values` to avoid conflict with potential state properties named `values`.
+      // `values` was chosen because it's a common name for methods that return internal data,
+      // e.g. `FormData.values()`, `URLSearchParams.values()`, `Map.values()`, etc.
+      $values(): ReferenceAccessor.Props<T>;
+    };
+
+export namespace ReferenceAccessor {
+  export type References<T> = {
+    readonly [K in keyof T as K extends string
+      ? `${K}$`
+      : never]: T[K] extends Selector<infer I, infer O>
+      ? Reference.Readonly<O>
+      : never;
+  };
+
+  export type Props<T> = {
+    readonly [K in keyof T as K extends string
+      ? `${K}`
+      : never]: T[K] extends Selector<infer I, infer O> ? O : never;
+  };
+
+  export type Selectors<T> = {
+    readonly [K in keyof T as K extends string
+      ? `select${Capitalize<K>}`
+      : never]: T[K] extends Selector<any, any> ? T[K] : never;
+  };
+}
 
 /**
  * Creates an accessor that provides access to selected values from
@@ -63,6 +81,18 @@ export function createAccessor<S, T extends SelectorDictionary<S>>(
       get: () => selector(reference.value),
     });
   }
+
+  accessor.$values = () => {
+    const props: Record<string, any> = {};
+
+    for (const key in input) {
+      const selector = input[key];
+
+      props[key] = selector(reference.value);
+    }
+
+    return props;
+  };
 
   return accessor;
 }

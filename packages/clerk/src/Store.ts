@@ -212,6 +212,7 @@ export class Store<S> extends BasicReference<S> {
    *
    * @public
    */
+  // TODO: Consider making the name optional, and generate a random unique name if not provided.
   createAction<P>(
     type: string,
     reducer: (this: this, state: S, action: Action<P>) => S,
@@ -269,7 +270,7 @@ export class Store<S> extends BasicReference<S> {
    *
    * @public
    */
-  readonly selectors: {
+  readonly select: {
     readonly [K in keyof S as K extends string ? K : never]-?: Selector<
       S,
       S[K]

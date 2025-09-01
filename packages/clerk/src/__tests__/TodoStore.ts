@@ -33,28 +33,31 @@ export class TodoStore extends Store<Readonly<TodoState>> {
   }
 
   accessor = this.createAccessor({
-    todos: this.selectors.todos,
-    latestError: this.selectors.latestError,
-    latestTodo: select(this.selectors.todos).combine(select.lastELement),
+    todos: this.select.todos,
+    latestError: this.select.latestError,
+    latestTodo: select(this.select.todos).combine(select.last),
   });
 
   actions = this.createActions({
-    addTodo: reduce.createErrorBranch(
-      reduce.createPropTransform("latestError"),
-      reduce.createPropTransform("todos", (todos, newTodo: Todo) =>
-        reduce.elementAppend(todos, newTodo),
+    addTodo: reduce.withErrorBranch(
+      reduce.toProp("latestError"),
+      reduce.toProp("todos", (todos, newTodo: Todo) =>
+        reduce.itemAppend(todos, newTodo),
       ),
     ),
-    toggleTodo: reduce.createPropTransform("todos", (todos, id: number) =>
-      reduce.elementUpdate(
+    toggleTodo: reduce.toProp("todos", (todos, id: number) =>
+      reduce.itemUpdate(
         todos,
         (todo) => todo.id === id,
         (todo) => ({ ...todo, completed: !todo.completed }),
       ),
     ),
-    removeTodo: reduce.createPropTransform("todos", (todos, id: number) =>
-      reduce.elementRemove(todos, (todo) => todo.id === id),
+    removeTodo: reduce.toProp("todos", (todos, id: number) =>
+      reduce.itemRemove(todos, (todo) => todo.id === id),
     ),
-    clearError: reduce.createPropReplace("latestError", () => undefined),
+    clearError: reduce.toProp(
+      "latestError",
+      (state, payload: void) => undefined,
+    ),
   });
 }
