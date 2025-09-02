@@ -55,7 +55,14 @@ export function defineElementDefinition<
   ElementConstructor: T,
   options: DefineElementDefinitionOptions = {},
 ): ElementDefinition<T, U, P, A> {
+  // TODO: Extract this to an environment utility package
   const $customElements = options.customElements ?? globalThis.customElements;
+
+  if (typeof $customElements === "undefined") {
+    throw new Error(
+      "`customElements` is not available in the current environment. This likely means Knyt Glazier has not been properly initialized.",
+    );
+  }
 
   if (
     // If HMR is enabled, we need to redefine the element
