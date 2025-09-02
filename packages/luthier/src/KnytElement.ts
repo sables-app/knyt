@@ -91,7 +91,7 @@ export type KnytElementOptions = {
    * In transparent mode, the element allows its children to be rendered
    * or managed by an external renderer.
    *
-   * @defaultValue "transparent"
+   * @defaultValue `"transparent"`
    */
   renderMode?: `${RenderMode}`;
   /**
@@ -106,7 +106,7 @@ export type KnytElementOptions = {
   /**
    * Determines how the element is updated.
    *
-   * @defaultValue "reactive"
+   * @defaultValue `"reactive"`
    */
   updateMode?: `${ReactiveUpdateMode}`;
   /**
@@ -123,6 +123,8 @@ export type KnytElementOptions = {
    * style sheet itself.
    *
    * @see {@link StyleSheet}
+   *
+   * @defaultValue `false`
    */
   disableStylesheetSSR?: boolean;
   /**
@@ -137,6 +139,7 @@ export type KnytElementOptions = {
    *
    * @alpha This is an experimental API and WILL change in the future without notice.
    */
+  // TODO: Add @defaultValue tag when stabilized.
   appendChunkSize?: UpdateOptions["appendChunkSize"];
   /**
    * When enabled, the element's shadow root will be processed by htmx.
@@ -147,6 +150,8 @@ export type KnytElementOptions = {
    * or passed as an option to the element.
    *
    * @see {@link https://htmx.org/examples/web-components/}
+   *
+   * @defaultValue `false`
    */
   htmx?: boolean | HtmxObject.Compat;
   /**
@@ -172,10 +177,14 @@ export type KnytElementOptions = {
    * If the element is created using the `define.element` function, the default `styleSheet`
    * will set `display` to `contents`. This ensures the container does not introduce a new
    * block formatting context or disrupt the layout of its children.
+   *
+   * @defaultValue `false`
    */
   container?: boolean;
   /**
    * Enables debug mode for the element.
+   *
+   * @defaultValue `false`
    */
   debug?: boolean;
 };
@@ -526,7 +535,7 @@ export abstract class KnytElement
     const renderMode = preparedOptions.renderMode ?? RenderMode.Transparent;
     const shadowRootEnabled = preparedOptions.shadowRoot !== false;
     const shadowRootInit = preparedOptions.shadowRoot || { mode: "open" };
-    const htmxInput = preparedOptions.htmx;
+    const htmxInput = preparedOptions.htmx ?? false;
     const updateMode = preparedOptions.updateMode;
 
     if (preparedOptions.debug) {
