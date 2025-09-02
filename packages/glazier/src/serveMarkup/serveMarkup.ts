@@ -9,7 +9,7 @@ import { GlazierServer } from "./GlazierServer";
 /**
  * Returns a Bun route handler that serves HTML markup using the Knyt Glazier transformer.
  *
- * @param htmlModulePromise - Promise resolving to a Bun HTML bundle module.
+ * @param input - Promise resolving to a Bun HTML bundle module.
  * @param options - Optional Glazier plugin configuration. If omitted, it reuses the configuration from the default plugin instance.
  *
  * @remarks
@@ -22,8 +22,8 @@ import { GlazierServer } from "./GlazierServer";
  * @beta This API is experimental and may change.
  */
 export function serveMarkup<RoutePath extends string = string>(
-  htmlModulePromise: Promise<BunHTMLBundleModule>,
+  input: GlazierServer.Input,
   options?: GlazierPluginOptions,
 ): RouterTypes.RouteHandler<RoutePath> {
-  return new GlazierServer(htmlModulePromise, options).fetch;
+  return new GlazierServer(input, options).fetch;
 }

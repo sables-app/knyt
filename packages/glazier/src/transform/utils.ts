@@ -157,6 +157,11 @@ export function isBunHTMLBundle(value: unknown): value is Bun.HTMLBundle {
   );
 }
 
+/**
+ * Checks whether the value is a valid Bun HTML bundle module.
+ *
+ * @internal scope: workspace
+ */
 export function isBunHTMLBundleModule(
   value: unknown,
 ): value is BunHTMLBundleModule {
@@ -343,7 +348,15 @@ function renderCustomElement(
   children: ElementBuilder.ChildrenInput,
   options: RenderRendererIncludeOptions,
 ) {
+  // TODO: Extract this to an environment utility package
   const $customElements = options.customElements ?? globalThis.customElements;
+
+  if (typeof $customElements === "undefined") {
+    throw new Error(
+      "`customElements` is not available in the current environment. This likely means Knyt Glazier has not been properly initialized.",
+    );
+  }
+
   const tagName = $customElements.getName(ElementConstructor);
 
   if (!tagName) {

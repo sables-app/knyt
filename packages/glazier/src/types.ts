@@ -72,7 +72,10 @@ export type TransformerRenderOptions = Omit<RenderOptions, "document">;
 
 export type GetRequestProps<
   P extends Record<string, any> = Record<string, unknown>,
-> = (request: Request, props: P) => Promise<GetRequestProps.Result<P> | void>;
+> = (
+  request: BunRequest<string>,
+  props: P,
+) => Promise<GetRequestProps.Result<P> | void>;
 
 export namespace GetRequestProps {
   export type Result<P extends Record<string, any> = Record<string, unknown>> =
