@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/clerk)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/s/clerk)
 
 🗃️ Lightweight, observable state management. Supports async flows, actions, and selectors with built-in utilities for reducers. Simple, reactive, and scalable.
 
@@ -35,7 +35,7 @@ Documentation is available at [knyt.dev](https://knyt.dev), including a [guide o
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/s/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 

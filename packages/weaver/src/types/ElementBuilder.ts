@@ -209,7 +209,7 @@ export namespace ElementBuilder {
     /**
      * Set the render mode of the element.
      *
-     * @see {@link https://knyt.dev/guide/render-modes}
+     * @see {@link https://knyt.dev/s/render-modes}
      */
     $renderMode: (renderMode: `${RenderMode}`) => ElementBuilder<P, E, Q>;
     /**

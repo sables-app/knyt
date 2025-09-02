@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/luthier)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/s/luthier)
 
 🎻 Create observable-powered Web Components with Shadow DOM and SSR support. <br /> Designed for extensibility without framework lock-in.
 
@@ -24,7 +24,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Type-Safe Custom Elements**: Strongly-typed element/property definition with full TypeScript support
 - **Reactive Properties**: Observable properties with attribute sync and change events
 - **Lifecycle Management**: Hooks, effects, and SSR-ready state hydration
-- **StyleSheet Integration**: Works with [Knyt Tailor](https://knyt.dev/pkg/tailor) for dynamic CSS and adoptedStyleSheets
+- **StyleSheet Integration**: Works with [Knyt Tailor](https://knyt.dev/s/tailor) for dynamic CSS and adoptedStyleSheets
 - **Web Standards Compliant**: Built on Custom Elements, Shadow DOM, and declarative patterns
 - **Component Hydration**: Enables seamless server-side rendering and client-side hydration for interactive components
 - **Developer-Friendly**: Clean shorthand syntax and debug-friendly errors
@@ -90,7 +90,7 @@ const counterElement = document.createElement("my-counter");
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/s/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 

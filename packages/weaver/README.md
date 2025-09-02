@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/weaver)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/s/weaver)
 
 🧵 Declarative DOM renderer with 1:1 native browser APIs. Strictly separates HTML, DOM, and SVG with fully type-safe, explicit interfaces for props, children and refs.
 
@@ -28,7 +28,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
 - **Explicit contracts**: Props, children, and refs are strictly separated (no runtime ambiguity)
 - **SSR-ready**: Render declarations, elements, and components to static markup
-  - Pair with [Knyt Luthier](https://knyt.dev/pkg/luthier) for rendering closed declarative shadow roots
+  - Pair with [Knyt Luthier](https://knyt.dev/s/luthier) for rendering closed declarative shadow roots
 - **Stateless**: The DOM is the source of truth; no virtual DOM or reconciliation
 - **Lightweight**: Minimal dependencies, minimal footprint
 - **htmx-compatible**: First-class support for [htmx](https://htmx.org/) attributes
@@ -55,11 +55,11 @@ const root = document.getElementById("app")!;
 update(root, heading);
 ```
 
-For cases that require more functionality, such as encapsulated behavior or custom lifecycle management, you can define custom web components using [Knyt Luthier](https://knyt.dev/pkg/luthier).
+For cases that require more functionality, such as encapsulated behavior or custom lifecycle management, you can define custom web components using [Knyt Luthier](https://knyt.dev/s/luthier).
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/s/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 

@@ -79,7 +79,7 @@ export type KnytElementOptions = {
   /**
    * Specifies how the element should be rendered by an external renderer.
    *
-   * @see {@link https://knyt.dev/guide/render-modes}
+   * @see {@link https://knyt.dev/s/render-modes}
    *
    * @remarks
    *

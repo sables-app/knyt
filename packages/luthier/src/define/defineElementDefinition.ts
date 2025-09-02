@@ -22,7 +22,7 @@ export type DefineElementDefinitionOptions = {
   /**
    * Determines the default render mode of the element's declaration.
    *
-   * @see {@link https://knyt.dev/guide/render-modes}
+   * @see {@link https://knyt.dev/s/render-modes}
    */
   defaultRenderMode?: `${RenderMode}`;
   /**

@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Knyt](./docs/banner.svg)](https://knyt.dev/pkg/tailor)
+[![Knyt](./docs/banner.svg)](https://knyt.dev/s/tailor)
 
 👔 Type-Safe CSS-in-JS: Composable, Scoped & Web Component Ready
 
@@ -25,7 +25,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Seamless integration with [Constructable Stylesheets][] for SSR and shadow DOM
 - **SSR & Document Scoping**: Works with custom documents (server-side rendering & shadow DOM)
 - **Scoped & Extensible StyleSheets**: Supports composition, mixins, and programmatic class/rule management
-- **Efficient Style Management**: Integrates with [Knyt Luthier](https://knyt.dev/pkg/luthier) to optimize style sheet reuse
+- **Efficient Style Management**: Integrates with [Knyt Luthier](https://knyt.dev/s/luthier) to optimize style sheet reuse
 - **CSS Serialization & Hashing**: Deterministic class/animation names via hashing to prevent duplication
 - **Dynamic CSS Generation**: Runtime keyframe definition with hashed animation names and deduplicated styles
 - **Utility Types & Guards**: Type helpers for validation, lengths, percentages, and serializable objects
@@ -88,7 +88,7 @@ styles.removeFrom(document);
 
 ## Install
 
-You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/pkg/toolkit) or this standalone package.
+You can use this package by installing either the [Knyt Toolkit](https://knyt.dev/s/toolkit) or this standalone package.
 
 _Knyt Toolkit:_
 

@@ -1,7 +1,7 @@
 /**
  * Determines how a node should be rendered by an external renderer.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
@@ -43,7 +43,7 @@ export type WithRenderMode<T extends Node> = T & {
 /**
  * Sets the render mode of the given node.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
@@ -57,7 +57,7 @@ export function setRenderMode<T extends Node>(
 /**
  * Gets the render mode of the given node.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
@@ -72,7 +72,7 @@ function checkRenderMode(node: Node, mode: RenderMode): boolean {
 /**
  * Marks the given node as an opaque parent.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
@@ -85,7 +85,7 @@ export function markNodeAsOpaque<T extends Node>(
 /**
  * Determines if the given node is an opaque parent.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
@@ -96,7 +96,7 @@ export function isNodeOpaque<T extends Node>(node: T): boolean {
 /**
  * Marks the given node as a transparent parent.
  *
- * @see {@link https://knyt.dev/guide/render-modes}
+ * @see {@link https://knyt.dev/s/render-modes}
  *
  * @internal scope: workspace
  */
