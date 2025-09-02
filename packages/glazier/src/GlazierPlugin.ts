@@ -2,6 +2,7 @@ import {
   createReference,
   MiddlewareRunner,
   type Reference,
+  type Subscription,
 } from "@knyt/artisan";
 import type { BunPlugin, PluginBuilder } from "bun";
 
@@ -92,15 +93,27 @@ export class GlazierPlugin implements BunPlugin {
   /**
    * Add middleware for handling requests.
    */
-  onRequest(middleware: BunKnytConfig.OnRequest): void {
+  onRequest(middleware: BunKnytConfig.OnRequest): Subscription {
     this.#middleware.add(Middleware.Kind.Request, middleware);
+
+    return {
+      unsubscribe: () => {
+        this.#middleware.remove(Middleware.Kind.Request, middleware);
+      },
+    };
   }
 
   /**
    * Add middleware for configuring render options.
    */
-  onConfigureRender(middleware: BunKnytConfig.OnConfigureRender): void {
+  onConfigureRender(middleware: BunKnytConfig.OnConfigureRender): Subscription {
     this.#middleware.add(Middleware.Kind.ConfigureRender, middleware);
+
+    return {
+      unsubscribe: () => {
+        this.#middleware.remove(Middleware.Kind.Request, middleware);
+      },
+    };
   }
 
   /*

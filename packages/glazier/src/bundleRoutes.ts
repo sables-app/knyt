@@ -70,7 +70,7 @@ export type BuildRoutesOptions = {
   /**
    * The prefix to use for the assets paths in the built HTML files.
    *
-   * @defaultValue "/assets"
+   * @defaultValue `"/assets"`
    *
    * @remarks
    *
@@ -86,23 +86,25 @@ export type BuildRoutesOptions = {
   /**
    * The number of routes to build in parallel.
    *
-   * @defaultValue 4
+   * @defaultValue `4`
    */
   batchSize?: number;
   /**
    * Whether to clean the build directory after building.
    *
-   * @defaultValue true.
+   * @defaultValue `true`
    */
   cleanBuildDir?: boolean;
   /**
    * Whether to clean the output directory before building.
    *
-   * @defaultValue true.
+   * @defaultValue `true`
    */
   cleanOutputDir?: boolean;
   /**
    * A function to configure the build process for each route.
+   *
+   * @defaultValue A no-op function that returns the provided build configuration unmodified.
    */
   configure?: (
     buildConfig: BuildConfig,
@@ -116,7 +118,7 @@ export type BuildRoutesOptions = {
   /**
    * Whether to copy the favicon to the root directory.
    *
-   * @defaultValue true
+   * @defaultValue `true`
    *
    * @remarks
    *
@@ -129,7 +131,7 @@ export type BuildRoutesOptions = {
   /**
    * The directory where the built routes will be placed.
    *
-   * @defaultValue "./dist"
+   * @defaultValue `"./dist"`
    *
    * @remarks
    *
@@ -140,12 +142,14 @@ export type BuildRoutesOptions = {
   distDir?: string;
   /**
    * Whether to overwrite duplicate assets when building each route.
+   *
+   * @defaultValue `false`
    */
   overwriteDuplicateAssets?: boolean;
   /**
    * Whether to log verbose output during the build process.
    *
-   * @defaultValue false
+   * @defaultValue `false`
    */
   verbose?: boolean;
 };
@@ -170,10 +174,14 @@ const defaultConfigure = (buildConfig: BuildConfig): BuildConfig => {
 export type BuildRoutesInput = Record<string, HTMLBundle>;
 
 /**
- * Builds the routes by processing each HTML entrypoint and rewriting
- * relative resource tags to absolute paths based on the provided options.
+ * Bundles the specified routes into static HTML files and assets.
+ *
+ * @param routes - An object where the keys are route paths and the values are HTML bundles.
+ * @param options - Optional configuration for the build process.
  */
-export async function buildRoutes(
+// Builds the routes by processing each HTML entrypoint and rewriting
+// relative resource tags to absolute paths based on the provided options.
+export async function bundleRoutes(
   routes: BuildRoutesInput,
   options: BuildRoutesOptions = {},
 ): Promise<RouteBuildResult[]> {

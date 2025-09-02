@@ -1,5 +1,5 @@
 export { default as glazierPlugin } from "./plugin";
-export * from "./buildRoutes";
+export * from "./bundleRoutes";
 export * from "./ConfigLoader";
 export * from "./define";
 export * from "./DocumentRouteBuilder";

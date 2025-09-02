@@ -2,8 +2,9 @@ import { mkdir, rm, watch } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
+import type { Subscription } from "@knyt/artisan";
+
 import { getTempDir } from "./getTempDir";
-import type { GlazierPlugin } from "./GlazierPlugin";
 import { KnytTagName } from "./importTags";
 import { default as glazierPlugin } from "./plugin";
 import { routePathState } from "./RequestState/mod";
@@ -45,10 +46,11 @@ namespace PageTemplate {
  * Both are resolved and imported by Bun.
  * Relative paths aren't supported.
  *
- * @example "package-name/docs/getting-started.md"
- * @example "/absolute/path/to/docs/getting-started.md"
- * @example "C:\\absolute\\path\\to\\docs\\getting-started.md"
+ * @example "package-name/docs/getting-started.mdx"
+ * @example "/absolute/path/to/docs/getting-started.mdx"
  */
+// * @example "C:\\absolute\\path\\to\\docs\\getting-started.mdx"
+// TODO: Experiment on Windows/NTFS support? (eww just use WSL)
 type DocumentPath = string;
 
 /**
@@ -64,8 +66,9 @@ type RoutePathname = `/${string}`;
  *
  * @example "package-name/docs"
  * @example "/absolute/path/to/docs"
- * @example "C:\\absolute\\path\\to\\docs"
  */
+// * @example "C:\\absolute\\path\\to\\docs"
+// TODO: Experiment on Windows/NTFS support? (eww just use WSL)
 type DocumentRootPath = string;
 
 /**
@@ -108,6 +111,7 @@ async function resolveOptions(
       return generateRoutePathname(documentRoot, documentPath);
     });
 
+  // Log the destination directory if it wasn't explicitly provided.
   if (!original.dest) {
     const cwd = process.cwd();
     const relativeDest = dest.startsWith(cwd) ? path.relative(cwd, dest) : dest;
@@ -124,9 +128,25 @@ async function resolveOptions(
   };
 }
 
+/**
+ * Builds a mapping of route paths to generated HTML files from the given
+ * documents and page template.
+ *
+ * @remarks
+ *
+ * This class helps with static site generation by converting document
+ * paths into route paths and generating HTML files using a page template.
+ *
+ * It is intended for use with either `bundleRoutes()` to bundle the routes,
+ *  or `Bun.serve()` to serve bundled routes via
+ * [Bun's built-in static server](https://bun.sh/docs/bundler/html).
+ *
+ * @beta This API is experimental and may change.
+ */
 export class DocumentRouteBuilder {
   #originalOptions: DocumentRouteBuilder.Options;
   #resolvedOptions: DocumentRouteBuilder.Options.Resolved | undefined;
+  #requestSubscription: Subscription;
 
   async #getResolvedOptions(): Promise<DocumentRouteBuilder.Options.Resolved> {
     if (!this.#resolvedOptions) {
@@ -140,7 +160,11 @@ export class DocumentRouteBuilder {
     this.#originalOptions = options;
 
     // By default, listen to the default plugin
-    this.listenTo(glazierPlugin);
+    this.#requestSubscription = glazierPlugin.onRequest(this.#handleRequest);
+  }
+
+  destroy(): void {
+    this.#requestSubscription.unsubscribe();
   }
 
   #routes: Promise<Routes> | undefined;
@@ -215,13 +239,14 @@ export class DocumentRouteBuilder {
 
     routePathState.associate(request, resolveRoutePath);
   };
-
-  listenTo(plugin: GlazierPlugin): void {
-    plugin.onRequest(this.#handleRequest);
-  }
 }
 
 export namespace DocumentRouteBuilder {
+  /**
+   * Options for configuring the `DocumentRouteBuilder`.
+   *
+   * @public
+   */
   export type Options = {
     /**
      * Whether to enable development mode.
@@ -236,11 +261,29 @@ export namespace DocumentRouteBuilder {
     // development?: boolean;
     /**
      * The destination path for the generated routes.
+     *
+     * @remarks
+     *
      * This is the path where the generated HTML files will be saved.
      * If not provided, a temporary directory will be used.
+     *
+     * @defaultValue `.knyt/glazier`
      */
     // TODO: Remove this option whenever HTML bundles can stored in memory as virtual modules.
     dest?: string;
+    /**
+     * The root file path for the documents used to generate route paths.
+     *
+     * @remarks
+     *
+     * If not provided, the root path will be inferred from the common
+     * path shared by all documents.
+     *
+     * @example "package-name/docs"
+     * @example "/absolute/path/to/docs"
+     * @example "C:\\absolute\\path\\to\\docs"
+     */
+    documentRoot?: DocumentRootPath;
     /**
      * An array of either module paths or absolute file paths to documents
      * to be converted into routes.
@@ -250,23 +293,15 @@ export namespace DocumentRouteBuilder {
      * These can be either complete module paths or absolute file paths.
      * Both are resolved and imported by Bun.
      *
-     * @example "package-name/docs/getting-started.md"
-     * @example "/absolute/path/to/docs/getting-started.md"
+     * @example ["package-name/docs/getting-started.mdx"]
+     * @example ["/absolute/path/to/docs/getting-started.mdx"]
      */
     documents: DocumentPath[];
     /**
      * The page template to use for generating the routes.
-     * This can be a function or a promise for an HTML import.
+     * This can either be a function or a promise for an HTML import.
      */
     pageTemplate: PageTemplate;
-    /**
-     * The root path for the documents.
-     *
-     * @example "package-name/docs"
-     * @example "/absolute/path/to/docs"
-     * @example "C:\\absolute\\path\\to\\docs"
-     */
-    documentRoot?: DocumentRootPath;
     /**
      * A function that takes a document path and returns a route pathname.
      */
@@ -280,6 +315,9 @@ export namespace DocumentRouteBuilder {
   };
 
   export namespace Options {
+    /**
+     * @internal scope: package
+     */
     export type Resolved = Required<Options>;
   }
 }
@@ -422,6 +460,9 @@ async function generateRoutes(
   return output;
 }
 
+// TODO: Remove this function if not needed.
+// I really don't want to spend any time supporting native Windows.
+// Just use WSL if you need/like to work on Windows (like I do 😉).
 function winToPosixPath(value: string): string {
   if (!value.includes("\\")) {
     return value;

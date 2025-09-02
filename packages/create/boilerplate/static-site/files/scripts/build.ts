@@ -1,5 +1,5 @@
-import { buildRoutes } from "@knyt/glazier";
+import { bundleRoutes } from "@knyt/glazier";
 
 import routes from "../routes";
 
-await buildRoutes(routes);
+await bundleRoutes(routes);
