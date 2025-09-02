@@ -93,12 +93,12 @@ This package contains all client-side features of [Knyt](https://knyt.dev/). <br
 
 [Knyt Clerk]: https://knyt.dev/pkg/clerk
 
-#### Scaffolding CLI tool (🎬 _[Knyt Gaffer][]_)
+#### Scaffolding CLI tool (🐣 _[Knyt Create][]_)
 
 - **Scaffold Knyt projects**: Quickly set up new Knyt projects with a single command
 - Get started by running `npm create knyt` in your terminal
 
-[Knyt Gaffer]: https://knyt.dev/pkg/gaffer
+[Knyt Create]: https://knyt.dev/pkg/create
 
 ## Documentation
 

@@ -98,12 +98,12 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 [Knyt Clerk]: https://knyt.dev/pkg/clerk
 
-#### Scaffolding CLI tool (🎬 _[Knyt Gaffer][]_)
+#### Scaffolding CLI tool (🐣 _[Knyt Create][]_)
 
 - **Scaffold Knyt projects**: Quickly set up new Knyt projects with a single command
 - Get started by running `npm create knyt` in your terminal
 
-[Knyt Gaffer]: https://knyt.dev/pkg/gaffer
+[Knyt Create]: https://knyt.dev/pkg/create
 
 ## Usage
 
@@ -155,7 +155,7 @@ By leveraging Bun's static site generation, you can use the `<knyt-include>` tag
 | --- | ------------ | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | 🖌️  | Knyt Artisan | Reactive foundation  | [![npm](https://img.shields.io/npm/v/@knyt/artisan?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/artisan) |
 | 🗃️  | Knyt Clerk   | Observable store     | [![npm](https://img.shields.io/npm/v/@knyt/clerk?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/clerk)     |
-| 🎬  | Knyt Gaffer  | App scaffolding      | [![npm](https://img.shields.io/npm/v/create-knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/create-knyt)     |
+| 🐣  | Knyt Create  | App scaffolding      | [![npm](https://img.shields.io/npm/v/create-knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/create-knyt)     |
 | 🧊  | Knyt Glazier | SSR & SSG            | [![npm](https://img.shields.io/npm/v/@knyt/glazier?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/glazier) |
 | 🎻  | Knyt Luthier | Web components       | [![npm](https://img.shields.io/npm/v/@knyt/luthier?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/luthier) |
 | 👔  | Knyt Tailor  | CSS-in-JS            | [![npm](https://img.shields.io/npm/v/@knyt/tailor?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/tailor)   |

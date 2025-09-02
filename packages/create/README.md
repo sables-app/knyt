@@ -2,7 +2,7 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/guide/quick-start/)
 
-🎬 A CLI tool for scaffolding Knyt projects.
+🐣 A CLI tool for scaffolding Knyt projects.
 
 <small>
 

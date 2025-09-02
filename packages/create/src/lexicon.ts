@@ -39,7 +39,7 @@ const Lexicon = {
     "Essential MDX dependencies will be added and configured.",
   "scaffold.intro": ({ relativeTargetDir }) =>
     `Scaffolding project in "${relativeTargetDir}"...`,
-  "scaffold.outro": () => "You're all set!",
+  "scaffold.outro": () => "🐣 You're all set!",
   "label.single_page": () => "Single Page Application",
   "hint.single_page": () =>
     "A single page application with client-side rendering",
