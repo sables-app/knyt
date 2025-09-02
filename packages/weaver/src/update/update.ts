@@ -113,6 +113,10 @@ export function removeAllChildren(parent: UpdatableParentNode): void {
  * longer lists of children to be appended without blocking the main thread.
  */
 // TODO: Dynamically adjust the default chunk size based on the environment
+// TODO: Pick a sane default. This is currently intentionally set to a high value
+// to avoid hitting the threshold during testing.
+// TODO: Use `requestIdleCallback` if available with a timeout fallback to pause
+// between chunks.
 const DEFAULT_CHUNK_SIZE = 50_000;
 
 async function buildAndAppendAllChildren(
@@ -123,10 +127,12 @@ async function buildAndAppendAllChildren(
   const $document = options.document ?? parent.ownerDocument;
   const optionsWithDocument = { ...options, document: $document };
   const logger = options.logger ?? {};
+  // TODO: Remove in production
   const timeId = `build-and-append-all-children-${Math.random()
     .toString(16)
     .slice(2)}`;
 
+  // TODO: Remove in production
   logger.time?.(timeId);
 
   const appendChunkSize = options.appendChunkSize ?? DEFAULT_CHUNK_SIZE;
@@ -148,6 +154,7 @@ async function buildAndAppendAllChildren(
     }
   }
 
+  // TODO: Remove in production
   logger.timeEnd?.(timeId);
 }
 
