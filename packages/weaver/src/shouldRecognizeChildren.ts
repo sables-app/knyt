@@ -13,11 +13,23 @@ export function shouldRecognizeChildren(
   const hasChildren = children.length > 0;
 
   if (isElementOpaque) {
+    // TODO: Remove this in production
     if (hasChildren) {
-      console.warn(
-        'A declaration should not have children when its `renderMode` is `"opaque"`.',
-      );
-      console.trace();
+      // TODO: Enable this warning again when we have a better solution for it.
+      //
+      // This warning is disabled when running in Bun for now, because a false
+      // positive is created in Glazier when a Knyt module is included
+      // (using `<knyt-include>`) and Glazier automatically adds a `<knyt-slot>`
+      // element as a child.
+      //
+      // The warning is meant to inform users that having children in an opaque
+      // declaration is likely a mistake, because the children will be ignored.
+      if (typeof Bun === "undefined") {
+        console.warn(
+          'A declaration should not have children when its `renderMode` is `"opaque"`.',
+        );
+        console.trace();
+      }
     }
 
     // If the declaration is opaque, then the children of the associated element
