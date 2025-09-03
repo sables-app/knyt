@@ -217,6 +217,12 @@ export namespace PropertiesDefinition {
 }
 
 /**
+ * @internal scope: workspace
+ */
+export type HTMLElementConstructor<E extends HTMLElement = HTMLElement> =
+  new () => E;
+
+/**
  * A definition for a custom element.
  *
  * @public
@@ -235,19 +241,33 @@ export type ElementDefinition<
 
 export namespace ElementDefinition {
   /**
-   * @alpha
+   * @internal scope: workspace
+   *
    * @returns A builder for declaring the HTML element using properties.
    */
   export type Fn<P extends AnyProps> = () => ElementBuilder.DOM<P>;
 
   /**
-   * @alpha
+   * Static properties of an element definition for a `KnytElement`.
+   *
+   * @internal scope: workspace
    */
   export type Static<
     TConstructor extends KnytElement.Constructor.Unknown,
     TTagName extends string,
     TAttributes extends
       AttributeDictionary = KnytElement.ToAttributes<TConstructor>,
+  > = BaseStatic<TConstructor, TTagName, TAttributes>;
+
+  /**
+   * Static properties of an element definition.
+   *
+   * @internal scope: module
+   */
+  export type BaseStatic<
+    TConstructor extends HTMLElementConstructor,
+    TTagName extends string,
+    TAttributes extends AttributeDictionary = AttributeDictionary,
   > = {
     /**
      * @returns A builder for declaring the HTML element using attributes.
@@ -299,6 +319,18 @@ export namespace ElementDefinition {
     T extends ElementDefinition<infer TConstructor, any, any, any>
       ? TConstructor
       : never;
+
+  /**
+   * A definition for an element that is not a `KnytElement`.
+   *
+   * @public
+   */
+  export type Arbitrary<
+    T extends HTMLElementConstructor,
+    U extends string,
+    P extends AnyProps = InstanceType<T>,
+    A extends AttributeDictionary = AttributeDictionary,
+  > = ElementDefinition.Fn<P> & ElementDefinition.BaseStatic<T, U, A>;
 }
 
 /**

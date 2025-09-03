@@ -1,7 +1,15 @@
-import type { AnyProps, HTMLElementTagName } from "@knyt/weaver";
+import type {
+  AnyProps,
+  AttributeDictionary,
+  HTMLElementTagName,
+} from "@knyt/weaver";
 
 import type { KnytElement } from "../KnytElement";
-import type { ElementDefinition, PropertiesDefinition } from "../types";
+import type {
+  ElementDefinition,
+  HTMLElementConstructor,
+  PropertiesDefinition,
+} from "../types";
 import {
   defineElementDefinition,
   type DefineElementDefinitionOptions,
@@ -71,6 +79,29 @@ export function defineElement<
   options?: DefineElementDefinitionOptions,
 ): ElementDefinition<T, U, P, A>;
 
+/**
+ * Defines a custom element with the given tagname and constructor.
+ *
+ * This overload is for non-KnytElement constructors (arbitrary elements).
+ *
+ * @param tagName The name of the custom element.
+ * @param ElementConstructor The constructor of the custom element.
+ * @param options Additional options for defining the element.
+ * @returns A element definition for the custom element.
+ *
+ * @public
+ */
+export function defineElement<
+  T extends HTMLElementConstructor,
+  U extends HTMLElementTagName.Input,
+  P extends AnyProps = InstanceType<T>,
+  A extends AnyProps = AttributeDictionary,
+>(
+  tagName: U,
+  ElementConstructor: T,
+  options?: DefineElementDefinitionOptions,
+): ElementDefinition.Arbitrary<T, U, P, A>;
+
 /*
  * ### Private Remarks
  *
@@ -92,7 +123,7 @@ export function defineElement(
     return defineKnytElement(arg0);
   }
   if (!arg1) {
-    throw new Error("Element constructor is required");
+    throw new Error("Element constructor or options must be provided.");
   }
   if ("lifecycle" in arg1) {
     return defineKnytElement({ ...arg1, tagName: arg0 });

@@ -84,6 +84,24 @@ describe("define", () => {
         `<knyt-bystander><template shadowrootmode="closed"><h1>Hello, stranger!</h1></template></knyt-bystander>`,
       );
     });
+
+    it("create definitions for arbitrary elements", async () => {
+      class MyComponentElement extends HTMLElement {
+        myProp = "foo";
+      }
+
+      const tagName = "knyt-arbitrary-my-element";
+      const MyComponent = define.element(tagName, MyComponentElement);
+      const elementA = document.createElement(MyComponent.tagName);
+      const elementB = await build(MyComponent().myProp("bar"));
+
+      expect(MyComponent).toHaveProperty("tagName", tagName);
+      expect(MyComponent).toHaveProperty("Element", MyComponentElement);
+      expect(elementA).toBeInstanceOf(MyComponentElement);
+      expect((elementA as MyComponentElement).myProp).toBe("foo");
+      expect(elementB).toBeInstanceOf(MyComponentElement);
+      expect(elementB.myProp).toBe("bar");
+    });
   });
 
   describe("define.component", () => {

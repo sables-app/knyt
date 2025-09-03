@@ -3,12 +3,13 @@ import {
   createHTMLBuilder,
   RenderMode,
   type AnyProps,
+  type AttributeDictionary,
   type ElementBuilder,
   type HTMLElementTagName,
 } from "@knyt/weaver";
 
 import type { KnytElement } from "../KnytElement";
-import type { ElementDefinition } from "../types";
+import type { ElementDefinition, HTMLElementConstructor } from "../types";
 
 // Banned globals
 declare const customElements: never;
@@ -36,7 +37,7 @@ export type DefineElementDefinitionOptions = {
 };
 
 /**
- * Defines a new custom element with the given name and constructor.
+ * Defines a new KnytElement with the given name and constructor.
  *
  * @param tagName The name of the custom element.
  * @param ElementConstructor The constructor of the custom element.
@@ -53,8 +54,44 @@ export function defineElementDefinition<
 >(
   tagName: U,
   ElementConstructor: T,
+  options?: DefineElementDefinitionOptions,
+): ElementDefinition<T, U, P, A>;
+
+/**
+ * Defines a new arbitrary custom element with the given name and constructor.
+ *
+ * @param tagName The name of the custom element.
+ * @param ElementConstructor The constructor of the custom element.
+ * @returns A set of builders for rendering the custom element.
+ *
+ * @internal scope: package
+ */
+export function defineElementDefinition<
+  T extends HTMLElementConstructor,
+  // TODO: Should this just be `string` instead?
+  U extends HTMLElementTagName.Input,
+  P extends AnyProps = InstanceType<T>,
+  A extends AnyProps = AttributeDictionary,
+>(
+  tagName: U,
+  ElementConstructor: T,
+  options?: DefineElementDefinitionOptions,
+): ElementDefinition.Arbitrary<T, U, P, A>;
+
+export function defineElementDefinition<
+  T extends HTMLElementConstructor,
+  // TODO: Should this just be `string` instead?
+  U extends HTMLElementTagName.Input,
+  P extends AnyProps = InstanceType<T>,
+  A extends AnyProps = AttributeDictionary,
+>(
+  tagName: U,
+  ElementConstructor: T,
   options: DefineElementDefinitionOptions = {},
-): ElementDefinition<T, U, P, A> {
+  // `any` is used here to ignore unhelpful TypeScript errors
+  // resulting from function overloads.
+  // This function is well covered by tests to offset this.
+): any {
   // TODO: Extract this to an environment utility package
   const $customElements = options.customElements ?? globalThis.customElements;
 
