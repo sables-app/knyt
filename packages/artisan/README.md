@@ -23,10 +23,10 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 - Framework-independent foundation
 - Prevents memory leaks by design
-- Efficient update scheduling
-- Works seamlessly with TypeScript
+- Efficient microtask-based update scheduling
+- Comprehensive and reliable TypeScript support
 
-## Key features
+## Key Features
 
 #### Core Reactivity Features
 
@@ -34,7 +34,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Observable values** – Reactive references that can be subscribed to and updated
 - **Auto-updating derived values** - Computed properties that stay synchronized with their sources
 - **Optimized change handling** - Batches updates efficiently using microtasks
-- **RxJS interoperability** – Seamlessly integrates with RxJS and similar observable libraries
+- **RxJS interoperability** – Smoothly integrates with RxJS and similar observable libraries
 
 #### Supporting Features
 

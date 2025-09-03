@@ -15,34 +15,34 @@ export function translate(
   return Lexicon[key](values);
 }
 
+// prettier-ignore
 const Lexicon = {
-  "placeholder.target_dir": () => DEFAULT_TARGET_PATH,
+  "placeholder.target_dir":    () => DEFAULT_TARGET_PATH,
   "label.project_kind_select": () => "Pick a kind of project",
-  "label.target_dir": () => "Target directory",
-  operation_cancelled: () => "Operation cancelled",
-  "invalid.project_kind": ({ projectKind }) =>
-    `Invalid kind: ${projectKind}. Available kinds: ${availableProjectKinds.join(", ")}`,
-  "invalid.target_dir": () => "Target directory must be a non-empty string.",
-  "invalid.target_dir_exists": ({ targetDir }) =>
-    `Target directory ${targetDir} already exists. Use --${FlagOptionName.Force} to force creation.`,
-  "label.fullstack": () => "Fullstack Application",
-  "hint.fullstack": () => "A fullstack application with server-side rendering",
-  "label.static_site": () => "Static Site",
-  "hint.static_site": () => "A static site generated at build time",
-  "label.components": () => "Component Library",
-  "hint.components": () =>
-    "A component library for building reusable UI components",
-  "label.mdx": () => "Add MDX support?",
-  "mdx.yes.label": () => "Yes",
-  "mdx.no.label": () => "No",
-  "mdx.yes.hint": () =>
-    "Essential MDX dependencies will be added and configured.",
-  "scaffold.intro": ({ relativeTargetDir }) =>
-    `Scaffolding project in "${relativeTargetDir}"...`,
-  "scaffold.outro": () => "🐣 You're all set!",
-  "label.single_page": () => "Single Page Application",
-  "hint.single_page": () =>
-    "A single page application with client-side rendering",
+  "label.target_dir":          () => "Target directory",
+  
+  "operation_cancelled":       () => "Operation cancelled",
+
+  "invalid.project_kind":      ({ projectKind }) => `Invalid kind: ${projectKind}. Available kinds: ${availableProjectKinds.join(", ")}`,
+  "invalid.target_dir":        () => "Target directory must be a non-empty string.",
+  "invalid.target_dir_exists": ({ targetDir }) => `Target directory ${targetDir} already exists. Use --${FlagOptionName.Force} to force creation.`,
+
+  "label.fullstack":           () => "Fullstack Application",
+  "hint.fullstack":            () => "A fullstack application with server-side rendering",
+  "label.static_site":         () => "Static Site",
+  "hint.static_site":          () => "A static site generated at build time",
+  "label.single_page":         () => "Single Page Application",
+  "hint.single_page":          () => "A single page application with client-side rendering",
+  "label.components":          () => "Component Library",
+  "hint.components":           () => "A component library for building reusable UI components",
+
+  "label.mdx":                 () => "Add MDX support?",
+  "mdx.yes.hint":              () => "Essential MDX dependencies will be added and configured.",
+  "mdx.yes.label":             () => "Yes",
+  "mdx.no.label":              () => "No",
+
+  "scaffold.intro":            ({ relativeTargetDir }) => `Scaffolding project in "${relativeTargetDir}"...`,
+  "scaffold.outro":            () => "🐣 You're all set!",
 } as const satisfies Record<string, (values: Lexicon.Values) => string>;
 
 namespace Lexicon {

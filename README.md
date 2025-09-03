@@ -29,15 +29,15 @@ Documentation is available at [knyt.dev](https://knyt.dev).
 - **Server-side rendering and hydration** for modern, performant web apps
 - **Easy project scaffolding** with a CLI tool for rapid setup
 
-## Try Knyt in CodeSandbox
+## Try Knyt in JSFiddle
 
-You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. This pre-configured devbox can be used to explore Knyt's features and capabilities without needing to set up a local environment.
+You can quickly try Knyt in JSFiddle, which provides an editor to quickly experiment with Knyt's client-side features. This is a great way to quickly test out Knyt's capabilities without needing to set up a full project.
 
-[![Edit in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://knyt.dev/try/codesandbox)
+[![Edit in JSFiddle](./packages/toolkit/docs/edit-in-jsfiddle.svg)](https://knyt.dev/try/jsfiddle)
 
-## Toolkit features
+## The Full-Stack Toolkit Built on Web Standards
 
-#### Native Web Components (🎻 _[Knyt Luthier][]_)
+### 🎻 Native Web Components, Standardized
 
 - **Type-Safe Custom Elements**: Strongly-typed element/property definition with full TypeScript support
 - **Web Standards Compliant**: Built on Custom Elements, Shadow DOM, and declarative patterns
@@ -46,43 +46,45 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 [Knyt Luthier]: https://knyt.dev/s/luthier
 
-#### Server-side capabilities (🧊 _[Knyt Glazier][]_)
+### 🧊 Server-Rendered. Static-Generated. Fully Hydrated.
 
+- **Your rendering, your rules** – Mix SSG, SSR, and hydration with ease
 - **Smart HTML includes**: Embed HTML, MDX, Web Components, and Views into your pages
 - **Dependency management**: Automatic dependency resolution, bundling, injection, and hydration
 - [and more...][Knyt Glazier]
 
 [Knyt Glazier]: https://knyt.dev/s/glazier
 
-#### Declarative DOM renderer (🧵 _[Knyt Weaver][]_)
+### 🧵 Where Declarative UI Meets Native DOM
 
 - **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements and markup
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
 - **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
-- **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
+- **Native alignment**: 1:1 mapping to DOM properties—no abstractions, just browser standards
 - [and more...][Knyt Weaver]
 
 [Knyt Weaver]: https://knyt.dev/s/weaver
 
-#### Reactive essentials (🖌️ _[Knyt Artisan][]_)
+### 🖌️ Powerful Reactivity Without the Leaks
 
-- **Memory-safe observation** - Prevents leaks by automatically cleaning up unused subscriptions
-- **RxJS interoperability** – Seamlessly integrates with RxJS and similar observable libraries
+- **Reactive Primitives**: Observables, computed values, and effects for building reactive applications
+- **Memory-safe observation** - Prevents leaks by ensuring unused subscriptions are garbage collected
+- **RxJS interoperability** – Smoothly integrates with RxJS and similar observable libraries
 - [and more...][Knyt Artisan]
 
 [Knyt Artisan]: https://knyt.dev/s/artisan
 
-#### Type-safe, composable CSS-in-JS (👔 _[Knyt Tailor][]_)
+### 👔 Type-Safe Styles, Built on Web Standards
 
+- **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Effortless integration with [Constructable Stylesheets][] for SSR and shadow DOM
 - **Type-Safe CSS-in-JS Utilities**: Strong TypeScript support for CSS objects, selectors, and rule names.
-- **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Seamless integration with [Constructable Stylesheets][] for SSR and shadow DOM
 - [and more...][Knyt Tailor]
 
 [Knyt Tailor]: https://knyt.dev/s/tailor
 [adoptedStyleSheets]: https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/adoptedStyleSheets
 [Constructable Stylesheets]: https://web.dev/articles/constructable-stylesheets
 
-#### Web component controllers (🗺️ _[Knyt Tasker][]_)
+### 🔌 Reusable Logic for Web Components
 
 - **Lit-Compatible Controllers**: `ReactiveController` system with lifecycle integration
 - **Reactive State**: Hydratable state with computed/mapped values & effects
@@ -90,7 +92,7 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 [Knyt Tasker]: https://knyt.dev/s/tasker
 
-#### Lightweight, observable state management (🗃️ _[Knyt Clerk][]_)
+### 🗃️ Lightweight, observable state management
 
 - **Observability**: Stores are both observables and observers, supporting reactive state management for full state, selections, and dispatched actions.
 - **Batteries-included**: Provides built-in utilities for reducers, action creators, selectors, and debug logging.
@@ -98,10 +100,10 @@ You can quickly try the entire Knyt toolkit in your browser using CodeSandbox. T
 
 [Knyt Clerk]: https://knyt.dev/s/clerk
 
-#### Scaffolding CLI tool (🐣 _[Knyt Create][]_)
+### 🐣 Get Started in Seconds, Not Minutes
 
 - **Scaffold Knyt projects**: Quickly set up new Knyt projects with a single command
-- Get started by running `npm create knyt` in your terminal
+- **Get Started Now**: Run `npm create knyt` in your terminal and start building immediately.
 
 [Knyt Create]: https://knyt.dev/s/create
 
@@ -147,7 +149,7 @@ Alternatively, you can use [Knyt Glazier](https://knyt.dev/s/glazier) to render 
 </html>
 ```
 
-By leveraging Bun's static site generation, you can use the `<knyt-include>` tag to embed your custom element in the page. This tag is part of Knyt's composition system, enabling seamless inclusion and hydration of web components.
+By leveraging Bun's static site generation, you can use the `<knyt-include>` tag to embed your custom element in the page. This tag is part of Knyt's composition system, enabling easy inclusion and hydration of web components.
 
 ## Packages
 
@@ -159,7 +161,7 @@ By leveraging Bun's static site generation, you can use the `<knyt-include>` tag
 | 🧊  | Knyt Glazier | SSR & SSG            | [![npm](https://img.shields.io/npm/v/@knyt/glazier?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/glazier) |
 | 🎻  | Knyt Luthier | Web components       | [![npm](https://img.shields.io/npm/v/@knyt/luthier?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/luthier) |
 | 👔  | Knyt Tailor  | CSS-in-JS            | [![npm](https://img.shields.io/npm/v/@knyt/tailor?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/tailor)   |
-| 🗺️  | Knyt Tasker  | Reactive controllers | [![npm](https://img.shields.io/npm/v/@knyt/tasker?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/tasker)   |
+| 🔌  | Knyt Tasker  | Reactive controllers | [![npm](https://img.shields.io/npm/v/@knyt/tasker?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/tasker)   |
 | 🌃  | Knyt Toolkit | Client-side features | [![npm](https://img.shields.io/npm/v/knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/knyt)                   |
 | 🧵  | Knyt Weaver  | DOM renderer         | [![npm](https://img.shields.io/npm/v/@knyt/weaver?style=flat-square&labelColor=444)](https://www.npmjs.com/package/@knyt/weaver)   |
 

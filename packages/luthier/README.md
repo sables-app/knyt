@@ -19,7 +19,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
-## Key features
+## Key Features
 
 - **Type-Safe Custom Elements**: Strongly-typed element/property definition with full TypeScript support
 - **Reactive Properties**: Observable properties with attribute sync and change events

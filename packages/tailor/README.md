@@ -19,10 +19,10 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
-## Key features
+## Key Features
 
 - **Type-Safe CSS-in-JS Utilities**: Strong TypeScript support for CSS objects, selectors, and rule names
-- **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Seamless integration with [Constructable Stylesheets][] for SSR and shadow DOM
+- **[`adoptedStyleSheets`][adoptedStyleSheets] Support**: Effortless integration with [Constructable Stylesheets][] for SSR and shadow DOM
 - **SSR & Document Scoping**: Works with custom documents (server-side rendering & shadow DOM)
 - **Scoped & Extensible StyleSheets**: Supports composition, mixins, and programmatic class/rule management
 - **Efficient Style Management**: Integrates with [Knyt Luthier](https://knyt.dev/s/luthier) to optimize style sheet reuse

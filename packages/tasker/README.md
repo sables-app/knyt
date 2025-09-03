@@ -2,7 +2,7 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/tasker)
 
-🗺️ A collection of [Lit](https://lit.dev/)-compatible reactive controllers designed for [Knyt](https://knyt.dev/).
+🔌 A collection of [Lit](https://lit.dev/)-compatible reactive controllers designed for [Knyt](https://knyt.dev/).
 
 <small>
 
@@ -19,7 +19,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
-## Key features
+## Key Features
 
 - **Lit-Compatible Controllers**: `ReactiveController` system with lifecycle integration
 - **Reactive State**: Hydratable state with computed/mapped values & effects

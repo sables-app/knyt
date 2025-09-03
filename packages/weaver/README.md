@@ -20,12 +20,12 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
-## Key features
+## Key Features
 
 - **Fluent & Declarative APIs**: Use intuitive `html`, `dom`, and `svg` builders to declare elements and markup
 - **Type-safe by design**: Comprehensive TypeScript support ensures strict types and intelligent autocompletion
 - **Concurrent rendering**: Renders asynchronously for smoother interactions and declarative async operations
-- **Native alignment**: 1:1 mapping to DOM APIs—no abstractions, just browser standards
+- **Native alignment**: 1:1 mapping to DOM properties—no abstractions, just browser standards
 - **Explicit contracts**: Props, children, and refs are strictly separated (no runtime ambiguity)
 - **SSR-ready**: Render declarations, elements, and components to static markup
   - Pair with [Knyt Luthier](https://knyt.dev/s/luthier) for rendering closed declarative shadow roots

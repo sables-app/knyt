@@ -23,9 +23,9 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 - **Write HTML, not templates** – Compose pages with standard HTML, no custom syntax
 - **Built for Bun’s ecosystem** – Leverages native tooling and module resolution
-- **Your rendering, your rules** – Mix SSG, SSR, and hydration seamlessly
-- **Web Components, zero config** – Auto-detects components, renders open/closed\* shadow roots, requiring no wrapper logic
-- **Pluggable content features** – MDX, frontmatter, and TOC integrate seamlessly\*\*
+- **Your rendering, your rules** – Mix SSG, SSR, and hydration with ease
+- **Web Components, zero config** – Auto-detects components, renders open/closed shadow roots, requiring no wrapper logic \*
+- **Extensible content support** – Built-in recognition for MDX, frontmatter, and table of contents \*\*
 - **Extend without friction** – Middleware and plugin system for custom logic
 
 <small>
@@ -35,7 +35,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </small>
 
-## Key features
+## Key Features
 
 #### HTML composition
 

@@ -19,12 +19,12 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </div>
 
-## Key features
+## Key Features
 
 - **Observability**: Stores are both observables and observers, supporting reactive state management for full state, selections, and dispatched actions.
 - **Batteries-included**: Provides built-in utilities for reducers, action creators, selectors, and debug logging.
 - **Extensibility**: Class-based but composition-friendly, supporting both inheritance and wrapper patterns for customization.
-- **Async**: Seamlessly handles dispatched async functions and exposes actions as an observable stream.
+- **Async-ready**: Native support for dispatched async functions (thunks) and exposes actions as an observable stream (`action$`).
 - **Familiar API**: Follows Flux Standard Action (FSA) for easy adoption by Flux/Redux developers.
 
 ## Documentation
