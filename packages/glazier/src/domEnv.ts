@@ -135,6 +135,8 @@ export async function registerGlobals(): Promise<void> {
 
   const { $document, $HTMLElement, $window } = globalPage;
 
+  // TODO: Consider adding `CSSStyleSheet` as well to
+  // support constructable stylesheets for third-party web components.
   const stubs: Record<StubPropertyName, any> = {
     document: $document,
     customElements: $window.customElements,

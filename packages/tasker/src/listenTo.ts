@@ -7,7 +7,7 @@ import type { ReactiveControllerHost } from "./ReactiveController";
 /**
  * Creates a manager of event listeners on a target element for a host.
  *
- * @alpha
+ * @beta
  */
 export function listenTo<E extends BasicEvent.Listenable>(
   host: ReactiveControllerHost,

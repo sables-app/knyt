@@ -418,6 +418,15 @@ export const html = createElementBuilderProxy(ElementBuilderMarkupHTMLSymbol);
  */
 export const svg = createElementBuilderProxy(ElementBuilderMarkupSVGSymbol);
 
+/**
+ * Creates an element builder for a DOM element that sets props as properties.
+ *
+ * The renderer will use the resulting element builder to create an element
+ * with the given tag name, and the given props will be set as properties.
+ *
+ * @internal scope: workspace
+ */
+// TODO: Rename for clarity?
 export function createDOMBuilder<K extends HTMLElementTagName>(
   tagName: K,
 ): ElementBuilder.DOM<HTMLElementTagNameMap[K]>;
@@ -426,15 +435,6 @@ export function createDOMBuilder<P extends AnyProps = AnyProps>(
   tagName: string,
 ): ElementBuilder.DOM<P>;
 
-/**
- * Creates an element builder for a DOM element that sets props as properties.
- *
- * The renderer will use the resulting element builder to create an element
- * with the given tag name, and the given props will be set as properties.
- *
- * @alpha The API is not yet stable and will change in the future.
- */
-// TODO: Rename for clarity?
 export function createDOMBuilder<P extends AnyProps = AnyProps>(
   tagName: HTMLElementTagName.Input,
 ): ElementBuilder.DOM<P> {
@@ -449,7 +449,7 @@ export function createDOMBuilder<P extends AnyProps = AnyProps>(
  * The renderer will use the resulting element builder to create an element
  * with the given tag name, and the given props will be set as attributes.
  *
- * @alpha The API is not yet stable and will change in the future.
+ * @internal scope: workspace
  */
 // TODO: Rename for clarity?
 export function createMarkupBuilder<P extends AnyProps = AnyProps>(
@@ -469,7 +469,7 @@ export function createMarkupBuilder<P extends AnyProps = AnyProps>(
  * Specifically, this function is used to create an element builder for HTML elements,
  * where `HTMLGlobalAttributes` are included in the props.
  *
- * @alpha The API is not yet stable and will change in the future.
+ * @internal scope: workspace
  */
 export function createHTMLBuilder<
   A extends AttributeDictionary = AttributeDictionary,
@@ -480,7 +480,7 @@ export function createHTMLBuilder<
 /**
  * Creates an element builder for an unknown HTML element.
  *
- * @alpha The API is not yet stable and will change in the future.
+ * @internal scope: workspace
  */
 // TODO: Rename for conciseness
 export function createCustomElementBuilder<P extends AnyProps>(
@@ -488,3 +488,4 @@ export function createCustomElementBuilder<P extends AnyProps>(
 ): ElementBuilder.DOM<P> {
   return createDOMBuilder<P>(unknownTagName as any);
 }
+
