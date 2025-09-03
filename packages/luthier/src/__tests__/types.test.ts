@@ -442,5 +442,19 @@ describe("types", () => {
         expect<keyof Expected>("" as keyof Result);
       });
     });
+
+    it("infer props from an arbitrary element definition", () => {
+      const tagName = "knyt-arbitrary-my-element";
+      class MyComponentElement extends HTMLElement {
+        myProp = "foo";
+      }
+      const MyComponent = define.element(tagName, MyComponentElement);
+      type Props = InferProps<typeof MyComponent>;
+
+      // Should allow `myProp` to be a string
+      expect<Props>({ myProp: "baz" });
+      // @ts-expect-error `myProp` should be a string
+      expect<Props>({ myProp: 100 });
+    });
   });
 });

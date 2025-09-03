@@ -331,6 +331,12 @@ export namespace ElementDefinition {
     P extends AnyProps = InstanceType<T>,
     A extends AttributeDictionary = AttributeDictionary,
   > = ElementDefinition.Fn<P> & ElementDefinition.BaseStatic<T, U, A>;
+
+  export namespace Arbitrary {
+    /** @internal scope: workspace */
+    export type ToProps<T extends Arbitrary<any, any, any, any>> =
+      T extends Arbitrary<any, any, infer P, any> ? P : never;
+  }
 }
 
 /**
@@ -338,6 +344,7 @@ export namespace ElementDefinition {
  *
  * - `PropertiesDefinition`
  * - `ElementDefinition`
+ * - `ElementDefinition.Arbitrary`
  * - `KnytElement` constructor
  * - `View`
  *
@@ -364,11 +371,13 @@ export type InferProps<T> =
   // other types.
   T extends View<infer P> ? P :
   T extends KnytElement.Constructor.Unknown ? InferProps.ElementConstructor<T> :
-  T extends ElementDefinition<any,any,any,any> ? InferProps.ElementConstructor<ElementDefinition.ToConstructor<T>> :
+  T extends ElementDefinition<KnytElement.Constructor.Unknown,any,any,any> ? InferProps.ElementConstructor<ElementDefinition.ToConstructor<T>> :
+  T extends ElementDefinition.Arbitrary<any,any,any,any> ? InferProps.ElementConstructor.Arbitrary<T> :
   T extends PropertiesDefinition<any> ? Partial<PropertiesDefinition.ToProps<T>> :
   never;
 
 export namespace InferProps {
+  /** @internal scope: workspace */
   export type ElementConstructor<T extends KnytElement.Constructor.Unknown> =
     Partial<
       PropertiesDefinition.ToProps<
@@ -376,7 +385,17 @@ export namespace InferProps {
       >
     >;
 
+  export namespace ElementConstructor {
+    /** @internal scope: workspace */
+    export type Arbitrary<
+      T extends ElementDefinition.Arbitrary<any, any, any, any>,
+    > = Partial<ElementDefinition.Arbitrary.ToProps<T>>;
+  }
+
+  /** @internal scope: workspace */
   export type HTML<T> = InferElementProps.HTML<T>;
+  /** @internal scope: workspace */
   export type SVG<T> = InferElementProps.SVG<T>;
+  /** @internal scope: workspace */
   export type DOM<T> = InferElementProps.DOM<T>;
 }
