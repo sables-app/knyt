@@ -44,6 +44,8 @@ You can quickly try Knyt in JSFiddle, which provides an editor to quickly experi
 
 ## The Full-Stack Toolkit Built on Web Standards
 
+Leverage the native Web Component model for a future-proof foundation, without framework lock-in.
+
 ### 🎻 Native Web Components, Standardized
 
 - **Type-Safe Custom Elements**: Strongly-typed element/property definition with full TypeScript support
