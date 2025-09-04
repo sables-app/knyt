@@ -236,7 +236,7 @@ describe("KnytElement", () => {
         callOrder = [];
       });
 
-      const Car = define.element("test-car", {
+      const Car = define.element(`knyt-${crypto.randomUUID()}`, {
         properties: {
           color: define.prop.str,
           speed: define.prop.num,

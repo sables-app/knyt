@@ -54,18 +54,17 @@ describe("define", () => {
     });
 
     it("accepts an overload with a tag name and a constructor", () => {
+      const tagName = `knyt-${crypto.randomUUID()}`;
       const elementConstructor = class extends KnytElement {};
-      const elementDefinition = define.element(
-        "knyt-villain",
-        elementConstructor,
-      );
+      const elementDefinition = define.element(tagName, elementConstructor);
 
-      expect(elementDefinition).toHaveProperty("tagName", "knyt-villain");
+      expect(elementDefinition).toHaveProperty("tagName", tagName);
       expect(elementDefinition).toHaveProperty("Element", elementConstructor);
     });
 
     it("accepts an overload with a tag name and an options object", async () => {
-      const elementDefinition = define.element("knyt-bystander", {
+      const tagName = `knyt-${crypto.randomUUID()}`;
+      const elementDefinition = define.element(tagName, {
         options: {
           shadowRoot: { mode: "closed" },
         },
@@ -77,26 +76,26 @@ describe("define", () => {
         },
       });
 
-      expect(elementDefinition).toHaveProperty("tagName", "knyt-bystander");
+      expect(elementDefinition).toHaveProperty("tagName", tagName);
       expect(elementDefinition).toHaveProperty("Element");
 
       expect(await render(elementDefinition().name("stranger"))).toEqual(
-        `<knyt-bystander><template shadowrootmode="closed"><h1>Hello, stranger!</h1></template></knyt-bystander>`,
+        `<${tagName}><template shadowrootmode="closed"><h1>Hello, stranger!</h1></template></${tagName}>`,
       );
     });
 
     it("create definitions for arbitrary elements", async () => {
+      const tagName = `knyt-${crypto.randomUUID()}`;
       class MyComponentElement extends HTMLElement {
         myProp = "foo";
       }
 
-      const tagName = "knyt-arbitrary-my-element";
       const MyComponent = define.element(tagName, MyComponentElement);
       const elementA = document.createElement(MyComponent.tagName);
       const elementB = await build(MyComponent().myProp("bar"));
 
       expect(MyComponent).toHaveProperty("tagName", tagName);
-      expect(MyComponent).toHaveProperty("Element", MyComponentElement);
+      expect(MyComponent.Element).toBe(MyComponentElement);
       expect(elementA).toBeInstanceOf(MyComponentElement);
       expect((elementA as MyComponentElement).myProp).toBe("foo");
       expect(elementB).toBeInstanceOf(MyComponentElement);

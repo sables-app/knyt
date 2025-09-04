@@ -210,9 +210,11 @@ describe("render", async () => {
         }
       }
 
-      customElements.define("complex-test-element", ComplexTestElement);
+      const tagName = `knyt-${crypto.randomUUID()}`;
 
-      const element = document.createElement("complex-test-element");
+      customElements.define(tagName, ComplexTestElement);
+
+      const element = document.createElement(tagName);
 
       element.textContent = "Hello, world!";
 
@@ -238,7 +240,32 @@ describe("render", async () => {
       const result = await render(html.fragment.$(element));
 
       expect(result).toBe(
-        `<complex-test-element foo="baz" bar="qux" data-test="123" aria-label="Complex Test" hidden="" tabindex="0" title="A complex custom element" role="button" draggable="true" contenteditable="true" spellcheck="false" autofocus="" style="color: red; background: yellow;" lang="fr" dir="rtl" accesskey="k" data-extra="extra-value">Hello, world!</complex-test-element>`,
+        [
+          `<${tagName} foo="baz"`,
+          `bar="qux"`,
+          `data-test="123"`,
+          `aria-label="Complex`,
+          `Test"`,
+          `hidden=""`,
+          `tabindex="0"`,
+          `title="A`,
+          `complex`,
+          `custom`,
+          `element"`,
+          `role="button"`,
+          `draggable="true"`,
+          `contenteditable="true"`,
+          `spellcheck="false"`,
+          `autofocus=""`,
+          `style="color:`,
+          `red;`,
+          `background:`,
+          `yellow;"`,
+          `lang="fr"`,
+          `dir="rtl"`,
+          `accesskey="k"`,
+          `data-extra="extra-value">Hello, world!</${tagName}>`,
+        ].join(" "),
       );
     });
 

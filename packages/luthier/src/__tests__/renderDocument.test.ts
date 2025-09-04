@@ -20,8 +20,7 @@ const Head = define.view<{ title?: string; description?: string }>(
   },
 );
 
-const MyHeading = define.element({
-  tagName: "my-heading",
+const MyHeading = define.element("my-heading-2239cacf90bf", {
   options: {
     shadowRoot: { mode: "closed" },
   },

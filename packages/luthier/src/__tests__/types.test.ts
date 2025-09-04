@@ -327,10 +327,9 @@ describe("types", () => {
       foo: define.property().string().attribute("foo"),
     };
 
-    const QuxDefinition = define.element({
-      tagName: "test-infer-reactive-props",
+    const QuxDefinition = define.element(`knyt-${crypto.randomUUID()}`, {
       properties: {
-        qux: define.property().boolean().attribute("qux"),
+        qux: define.prop.bool.attr("qux"),
       },
       lifecycle() {
         return () => dom.fragment;
@@ -444,7 +443,7 @@ describe("types", () => {
     });
 
     it("infer props from an arbitrary element definition", () => {
-      const tagName = "knyt-arbitrary-my-element";
+      const tagName = `knyt-${crypto.randomUUID()}`;
       class MyComponentElement extends HTMLElement {
         myProp = "foo";
       }

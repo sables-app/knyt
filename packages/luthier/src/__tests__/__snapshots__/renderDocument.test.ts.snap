@@ -16,7 +16,7 @@ exports[`document rendering: document rendering 1`] = `
     <body>
       <main>
         <h1>Hello World</h1>
-        <p>This is a test.</p> <my-heading title="Hello World"><template shadowrootmode="closed"><h3>Hello World</h3></template></my-heading>
+        <p>This is a test.</p> <my-heading-2239cacf90bf title="Hello World"><template shadowrootmode="closed"><h3>Hello World</h3></template></my-heading-2239cacf90bf>
       </main>
     </body>
   </html>"

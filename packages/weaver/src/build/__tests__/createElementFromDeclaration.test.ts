@@ -78,8 +78,7 @@ describe("createElementFromDeclaration", () => {
   });
 
   describe("when given a custom element declaration", () => {
-    // A UUID to avoid conflicts with other tests.
-    const testTagName = "a3e14645-1ce2-481e-a709-1878393f2069";
+    const testTagName = `knyt-${crypto.randomUUID()}`;
     class TestElement extends HTMLElement {}
 
     beforeAll(() => {

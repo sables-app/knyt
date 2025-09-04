@@ -447,20 +447,22 @@ describe("typeGuards", () => {
   });
 
   describe("isCustomElement", () => {
+    const tagName = `knyt-${crypto.randomUUID()}`;
+
     beforeAll(() => {
-      class HijkElement extends HTMLElement {
+      class MyElement extends HTMLElement {
         constructor() {
           super();
         }
       }
 
-      if (!customElements.get("hijk-element")) {
-        customElements.define("hijk-element", HijkElement);
+      if (!customElements.get(tagName)) {
+        customElements.define(tagName, MyElement);
       }
     });
 
     it("should return true for a custom element", () => {
-      const el = document.createElement("hijk-element");
+      const el = document.createElement(tagName);
 
       expect(isCustomElement(el)).toBe(true);
     });

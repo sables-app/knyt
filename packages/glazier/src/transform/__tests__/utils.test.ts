@@ -72,7 +72,10 @@ describe("transform/utils", () => {
     describe("when given a Custom Element constructor", () => {
       it("should render the Custom Element", () => {
         class JumboSectionElement extends HTMLElement {}
-        customElements.define("jumbo-section", JumboSectionElement);
+        customElements.define(
+          `knyt-${crypto.randomUUID()}`,
+          JumboSectionElement,
+        );
 
         const result = renderRendererInclude(
           JumboSectionElement,
@@ -102,7 +105,7 @@ describe("transform/utils", () => {
 
     describe("when given a element definition", () => {
       it("should render the element definition", () => {
-        const PowerElement = define.element("knyt-power", {
+        const PowerElement = define.element(`knyt-${crypto.randomUUID()}`, {
           properties: {
             powerLevel: define.prop.bigint,
           },
