@@ -2,7 +2,7 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/glazier)
 
-🧊 A smart [Bun](https://bun.sh/) plugin for HTML includes—embed HTML, MDX, Web Components, and Views into your pages.
+🧊 A [Bun](https://bun.sh/) plugin for server-side rendering and static site generation <br /> with built-in hydration for web components.
 
 <small>
 

@@ -6,7 +6,7 @@
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/sables-app/knyt.git"

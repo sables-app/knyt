@@ -1,16 +1,29 @@
 {
   "name": "@knyt/luthier",
   "version": "0.1.0",
-  "description": "A class for creating reactive custom elements.",
+  "description": "A library for building standardized, type-safe native web components with full SSR and hydration support.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/luthier",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/luthier"
   },
+  "keywords": [
+    "knyt",
+    "custom elements",
+    "lit-html",
+    "lit",
+    "server side rendering",
+    "shadow dom",
+    "ssr hydration",
+    "type-safe elements",
+    "typescript",
+    "web components",
+    "web standards"
+  ],
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",

@@ -1,16 +1,29 @@
 {
   "name": "@knyt/glazier",
   "version": "0.1.0",
-  "description": "A Bun plugin for HTML includes—embed HTML, MDX, Web Components, and Views into your pages.",
+  "description": "A Bun plugin for server-side rendering and static site generation with built-in hydration for web components.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/glazier",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/glazier"
   },
+  "keywords": [
+    "knyt",
+    "bun plugin",
+    "bun",
+    "dependency injection",
+    "html includes",
+    "hydration",
+    "mdx",
+    "ssg",
+    "ssr",
+    "static site generation",
+    "web components"
+  ],
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",

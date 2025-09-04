@@ -1,16 +1,25 @@
 {
   "name": "create-knyt",
   "version": "0.1.0",
-  "description": "Create a new Knyt project",
+  "description": "A scaffolding tool to generate new Knyt projects from boilerplates.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/create",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/create"
   },
+  "keywords": [
+    "knyt",
+    "boilerplate",
+    "cli",
+    "create",
+    "project generator",
+    "quickstart",
+    "scaffolding tool"
+  ],
   "type": "module",
   "exports": {
     ".": "./main.js",

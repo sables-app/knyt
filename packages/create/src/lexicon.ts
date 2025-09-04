@@ -137,7 +137,7 @@ export function renderCompleteMessage({
 }
 
 export function renderInteractiveIntro(): string {
-  return `${brand(underline(bold("Knyt")))} ${dim("– A Modular Toolkit for the Modern Web")}`;
+  return `${brand(underline(bold("Knyt")))} ${dim("– Simplify Your Stack. Front to Back.")}`;
 }
 
 export function renderOperationCancelled(): string {
