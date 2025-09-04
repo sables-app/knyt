@@ -1,6 +1,6 @@
 {
   "name": "@knyt/luthier",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0",
   "description": "A class for creating reactive custom elements.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -19,10 +19,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha.5",
-    "@knyt/tasker": "^0.1.0-alpha.6",
-    "@knyt/weaver": "^0.1.0-alpha.5",
-    "@knyt/tailor": "^0.1.0-alpha.2",
+    "@knyt/artisan": "^0.1.0",
+    "@knyt/tasker": "^0.1.0",
+    "@knyt/weaver": "^0.1.0",
+    "@knyt/tailor": "^0.1.0",
     "event-station": "^2.0.0"
   },
   "scripts": {

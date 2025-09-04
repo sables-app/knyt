@@ -1,6 +1,6 @@
 {
   "name": "knyt",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0",
   "description": "Knyt: A Modular Toolkit for the Modern Web",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -25,13 +25,13 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha.2",
-    "@knyt/clerk": "^0.1.0-alpha",
-    "@knyt/html-type": "^0.1.0-alpha",
-    "@knyt/luthier": "^0.1.0-alpha.2",
-    "@knyt/tailor": "^0.1.0-alpha.2",
-    "@knyt/tasker": "^0.1.0-alpha.2",
-    "@knyt/weaver": "^0.1.0-alpha"
+    "@knyt/artisan": "^0.1.0",
+    "@knyt/clerk": "^0.1.0",
+    "@knyt/html-type": "^0.1.0",
+    "@knyt/luthier": "^0.1.0",
+    "@knyt/tailor": "^0.1.0",
+    "@knyt/tasker": "^0.1.0",
+    "@knyt/weaver": "^0.1.0"
   },
   "scripts": {
     "build": "bun run build:js && bun run build:js-prod && bun run build:dts",
