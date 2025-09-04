@@ -431,9 +431,21 @@ export class Transformer {
 
     // If the input HTML contains a <knyt-include> tag, we need to process it.
     {
+      /**
+       * Remove all comments except those that start with `@preserve`
+       */
+      function handleComments(comment: HTMLRewriterTypes.Comment): void {
+        // Comments are meant for humans, so requiring `@preserve` to keep
+        // them should be fine. I'd rather not add an option for this, because
+        // machine-readable comments is a stupid idea in the first place.
+        if (comment.text.trim().startsWith("@preserve") === false) {
+          comment.remove();
+        }
+      }
+
       const otherTagsRewriter = new HTMLRewriter()
         .on(ProcessingTag.Env, {
-          element: (envElement) => {
+          element: (envElement): void => {
             const allow = parseEnvAttributeValue(
               envElement.getAttribute("allow"),
             );
@@ -510,6 +522,12 @@ export class Transformer {
               `Invalid include type in "${inputPath}" with the src "${includeElement.getAttribute("src")}" Make sure the "src" attribute points to a valid module.`,
             );
           },
+        })
+        .on("*", {
+          comments: handleComments,
+        })
+        .onDocument({
+          comments: handleComments,
         });
 
       outputHtml = otherTagsRewriter.transform(outputHtml);
