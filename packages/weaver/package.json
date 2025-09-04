@@ -1,6 +1,6 @@
 {
   "name": "@knyt/weaver",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0",
   "description": "A light-weight DOM Renderer supports Web components standard & TypeScript language",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -21,8 +21,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha.5",
-    "@knyt/html-type": "^0.1.0-alpha"
+    "@knyt/artisan": "^0.1.0",
+    "@knyt/html-type": "^0.1.0"
   },
   "files": [
     "dist",

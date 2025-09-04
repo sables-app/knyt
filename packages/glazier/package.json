@@ -1,6 +1,6 @@
 {
   "name": "@knyt/glazier",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0",
   "description": "A Bun plugin for HTML includes—embed HTML, MDX, Web Components, and Views into your pages.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -22,14 +22,14 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0-alpha.2",
-    "@knyt/luthier": "^0.1.0-alpha.2",
-    "@knyt/weaver": "^0.1.0-alpha",
+    "@knyt/artisan": "^0.1.0",
+    "@knyt/luthier": "^0.1.0",
+    "@knyt/weaver": "^0.1.0",
     "happy-dom": "^17.4.4",
     "yaml": "^2.2.1"
   },
   "devDependencies": {
-    "knyt": "0.1.0-alpha.3",
+    "knyt": "0.1.0",
     "@types/bun": "^1.2.4"
   },
   "scripts": {
