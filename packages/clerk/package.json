@@ -1,16 +1,28 @@
 {
   "name": "@knyt/clerk",
   "version": "0.1.0",
-  "description": "A light-weight DOM Renderer supports Web components standard & TypeScript language",
+  "description": "A lightweight, observable state management library with built-in utilities for actions, reducers, and selectors.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/clerk"
   },
+  "keywords": [
+    "knyt",
+    "actions",
+    "observable state",
+    "observable store",
+    "reactive programming",
+    "reducers",
+    "redux alternative",
+    "selectors",
+    "state library",
+    "state management"
+  ],
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",

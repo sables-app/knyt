@@ -8,7 +8,7 @@
 
 These boilerplates are part of [Knyt](https://knyt.dev/), a toolkit designed to simplify modern web development.
 <br />
-They can be installed using the [create-knyt](https://www.npmjs.com/package/create-knyt) package.
+Each boilerplate can be installed using the [create-knyt](https://www.npmjs.com/package/create-knyt) package.
 
 </small>
 

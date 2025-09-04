@@ -1,11 +1,11 @@
 {
   "name": "knyt",
   "version": "0.1.0",
-  "description": "Knyt: A Modular Toolkit for the Modern Web",
+  "description": "A full-stack toolkit for building standardized, type-safe web applications with native web components.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/toolkit",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
@@ -15,6 +15,24 @@
     "type": "company",
     "url": "https://sables.app/open-source"
   },
+  "keywords": [
+    "knyt",
+    "css-in-js",
+    "custom elements",
+    "full-stack",
+    "hydration",
+    "hydration",
+    "lit",
+    "observables",
+    "reactive programming",
+    "reactive",
+    "shadow dom",
+    "state management",
+    "type safe",
+    "typescript",
+    "web components",
+    "web standards"
+  ],
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",

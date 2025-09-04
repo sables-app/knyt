@@ -1,16 +1,30 @@
 {
   "name": "@knyt/tasker",
   "version": "0.1.0",
-  "description": "Knyt Controller",
+  "description": "A system for creating reusable, stateful logic controllers compatible with Lit.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
   "bugs": "https://github.com/sables-app/knyt/issues",
-  "homepage": "https://github.com/sables-app/knyt/tree/main/packages/tasker",
+  "homepage": "https://knyt.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/tasker"
   },
+  "keywords": [
+    "knyt",
+    "component logic",
+    "controllers",
+    "knyt",
+    "lit controller",
+    "lit",
+    "logic",
+    "reactive controller",
+    "reusable controllers",
+    "reusable",
+    "stateful",
+    "web components"
+  ],
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",

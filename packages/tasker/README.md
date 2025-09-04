@@ -2,7 +2,7 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/tasker)
 
-🔌 A collection of [Lit](https://lit.dev/)-compatible reactive controllers designed for [Knyt](https://knyt.dev/).
+🔌 A collection of [Lit](https://lit.dev/)-compatible reactive controllers for [Knyt](https://knyt.dev/), <br /> providing a system for creating reusable, stateful logic controllers.
 
 <small>
 

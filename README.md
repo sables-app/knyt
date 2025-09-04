@@ -2,7 +2,9 @@
 
 [![Knyt](./packages/toolkit/docs/banner.svg)](https://knyt.dev/)
 
-🌃 A toolkit designed to simplify modern web development
+🌃 Simplify Your Stack. Front to Back.
+<br />
+<small>A toolkit designed to simplify modern web development</small>
 
 [![npm](https://img.shields.io/npm/v/knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/knyt)
 [![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444)](https://github.com/sables-app/knyt/tree/main/packages/artisan)

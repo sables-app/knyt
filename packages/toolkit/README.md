@@ -2,11 +2,13 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/toolkit)
 
-🌃 A toolkit designed to simplify modern web development
+🌃 Simplify Your Stack. Front to Back.
+<br />
+<small>A toolkit designed to simplify modern web development</small>
 
 <small>
 
-This package contains all client-side features of [Knyt](https://knyt.dev/). <br />For Server-Rendered. Static-Generated. Fully Hydrated., refer to the [Knyt Glazier plugin](https://knyt.dev/s/glazier) for [Bun](https://bun.sh/).
+This package contains all client-side features of [Knyt](https://knyt.dev/). <br />For server-side functionality, refer to the [Knyt Glazier plugin](https://knyt.dev/s/glazier) for [Bun](https://bun.sh/).
 
 </small>
 

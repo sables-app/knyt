@@ -2,7 +2,8 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/weaver)
 
-🧵 Declarative DOM renderer with 1:1 native browser APIs. Strictly separates HTML, DOM, and SVG with fully type-safe, explicit interfaces for props, children and refs.
+🧵 Declarative DOM renderer with 1:1 native DOM API alignment,
+<br /> concurrent rendering, and complete type safety.
 
 <small>
 
@@ -29,7 +30,7 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - **Explicit contracts**: Props, children, and refs are strictly separated (no runtime ambiguity)
 - **SSR-ready**: Render declarations, elements, and components to static markup
   - Pair with [Knyt Luthier](https://knyt.dev/s/luthier) for rendering closed declarative shadow roots
-- **Stateless**: The DOM is the source of truth; no virtual DOM or reconciliation
+- **Stateless**: The DOM is the source of truth; no virtual DOM
 - **Lightweight**: Minimal dependencies, minimal footprint
 - **htmx-compatible**: First-class support for [htmx](https://htmx.org/) attributes
 

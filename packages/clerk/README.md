@@ -2,7 +2,7 @@
 
 [![Knyt](./docs/banner.svg)](https://knyt.dev/s/clerk)
 
-🗃️ Lightweight, observable state management. Supports async flows, actions, and selectors with built-in utilities for reducers. Simple, reactive, and scalable.
+🗃️ Lightweight, observable state management. <br /> Supports async flows with built-in utilities for actions, reducers, and selectors.
 
 <small>
 
