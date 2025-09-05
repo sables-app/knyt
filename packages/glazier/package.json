@@ -11,6 +11,10 @@
     "url": "git+https://github.com/sables-app/knyt.git",
     "directory": "packages/glazier"
   },
+  "funding": {
+    "type": "company",
+    "url": "https://sables.app/open-source"
+  },
   "keywords": [
     "knyt",
     "bun plugin",
