@@ -220,6 +220,12 @@ export async function bundleRoutes(
   //
   // Building each route separately allows us to have more control
   // over the build process and to handle each route's output individually.
+  //
+  // This is neither the most efficient way to build multiple routes,
+  // nor results in the fewest number of output files, but it is the
+  // most reliable way to ensure that each route is built correctly.
+  //
+  // TODO: Revisit this approach as Bun's feature set evolves.
 
   async function buildHTMLBundleRoute({ route, entrypoint }: RouteBuildEntry) {
     const routeBuildDir = path.resolve(

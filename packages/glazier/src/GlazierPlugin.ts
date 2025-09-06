@@ -8,6 +8,7 @@ import type { BunPlugin, PluginBuilder } from "bun";
 
 import { loadConfig } from "./ConfigLoader";
 import { DependencyManager } from "./DependencyManager";
+import { setupImportBlocklist } from "./setupImportBlocklist";
 import { transform, type GlazierPluginOptions } from "./transform/mod";
 import type { BunKnytConfig, TransformerRenderOptions } from "./types";
 
@@ -159,11 +160,13 @@ export class GlazierPlugin implements BunPlugin {
 
     dependencyManager.connect(builder);
 
-    // There are some thing we just can't do yet, because Bun doesn't
+    // There are some things we just can't do yet, because Bun doesn't
     // support the required APIs. For example, we can't use the `onEnd`
     // hook to get metadata about the build.
     // See: https://github.com/oven-sh/bun/issues/2771
     // builder.onEnd(console.debug);
+
+    setupImportBlocklist(builder);
 
     builder.onLoad(
       { filter: /\.html$/ },
