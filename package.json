@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@knyt/project",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0",
   "description": "Web Component facilitation",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
