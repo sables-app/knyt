@@ -38,8 +38,7 @@
     "@knyt/artisan": "^0.1.0",
     "@knyt/clerk": "^0.1.0",
     "@knyt/html-type": "^0.1.0",
-    "@knyt/weaver": "^0.1.0",
-    "@noble/hashes": "^1.7.1"
+    "@knyt/weaver": "^0.1.0"
   },
   "files": [
     "dist",

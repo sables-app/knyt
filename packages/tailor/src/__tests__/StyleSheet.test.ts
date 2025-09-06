@@ -262,6 +262,31 @@ describe("StyleSheet", () => {
         );
       });
     });
+
+    describe("equals", () => {
+      it("should return true for StyleSheets with the same rules", () => {
+        const other = StyleSheet.fromRules(rules);
+
+        expect(styleSheet.equals(other)).toBe(true);
+      });
+
+      it("should return false for StyleSheets with different rules", () => {
+        const other = StyleSheet.fromRules({
+          foo: {
+            color: "red",
+          },
+          bar: {
+            color: "blue",
+          },
+          "bar:hover": {
+            color: "yellow", // Different color
+          },
+        });
+
+        // @ts-expect-error because the types of the rules are different
+        expect(styleSheet.equals(other)).toBe(false);
+      });
+    });
   });
 
   describe("verbatim selectors", () => {

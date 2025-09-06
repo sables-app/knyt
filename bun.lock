@@ -39,7 +39,7 @@
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@knyt/artisan": "^0.1.0-alpha",
         "@knyt/luthier": "^0.1.0-alpha",
@@ -74,11 +74,10 @@
       "name": "@knyt/tailor",
       "version": "0.1.0",
       "dependencies": {
-        "@knyt/artisan": "^0.1.0-alpha.2",
-        "@knyt/clerk": "^0.1.0-alpha",
-        "@knyt/html-type": "^0.1.0-alpha",
-        "@knyt/weaver": "^0.1.0-alpha",
-        "@noble/hashes": "^1.7.1",
+        "@knyt/artisan": "^0.1.0",
+        "@knyt/clerk": "^0.1.0",
+        "@knyt/html-type": "^0.1.0",
+        "@knyt/weaver": "^0.1.0",
       },
     },
     "packages/tasker": {
@@ -109,8 +108,8 @@
       "name": "@knyt/weaver",
       "version": "0.1.0",
       "dependencies": {
-        "@knyt/artisan": "^0.1.0-alpha",
-        "@knyt/html-type": "^0.1.0-alpha",
+        "@knyt/artisan": "^0.1.0",
+        "@knyt/html-type": "^0.1.0",
       },
     },
   },
@@ -302,8 +301,6 @@
     "@microsoft/tsdoc": ["@microsoft/tsdoc@0.15.1", "", {}, "sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw=="],
 
     "@microsoft/tsdoc-config": ["@microsoft/tsdoc-config@0.17.1", "", { "dependencies": { "@microsoft/tsdoc": "0.15.1", "ajv": "~8.12.0", "jju": "~1.4.0", "resolve": "~1.22.2" } }, "sha512-UtjIFe0C6oYgTnad4q1QP4qXwLhe6tIpNTRStJ2RZEPIkqQPREAwE5spzVxsdn9UaEMUqhh0AqSx3X4nWAKXWw=="],
-
-    "@noble/hashes": ["@noble/hashes@1.7.1", "", {}, "sha512-B8XBPsn4vT/KJAGqDzbwztd+6Yte3P4V7iafm24bxgDe/mlRuK6xmWPuCNrKt2vDafZ8MfJLlchDG/vYafQEjQ=="],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
