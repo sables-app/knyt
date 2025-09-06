@@ -14,7 +14,7 @@ import { getPackageJson } from "./getPackageJson";
 export async function getTempDir(salt: string): Promise<string> {
   const relevantPackageName = (await findRelevantPackageName()) ?? "";
   const packageJson = await getPackageJson();
-  const hash = createHash("sha1")
+  const hash = createHash("sha256")
     .update(packageJson.name)
     .update(packageJson.version)
     .update(relevantPackageName)
