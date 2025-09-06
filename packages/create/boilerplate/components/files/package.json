@@ -16,6 +16,6 @@
     "build": "bun build --outdir=./dist --format=esm --target=browser --minify --sourcemap  ./src/main.ts"
   },
   "dependencies": {
-    "knyt": "0.1.0-alpha.2"
+    "knyt": "latest"
   }
 }
