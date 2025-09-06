@@ -1,6 +1,6 @@
 {
   "name": "create-knyt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A scaffolding tool to generate new Knyt projects from boilerplates.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
