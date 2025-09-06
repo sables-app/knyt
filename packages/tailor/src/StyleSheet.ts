@@ -12,7 +12,6 @@ import {
   type ResourceRenderer,
   type StyleObject,
 } from "@knyt/weaver";
-import { sha256 } from "@noble/hashes/sha256";
 
 import { DEFAULT_NAME_PREFIX } from "./constants";
 import { cssIncludeToString } from "./cssIncludeToString";
@@ -645,29 +644,48 @@ export class StyleSheet<in out T extends CSSRules<string>>
   );
 
   /**
-   * Generates a hash of the CSS.
+   * Creates a comparison string of the CSS.
    * This is used to compare stylesheets for equality.
-   *
-   * @example "BgT¸¢\u001cØ@ôÂ»™_ê®û\u001e``ÿÇ•2·ÚÐ w×>V"
    */
-  #selectHash = select(this.#selectRuleNames, this.#selectCSS).combine(
-    (ruleNames, css): string => {
-      const input = `${ruleNames}${css}`;
+  #selectComparisonString = select(
+    this.#selectRuleNames,
+    this.#selectCSS,
+  ).combine((ruleNames, css): string => `${ruleNames}${css}`);
 
-      // TODO: Replace with SubtleCrypto: digest() method
-      // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
-      return new TextDecoder("latin1").decode(sha256(input));
-    },
-  );
-
-  get hash(): string {
-    return this.#selectHash(this.value);
+  /**
+   * A string that can be used to compare this style sheet to another.
+   *
+   * @remarks
+   *
+   * This string is a combination of the rule names and the CSS.
+   * It can be used to determine if two style sheets are effectively equal.
+   *
+   * This is useful for caching and preventing unnecessary updates to the DOM.
+   *
+   * @internal scope: package
+   *
+   * This is considered a private API, but it is exposed with an underscore
+   * so that the `equals` method can easily access it.
+   */
+  get _comparisonString(): string {
+    return this.#selectComparisonString(this.value);
   }
 
+  /**
+   * Determines if the given style sheet is effectively equal to this one.
+   *
+   * @remarks
+   *
+   * Two style sheets are considered equal if they have the same rules in the same order,
+   * and the same CSS.
+   *
+   * This is useful for determining if a style sheet has changed, and can be used
+   * to prevent unnecessary updates to the DOM.
+   */
   equals(other: StyleSheet<T> | undefined): boolean {
     if (!other) return false;
 
-    return this === other || this.hash === other.hash;
+    return this === other || this._comparisonString === other._comparisonString;
   }
 
   /**
