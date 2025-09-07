@@ -40,7 +40,6 @@ class SequentialPairsObserver<T> {
  *
  * @alpha This API is experimental and may change in future releases without notice.
  */
-// TODO: Consider refactoring this to create an `Observable` instead of an `Observer`.
 export function sequentialPairs<T>(
   initialValue: T,
   subscriber: Observable.Subscriber<SequentialPair<T>>,
