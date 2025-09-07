@@ -6,6 +6,7 @@ import { KnytTagName } from "../../importTags";
 import {
   interpolateInclude,
   isMDXContentFn,
+  normalizeFrontmatter,
   renderRendererInclude,
 } from "../utils";
 
@@ -126,6 +127,30 @@ describe("transform/utils", () => {
         );
 
         expect(isElementBuilder(result)).toBe(true);
+      });
+    });
+  });
+
+  describe("normalizeFrontmatter", () => {
+    it("should parse YAML frontmatter correctly", async () => {
+      const text = [
+        "---",
+        "title: Sample Document",
+        "date: 2023-10-05",
+        "tags:",
+        "  - test",
+        "  - sample",
+        "draft: false",
+        "---",
+      ];
+
+      const result = await normalizeFrontmatter(undefined, text);
+
+      expect(result).toEqual({
+        title: "Sample Document",
+        date: "2023-10-05",
+        tags: ["test", "sample"],
+        draft: false,
       });
     });
   });
