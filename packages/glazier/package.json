@@ -38,16 +38,18 @@
     "./preload": "./dist/build/preload.js",
     "./package.json": "./package.json"
   },
+  "engines": {
+    "bun": "^1.2.21"
+  },
   "dependencies": {
     "@knyt/artisan": "^0.1.0",
     "@knyt/luthier": "^0.1.0",
     "@knyt/weaver": "^0.1.0",
-    "happy-dom": "^17.4.4",
-    "yaml": "^2.2.1"
+    "@types/bun": "^1.2.21",
+    "happy-dom": "^17.4.4"
   },
   "devDependencies": {
-    "knyt": "0.1.0",
-    "@types/bun": "^1.2.4"
+    "knyt": "0.1.0"
   },
   "scripts": {
     "demo:server": "cd ./demo && bash ./server.sh",

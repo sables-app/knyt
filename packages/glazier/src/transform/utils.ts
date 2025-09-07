@@ -18,7 +18,6 @@ import {
   type KnytDeclaration,
   type View,
 } from "@knyt/weaver";
-import { parse as fromYaml } from "yaml";
 
 import { isVerboseEnv } from "../env";
 import { getDocumentFrontmatter } from "../getDocumentFrontmatter";
@@ -486,5 +485,7 @@ export async function normalizeFrontmatter(
 
   // TODO: Add support for TOML for feature parity with other plugins.
   // Currently, we only support YAML.
-  return fromYaml(text.join("\n"));
+  // TODO: Remove ts-expect-error when Bun.YAML is added to the types.
+  // @ts-expect-error because Bun.YAML is not in the types yet
+  return (Bun.YAML as JSON).parse(text.join("\n"));
 }
