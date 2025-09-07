@@ -39,7 +39,7 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "bun": "^1.1.21"
+    "bun": "^1.2.21"
   },
   "dependencies": {
     "@knyt/artisan": "^0.1.0",
