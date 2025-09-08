@@ -151,12 +151,13 @@ describe("Store", () => {
     });
   });
 
-  describe("createSubscriptionFactory", () => {
+  describe("createAccessor", () => {
     it("should support selector subscriptions", async () => {
-      const listener = mock((count: number) => {});
-      const selectCount = store.defineSelector((state) => state.count);
-      const onCountChange = store.createSubscriptionFactory(selectCount);
-      const subscription = onCountChange(listener);
+      const listener = mock();
+      const { count$ } = store.createAccessor({
+        count: (state) => state.count,
+      });
+      const subscription = count$.subscribe(listener);
 
       // Not called, because side effects are asynchronous.
       expect(listener).not.toHaveBeenCalled();
@@ -165,25 +166,25 @@ describe("Store", () => {
 
       // Called with the initial state when the subscriber is added,
       // and again when the subscription is created.
-      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenCalledTimes(1);
 
       store.incrementBy(4);
 
       // Not called, because side effects are asynchronous.
-      expect(listener).toHaveBeenCalledTimes(2);
+      expect(listener).toHaveBeenCalledTimes(1);
 
       // Wait for the store subscriber to be called.
       await Promise.resolve();
       // Wait for the selector subscriber to be called.
       await Promise.resolve();
 
-      expect(listener).toHaveBeenCalledTimes(3);
+      expect(listener).toHaveBeenCalledTimes(2);
 
       subscription.unsubscribe();
       store.incrementBy(4);
 
       // Not called, because side effects are asynchronous.
-      expect(listener).toHaveBeenCalledTimes(3);
+      expect(listener).toHaveBeenCalledTimes(2);
 
       // Wait for the store subscriber to be called.
       await Promise.resolve();
@@ -191,7 +192,7 @@ describe("Store", () => {
       await Promise.resolve();
 
       // Not called, because the subscription was unsubscribed.
-      expect(listener).toHaveBeenCalledTimes(3);
+      expect(listener).toHaveBeenCalledTimes(2);
     });
   });
 
