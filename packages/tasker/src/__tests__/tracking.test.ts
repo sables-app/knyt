@@ -58,12 +58,13 @@ describe("tracking", () => {
 
       expect(result).toBe(observable);
 
+      expect(performUpdate).not.toHaveBeenCalled();
+
       // Wait a microtask for the initial emission
       await Promise.resolve();
 
-      // Called twice; once for the initial value emission,
-      // and once for the emission upon subscription.
-      expect(performUpdate).toHaveBeenCalledTimes(2);
+      // Called once for the initial value emission
+      expect(performUpdate).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -76,9 +77,8 @@ describe("tracking", () => {
       // Wait a microtask for the initial emissions
       await Promise.resolve();
 
-      // Called twice; once for the initial value emission,
-      // and once for the emission upon subscription.
-      expect(performUpdate).toHaveBeenCalledTimes(2);
+      // Called once for the initial value emission
+      expect(performUpdate).toHaveBeenCalledTimes(1);
 
       untrack(host, observable);
 
@@ -87,7 +87,7 @@ describe("tracking", () => {
       // Wait for async emission
       await Promise.resolve();
 
-      expect(performUpdate).toHaveBeenCalledTimes(2);
+      expect(performUpdate).toHaveBeenCalledTimes(1);
     });
 
     it("should return the observable when removing tracking", () => {
@@ -105,9 +105,8 @@ describe("tracking", () => {
       // Wait a microtask for the initial emissions
       await Promise.resolve();
 
-      // Called twice; once for the initial value emission,
-      // and once for the emission upon subscription.
-      expect(performUpdate).toHaveBeenCalledTimes(2);
+      // Called once for the initial value emission
+      expect(performUpdate).toHaveBeenCalledTimes(1);
 
       const curried = untrack(host);
       const result = curried(observable);
@@ -119,7 +118,7 @@ describe("tracking", () => {
       // Wait for async emission
       await Promise.resolve();
 
-      expect(performUpdate).toHaveBeenCalledTimes(2);
+      expect(performUpdate).toHaveBeenCalledTimes(1);
     });
   });
 });

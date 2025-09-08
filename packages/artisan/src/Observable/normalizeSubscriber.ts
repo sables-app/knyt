@@ -3,6 +3,8 @@ import type { Observable, Observer } from "./types";
 
 /**
  * Normalizes subscribe input to an observer.
+ *
+ * @internal scope: workspace
  */
 /*
  * ### Private Remarks

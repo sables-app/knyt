@@ -25,6 +25,7 @@ describe("rxjs integration", () => {
 
       countSignaler.complete();
 
+      expect(subscriber.mock.calls.length).toBe(2);
       expect(subscriber).toHaveBeenCalledWith(2);
       expect(subscriber).toHaveBeenCalledWith(3);
     });
@@ -39,7 +40,7 @@ describe("rxjs integration", () => {
 
       evenNum$.subscribe(subscriber);
 
-      // The subscriber should not be called synchronously for the initial value
+      // The subscriber should NOT be called synchronously for the initial value
       expect(subscriber).not.toHaveBeenCalled();
 
       await Promise.resolve();
@@ -74,6 +75,32 @@ describe("rxjs integration", () => {
 
       expect(subscriber).toHaveBeenCalledTimes(3);
       expect(subscriber).toHaveBeenLastCalledWith(4);
+    });
+  });
+
+  describe("ref.from", () => {
+    it("should create a Knyt Reference from an RxJS Observable", async () => {
+      const numbers$ = from([1, 2, 3, 4, 5]);
+      const state$ = ref.from(numbers$, 0);
+      const subscriber = mock();
+
+      state$.subscribe(subscriber);
+
+      // All side effects are asynchronous
+      expect(subscriber).not.toHaveBeenCalled();
+
+      // Because RxJS emits the the values synchronously from an array,
+      // we only need to wait for the next microtask for all of the values
+      // to be emitted.
+      await Promise.resolve();
+
+      expect(subscriber).toHaveBeenCalledTimes(6);
+      expect(subscriber).toHaveBeenNthCalledWith(1, 0);
+      expect(subscriber).toHaveBeenNthCalledWith(2, 1);
+      expect(subscriber).toHaveBeenNthCalledWith(3, 2);
+      expect(subscriber).toHaveBeenNthCalledWith(4, 3);
+      expect(subscriber).toHaveBeenNthCalledWith(5, 4);
+      expect(subscriber).toHaveBeenNthCalledWith(6, 5);
     });
   });
 });

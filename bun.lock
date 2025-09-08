@@ -44,10 +44,10 @@
         "@knyt/artisan": "^0.1.0",
         "@knyt/luthier": "^0.1.0",
         "@knyt/weaver": "^0.1.0",
+        "@types/bun": "^1.2.21",
         "happy-dom": "^17.4.4",
       },
       "devDependencies": {
-        "@types/bun": "^1.2.21",
         "knyt": "0.1.0",
       },
     },
