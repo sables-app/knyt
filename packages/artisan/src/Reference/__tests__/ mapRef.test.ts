@@ -99,22 +99,21 @@ describe("mapRef", () => {
       // Wait for initial value to be propagated
       await Promise.resolve();
 
-      // Called for the initial values from the origin,
-      // and again for when the subscription is created
-      expect(observer.next).toHaveBeenCalledTimes(2);
+      // Called for the initial value from the origin
+      expect(observer.next).toHaveBeenCalledTimes(1);
       expect(observer.next).lastCalledWith(42);
 
       origin.set({ foo: 50 });
 
       // Not called synchronously
-      expect(observer.next).toHaveBeenCalledTimes(2);
+      expect(observer.next).toHaveBeenCalledTimes(1);
 
       // Wait for origin to update
       await Promise.resolve();
       // Wait for transformed reference to update
       await Promise.resolve();
 
-      expect(observer.next).toHaveBeenCalledTimes(3);
+      expect(observer.next).toHaveBeenCalledTimes(2);
       expect(observer.next).toHaveBeenCalledWith(50);
     });
   });

@@ -79,12 +79,55 @@ export class BasicReference<T> implements Reference<T> {
   // NOTE: This is not considered detachable method, even though it is an arrow function.
   next = this.set;
 
+  /**
+   * A set of temporary subscribers used to track subscriptions during the
+   * initial subscription phase. This prevents emitting the current value to
+   * subscribers that are already being notified of a change, avoiding duplicate
+   * notifications when subscribing during an update.
+   *
+   * Keeping subscribers in this set ensures they are not garbage collected
+   * before the initial notification, preventing missed updates in rare cases.
+   *
+   * Subscribers are removed from this set once the initial subscription phase
+   * is finished.
+   */
+  #trackers = new Set<Observable.Subscriber<unknown>>();
+
   subscribe(subscriber: Observable.Subscriber<T>): Subscription {
+    /**
+     * Indicates whether the beacon has emitted a value
+     * since the subscription started.
+     */
+    let hasEmitted = false;
+
+    const tracker: Observable.Subscriber<unknown> = () => {
+      hasEmitted = true;
+    };
+
+    this.#trackers.add(tracker);
+
+    const trackerSubscription = this.#emitter.beacon.subscribe(tracker);
     const subscription = this.#emitter.beacon.subscribe(subscriber);
 
     // All side-effects should be asynchronous.
     // A Ref defers side-effects until the next microtask.
     queueMicrotask(() => {
+      this.#trackers.delete(tracker);
+      trackerSubscription.unsubscribe();
+
+      // Prevent sending the current value to the subscriber if the beacon
+      // has already emitted a value since the subscription began.
+      //
+      // This avoids duplicate notifications, which can happen if a subscriber
+      // is added during an ongoing change. Without this check, the subscriber
+      // would receive the current value both immediately and again when the
+      // change is processed.
+      //
+      // This scenario often occurs when a subscriber is registered
+      // synchronously right after a reference is created and its initial value
+      // is set.
+      if (hasEmitted) return;
+
       // Send the current value to the subscriber immediately.
       // This is done to ensure that the subscriber is always up-to-date.
       normalizeSubscriber(subscriber).next(this.#currentValue);
@@ -144,7 +187,7 @@ export class BasicReference<T> implements Reference<T> {
       // only compares valid previous and next values, preventing
       // unexpected behavior.
       !isInitialValue &&
-      comparator(previousValue, this.#currentValue)
+      comparator(previousValue, nextValue)
     ) {
       // If the comparator returns true, no change notification is emitted.
       return;
@@ -153,8 +196,8 @@ export class BasicReference<T> implements Reference<T> {
     // All side-effects should be asynchronous.
     // A Ref defers side-effects until the next microtask.
     queueMicrotask(() => {
-      this.#onUpdate?.(this.#currentValue, previousValue);
-      this.#emitter.next(this.#currentValue);
+      this.#onUpdate?.(nextValue, previousValue);
+      this.#emitter.next(nextValue);
     });
   }
 
