@@ -5,8 +5,8 @@ import type { BunPlugin } from "bun";
 import { getBunfigToml } from "./getBunfigToml";
 
 /**
- * Attempts to read the `bunfig.toml` file and returns the configured
- * plugins for the static server.
+ * Attempts to import the list of plugins configured for the static server
+ * in the `bunfig.toml` file.
  */
 export async function getServeStaticPlugins(
   workingDirectory?: string,
