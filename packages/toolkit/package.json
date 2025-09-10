@@ -1,6 +1,6 @@
 {
   "name": "knyt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A full-stack toolkit for building standardized, type-safe web applications with native web components.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
