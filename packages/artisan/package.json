@@ -1,6 +1,6 @@
 {
   "name": "@knyt/artisan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A library of reactive primitives (observables, computed values) with automatic memory management and RxJS interoperability.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
