@@ -9,6 +9,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     environment: public-npm
+    permissions:
+      contents: write # for changesets to create releases
+      id-token: write # for npm provenance
 
     steps:
       - name: Checkout code
