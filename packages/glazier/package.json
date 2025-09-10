@@ -49,7 +49,7 @@
     "happy-dom": "^17.4.4"
   },
   "devDependencies": {
-    "knyt": "0.2.0"
+    "knyt": "0.2.1"
   },
   "scripts": {
     "demo:server": "cd ./demo && bash ./server.sh",
