@@ -35,6 +35,7 @@
   "type": "module",
   "module": "./dist/build/main.js",
   "main": "./dist/build/main.js",
+  "browser": "./dist/knyt.prod.js",
   "exports": {
     ".": "./dist/build/main.js",
     "./jsx-runtime": "./dist/build/jsx.js",
