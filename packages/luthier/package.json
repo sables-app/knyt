@@ -1,6 +1,6 @@
 {
   "name": "@knyt/luthier",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A library for building standardized, type-safe native web components with full SSR and hydration support.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -32,10 +32,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0",
-    "@knyt/tasker": "^0.1.0",
-    "@knyt/weaver": "^0.1.0",
-    "@knyt/tailor": "^0.1.0",
+    "@knyt/artisan": "^0.2.0",
+    "@knyt/tasker": "^0.2.0",
+    "@knyt/weaver": "^0.2.0",
+    "@knyt/tailor": "^0.2.0",
     "event-station": "^2.0.0"
   },
   "scripts": {

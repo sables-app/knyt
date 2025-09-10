@@ -1,6 +1,6 @@
 {
   "name": "@knyt/tailor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A type-safe CSS-in-JS solution utilizing Constructable Stylesheets for standards-compliant styling.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -35,10 +35,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.1.0",
-    "@knyt/clerk": "^0.1.0",
+    "@knyt/artisan": "^0.2.0",
+    "@knyt/clerk": "^0.2.0",
     "@knyt/html-type": "^0.1.0",
-    "@knyt/weaver": "^0.1.0"
+    "@knyt/weaver": "^0.2.0"
   },
   "files": [
     "dist",
