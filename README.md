@@ -6,15 +6,31 @@
 <br />
 <small>A toolkit designed to simplify modern web development</small>
 
-[![npm](https://img.shields.io/npm/v/knyt?style=flat-square&labelColor=444)](https://www.npmjs.com/package/knyt)
-[![GitHub](https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444)](https://github.com/sables-app/knyt/tree/main/packages/artisan)
-[![License](https://img.shields.io/badge/License-BSD_3_Clause-blue?style=flat-square&labelColor=444)](https://github.com/sables-app/knyt/blob/main/LICENSE)
+[![npm][npm-badge]][npm-link]
+[![GitHub][github-badge]][github-link]
+[![License][license-badge]][license-link]
+[![CodeFactor Grade][codefactor-badge]][codefactor-link]
 <br />
-![Built with TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-3178c6.svg?style=flat-square&logo=typescript&labelColor=444)
-![Built for The Web](https://img.shields.io/badge/Built_for-The_Web-e34f26.svg?style=flat-square&logo=HTML5&labelColor=444)
-![SSG with Bun](https://img.shields.io/badge/SSG_with-Bun-b49090.svg?style=flat-square&logo=bun&labelColor=444)
+[![Built with TypeScript][ts-badge]][ts-link]
+[![Built for The Web][web-badge]][web-link]
+[![SSG with Bun][bun-badge]][bun-link]
 
 </div>
+
+[npm-badge]: https://img.shields.io/npm/v/knyt?style=flat-square&labelColor=444
+[npm-link]: https://www.npmjs.com/package/knyt
+[github-badge]: https://img.shields.io/badge/Source_Code-black?style=flat-square&label=GitHub&labelColor=444
+[github-link]: https://github.com/sables-app/knyt/tree/main
+[license-badge]: https://img.shields.io/badge/License-BSD_3_Clause-blue?style=flat-square&labelColor=444
+[license-link]: https://github.com/sables-app/knyt/blob/main/LICENSE
+[codefactor-badge]: https://img.shields.io/codefactor/grade/github/sables-app/knyt?style=flat-square&logoColor=fff&label=CodeFactor&labelColor=444
+[codefactor-link]: https://www.codefactor.io/repository/github/sables-app/knyt/overview/main
+[ts-badge]: https://img.shields.io/badge/Built%20with-TypeScript-3178c6.svg?style=flat-square&logo=typescript&labelColor=444
+[ts-link]: https://www.typescriptlang.org/
+[web-badge]: https://img.shields.io/badge/Built_for-The_Web-e34f26.svg?style=flat-square&logo=HTML5&labelColor=444
+[web-link]: https://www.jsdelivr.com/package/npm/knyt
+[bun-badge]: https://img.shields.io/badge/SSG_with-Bun-b49090.svg?style=flat-square&logo=bun&labelColor=444
+[bun-link]: https://knyt.dev/guide/static-site-generation
 
 ## Documentation
 
