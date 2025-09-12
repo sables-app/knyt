@@ -7,6 +7,7 @@ import type {
   View,
 } from "@knyt/weaver";
 
+import { __isKnytElementDefinition } from "./constants";
 import type { KnytElement } from "./KnytElement";
 
 export type PropertyName = string | symbol;
@@ -284,7 +285,7 @@ export namespace ElementDefinition {
     /**
      * @internal scope: workspace
      */
-    readonly __isKnytElementDefinition: true;
+    readonly [__isKnytElementDefinition]: true;
   };
 
   /**
