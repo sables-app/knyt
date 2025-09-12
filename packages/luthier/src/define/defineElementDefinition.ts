@@ -105,8 +105,9 @@ export function defineElementDefinition<
   if (
     // If HMR is enabled, we need to redefine the element
     // to ensure the latest version is used.
-    // The HMR system _should_ polyfill the `customElements` registry
-    // to ensure that the element can be redefined.
+    //
+    // The HMR system _should_ polyfill the `customElements.define` method
+    // so that it can handle redefinitions.
     import.meta.hot ||
     // Otherwise, we only define the element if it hasn't been defined yet.
     // This is to prevent errors when the element is defined multiple times.
