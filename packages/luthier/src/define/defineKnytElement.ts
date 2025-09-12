@@ -1,54 +1,27 @@
 import { css, type StyleSheet } from "@knyt/tailor";
-import type { HTMLElementTagName, RenderResult } from "@knyt/weaver";
+import type { HTMLElementTagName } from "@knyt/weaver";
 
+import {
+  __isKnytElementComposed,
+  __knytElementComposedLifecycle,
+  __knytElementComposedRenderer,
+} from "../constants";
+import { getConstructorStaticMember } from "../getConstructorStaticMember";
 import {
   isContainerModeEnabled,
   KnytElement,
   type KnytElementOptions,
 } from "../KnytElement";
+import type {
+  KnytElementComposed,
+  LifecycleFn,
+  RendererFn,
+} from "../KnytElementComposed";
 import type { ElementDefinition, PropertiesDefinition } from "../types";
 import {
   defineElementDefinition,
   type DefineElementDefinitionOptions,
 } from "./defineElementDefinition";
-
-type RendererFn<PD extends PropertiesDefinition<any>> = (
-  /**
-   * @deprecated The host should be retrieved from the lifecycle function.
-   *
-   * ### As this API was only available in an alpha version, this WILL be removed without a major release.
-   */
-  this: KnytElement.FromPropertiesDefinition<PD>,
-  /**
-   * @deprecated The host should be retrieved from the lifecycle function.
-   *
-   * ### As this API was only available in an alpha version, this WILL be removed without a major release.
-   */
-  host: KnytElement.FromPropertiesDefinition<PD>,
-) => RenderResult;
-
-/**
- * @internal scope: package
- */
-type LifecycleFn<TProperties extends PropertiesDefinition<any>> = (
-  this: KnytElement.FromPropertiesDefinition<TProperties>,
-
-  /*
-   * ### Private Remarks
-   *
-   * ### Decision
-   *
-   * It was decided to keep this parameter, because it allows
-   * consumers to use arrow functions to define the lifecycle
-   * function, which may be more convenient depending on the
-   * context.
-   *
-   * However, both `host` and `this` were removed from the `RendererFn`
-   * function, because they are not needed, and it helps encourage
-   * the renderer to be a pure function.
-   */
-  host: KnytElement.FromPropertiesDefinition<TProperties>,
-) => RendererFn<TProperties> | void;
 
 /**
  * @internal scope: package
@@ -95,52 +68,71 @@ export type DefineElementOptions<
 };
 
 /**
+ * Composes and defines a new `KnytElement` custom element.
+ *
  * @internal scope: package
  */
 // TODO: Update parameters to start with `tagName` like:
 // `defineKnytElement(tagName, options);`
+// TODO: Rename to something like `defineComposedElement`
+/*
+ * ### Private Remarks
+ *
+ * Despite the return types, this function returns a `KnytElementComposed` constructor.
+ */
 export function defineKnytElement<TN extends string, PropInfoDict>(
   params: DefineElementOptions<TN, PropInfoDict>,
 ): ElementDefinition.FromPropertiesDefinition<
   TN,
   PropertiesDefinition<PropInfoDict>
 > {
-  const { tagName, properties, lifecycle, options } = params;
-
   const ElementConstructor = class extends KnytElement {
-    #renderer: RendererFn<PropertiesDefinition<PropInfoDict>>;
+    static readonly [__isKnytElementComposed] = true as const;
+    static [__knytElementComposedLifecycle] = params.lifecycle;
+
+    [__knytElementComposedRenderer]: RendererFn<
+      PropertiesDefinition<PropInfoDict>
+    >;
 
     constructor() {
-      super(options);
+      super(params.options);
 
       const host = this as unknown as KnytElement.FromPropertiesDefinition<
         PropertiesDefinition<PropInfoDict>
       >;
 
-      this.#renderer = lifecycle.call(host, host) ?? (() => null);
+      const lifecycle = getConstructorStaticMember(
+        this,
+        __knytElementComposedLifecycle,
+      ) as LifecycleFn<PropertiesDefinition<PropInfoDict>>;
+
+      this[__knytElementComposedRenderer] =
+        lifecycle.call(host, host) ?? (() => null);
     }
 
     render() {
       const host = this as unknown as KnytElement.FromPropertiesDefinition<
         PropertiesDefinition<PropInfoDict>
       >;
-      const renderer = this.#renderer;
+      const renderer = this[__knytElementComposedRenderer];
 
       return renderer.call(host, host);
     }
-  } as unknown as KnytElement.Constructor.FromPropertiesDefinition<
+    // Use `satisfies to ensure the class has the correct static members.
+    // Then use type casting to get the correct constructor type.
+  } satisfies KnytElementComposed.ConstructorStaticMembers as unknown as KnytElement.Constructor.FromPropertiesDefinition<
     PropertiesDefinition<PropInfoDict>
   >;
 
   ElementConstructor.properties =
-    properties ?? ({} as PropertiesDefinition<PropInfoDict>);
+    params.properties ?? ({} as PropertiesDefinition<PropInfoDict>);
 
   ElementConstructor.styleSheet = getStyleSheet(params);
 
-  const { renderMode, customElements } = options ?? {};
+  const { renderMode, customElements } = params.options ?? {};
 
-  const ElementBuilders = defineElementDefinition(
-    tagName as HTMLElementTagName,
+  const definition = defineElementDefinition(
+    params.tagName as HTMLElementTagName,
     ElementConstructor,
     {
       defaultRenderMode: renderMode,
@@ -151,7 +143,7 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
     PropertiesDefinition<PropInfoDict>
   >;
 
-  return ElementBuilders;
+  return definition;
 }
 
 /**
