@@ -1059,23 +1059,6 @@ export abstract class KnytElement
 
     return clone;
   }
-
-  /**
-   * Enables hot module replacement (HMR) support for the element.
-   *
-   * @remarks
-   *
-   * This method is intended for compatibility with Open Web Components' HMR system.
-   * It is invoked when the element is hot-replaced, allowing the element to refresh
-   * or reinitialize itself without a full page reload during development.
-   *
-   * @see https://github.com/open-wc/open-wc/blob/master/docs/docs/development/hot-module-replacement.md
-   *
-   * @alpha This is an experimental API and WILL change in the future without notice.
-   */
-  hotReplacedCallback(): void {
-    this.requestUpdate();
-  }
 }
 
 applyLifecycleMixin(KnytElement, [
