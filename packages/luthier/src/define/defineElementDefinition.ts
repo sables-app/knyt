@@ -8,6 +8,7 @@ import {
   type HTMLElementTagName,
 } from "@knyt/weaver";
 
+import { __isKnytElementDefinition } from "../constants";
 import type { KnytElement } from "../KnytElement";
 import type { ElementDefinition, HTMLElementConstructor } from "../types";
 
@@ -126,7 +127,7 @@ export function defineElementDefinition<
   def.html = () => configureElementBuilder(htmlBuilder, options)();
   def.Element = ElementConstructor;
   def.tagName = tagName;
-  def.__isKnytElementDefinition = true as const;
+  def[__isKnytElementDefinition] = true as const;
 
   return def;
 }

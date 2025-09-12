@@ -6,8 +6,9 @@ import {
   type HTMLElementTagName,
 } from "@knyt/weaver";
 
-import type { ElementDefinition } from "./types";
+import { __isKnytElementDefinition } from "./constants";
 import type { KnytElement } from "./KnytElement";
+import type { ElementDefinition } from "./types";
 
 /**
  * @public
@@ -75,7 +76,7 @@ export function lazy<
     return importer().then((module) => module.default.Element);
   };
 
-  lazyElementDefinition.__isKnytElementDefinition = true as const;
+  lazyElementDefinition[__isKnytElementDefinition] = true as const;
 
   return lazyElementDefinition;
 }

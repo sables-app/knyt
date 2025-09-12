@@ -1,3 +1,4 @@
+import { __isKnytElementDefinition } from "./constants";
 import type { ElementDefinition } from "./types";
 
 export function isElementDefinition<
@@ -5,7 +6,7 @@ export function isElementDefinition<
 >(value: unknown): value is T {
   return (
     typeof value === "function" &&
-    "__isKnytElementDefinition" in value &&
-    value.__isKnytElementDefinition === true
+    __isKnytElementDefinition in value &&
+    value[__isKnytElementDefinition] === true
   );
 }

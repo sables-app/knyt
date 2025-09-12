@@ -1,10 +1,10 @@
 /// <reference types="bun-types" />
 /// <reference lib="dom" />
-
 import { typeCheck } from "@knyt/artisan";
 import { dom, type ElementBuilder } from "@knyt/weaver";
 import { describe, expect, it } from "bun:test";
 
+import { __isKnytElementDefinition } from "../constants";
 import { define } from "../define/mod";
 import { KnytElement } from "../KnytElement";
 import type { LazyElementDefinition } from "../lazy";
@@ -53,7 +53,7 @@ describe("types", () => {
 
   describe("ElementDefinition", () => {
     type Expected = {
-      readonly __isKnytElementDefinition: true;
+      readonly [__isKnytElementDefinition]: true;
       (): ElementBuilder.DOM<TestElement>;
       html: () => ElementBuilder.HTML<{
         foolish: string | null | undefined;
@@ -73,22 +73,20 @@ describe("types", () => {
     });
 
     it("should match the expected keys", () => {
-      // Prefix the key with `@` to force the type to be a string literal for visual comparison
-      expect<`@${keyof Result}`>("" as `@${keyof Expected}`);
+      typeCheck<keyof Result>(typeCheck.identify<keyof Expected>());
     });
 
     it("should contain the same property names as LazyElementDefinition for consistency", () => {
-      type Expected = `_${keyof LazyElementDefinition<
+      type Expected = keyof LazyElementDefinition<
         TestElementConstructor,
         TestTagName
-      >}`;
-      type Result = `_${keyof ElementDefinition<
+      >;
+      type Result = keyof ElementDefinition<
         TestElementConstructor,
         TestTagName
-      >}`;
+      >;
 
-      expect<Result>("" as Expected);
-      expect<Expected>("" as Result);
+      typeCheck<Result>(typeCheck.identify<Expected>());
     });
   });
 
@@ -293,7 +291,7 @@ describe("types", () => {
 
     it("should match the expected type", () => {
       const expected = {} as {
-        readonly __isKnytElementDefinition: true;
+        readonly [__isKnytElementDefinition]: true;
         (): ElementBuilder.DOM<
           KnytElement.FromPropertiesDefinition<TestElementProperties>
         >;
