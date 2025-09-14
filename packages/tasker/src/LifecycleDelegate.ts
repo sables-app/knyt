@@ -370,12 +370,34 @@ export class BasicLifecycleDelegateHost<P> implements LifecycleDelegateHost<P> {
    */
   #hookRegistry = new Set<LifecycleDelegate<P>>();
 
+  /**
+   * Registers a lifecycle delegate to the host instance.
+   */
   addDelegate(hooks: LifecycleDelegate<P>): void {
     this.#hookRegistry.add(hooks);
   }
 
+  /**
+   * Removes a previously registered lifecycle delegate from the host instance.
+   */
   removeDelegate(hooks: LifecycleDelegate<P>): void {
     this.#hookRegistry.delete(hooks);
+  }
+
+  /**
+   * Removes all registered lifecycle delegates from the host.
+   *
+   * @remarks
+   *
+   * This is useful for cleaning up all delegates at once,
+   * for example when the host is being destroyed or reset.
+   *
+   * This method is used during hot module replacement.
+   *
+   * @internal scope: workspace
+   */
+  clearDelegates(): void {
+    this.#hookRegistry.clear();
   }
 
   addLifecycleHook<K extends keyof LifecycleDelegate<P>>(

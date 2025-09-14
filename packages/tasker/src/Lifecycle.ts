@@ -12,7 +12,7 @@ import { isLifecycleDelegateHost, LifecycleAdapter } from "./LifecycleDelegate";
  * (`Symbol.for`) so that the reactive adapter can be
  * accessed from within different contexts.
  *
- * @internal scope: package
+ * @internal scope: workspace
  */
 export const __lifecycle = Symbol.for("knyt.tasker.lifecycle");
 
