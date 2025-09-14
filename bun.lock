@@ -14,14 +14,14 @@
     },
     "packages/artisan": {
       "name": "@knyt/artisan",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "devDependencies": {
         "rxjs": "^7.8.2",
       },
     },
     "packages/clerk": {
       "name": "@knyt/clerk",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
       },
@@ -33,13 +33,13 @@
         "create-knyt": "bin/create-knyt.bundle.js",
       },
       "devDependencies": {
-        "@clack/prompts": "^0.10.1",
+        "@clack/prompts": "^0.11.0",
         "picocolors": "^1.1.1",
       },
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/luthier": "^0.1.0",
@@ -60,7 +60,7 @@
     },
     "packages/luthier": {
       "name": "@knyt/luthier",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/tailor": "^0.1.0",
@@ -71,7 +71,7 @@
     },
     "packages/tailor": {
       "name": "@knyt/tailor",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/clerk": "^0.1.0",
@@ -81,7 +81,7 @@
     },
     "packages/tasker": {
       "name": "@knyt/tasker",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/clerk": "^0.1.0",
@@ -92,7 +92,7 @@
     },
     "packages/toolkit": {
       "name": "knyt",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/clerk": "^0.1.0",
@@ -105,7 +105,7 @@
     },
     "packages/weaver": {
       "name": "@knyt/weaver",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@knyt/artisan": "^0.1.0",
         "@knyt/html-type": "^0.1.0",
@@ -193,9 +193,9 @@
 
     "@changesets/write": ["@changesets/write@0.4.0", "", { "dependencies": { "@changesets/types": "^6.1.0", "fs-extra": "^7.0.1", "human-id": "^4.1.1", "prettier": "^2.7.1" } }, "sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q=="],
 
-    "@clack/core": ["@clack/core@0.4.2", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-NYQfcEy8MWIxrT5Fj8nIVchfRFA26yYKJcvBS7WlUIlw2OmQOY9DhGGXMovyI5J5PpxrCPGkgUi207EBrjpBvg=="],
+    "@clack/core": ["@clack/core@0.5.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow=="],
 
-    "@clack/prompts": ["@clack/prompts@0.10.1", "", { "dependencies": { "@clack/core": "0.4.2", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-Q0T02vx8ZM9XSv9/Yde0jTmmBQufZhPJfYAg2XrrrxWWaZgq1rr8nU8Hv710BQ1dhoP8rtY7YUdpGej2Qza/cw=="],
+    "@clack/prompts": ["@clack/prompts@0.11.0", "", { "dependencies": { "@clack/core": "0.5.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw=="],
 
     "@esbuild/android-arm": ["@esbuild/android-arm@0.18.20", "", { "os": "android", "cpu": "arm" }, "sha512-fyi7TDI/ijKKNZTUJAQqiG5T7YjJXgnzkURqmGj13C6dCqckZBLdl4h7bkhHt/t0WP+zO9/zwroDvANaOqO5Sw=="],
 
