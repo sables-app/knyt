@@ -30,7 +30,7 @@ import {
   LifecycleAdapter,
   LifecycleInterrupt,
   listenTo,
-  StyleSheetAdoptionController,
+  StyleSheetAdoptionAdapter,
   type Controllable,
   type Effect,
   type EventListenableObserver,
@@ -499,7 +499,7 @@ export abstract class KnytElement
    */
   readonly #rootElement: ShadowRoot | HTMLElement;
 
-  readonly #styleSheetAdoption: StyleSheetAdoptionController;
+  readonly #styleSheetAdoption: StyleSheetAdoptionAdapter;
 
   /**
    * Indicates whether the element is a "Container" element.
@@ -642,7 +642,7 @@ export abstract class KnytElement
    * `disableStylesheetSSR` to `true` in the element's options.
    */
   adoptStyleSheet(
-    input: { href: string } | StyleSheetAdoptionController.Input,
+    input: { href: string } | StyleSheetAdoptionAdapter.Input,
   ): void {
     if ("href" in input && !isCSSStyleSheet(input)) {
       this.#addStylesheetFromHref(input);
@@ -663,7 +663,7 @@ export abstract class KnytElement
   /**
    * Drops a style sheet from the element's shadow root or light DOM.
    */
-  dropStyleSheet(input: StyleSheetAdoptionController.Input): void {
+  dropStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
     this.#styleSheetAdoption.dropStyleSheet(input);
   }
 
@@ -1222,7 +1222,7 @@ export function isKnytElement(value: unknown): value is KnytElement {
 }
 
 function normalizeStyleSheet(
-  input: StyleSheetAdoptionController.Input,
+  input: StyleSheetAdoptionAdapter.Input,
   documentOrShadow: DocumentOrShadowRoot | undefined | null,
 ): StyleSheet<{}> {
   if (isStyleSheet(input)) {
@@ -1290,8 +1290,8 @@ function getRootForStyleSheetAdoptionController(
 function createStyleSheetAdoptionController(
   host: ReactiveControllerHost,
   rootElement: ShadowRoot | HTMLElement,
-): StyleSheetAdoptionController {
-  return new StyleSheetAdoptionController(host, {
+): StyleSheetAdoptionAdapter {
+  return new StyleSheetAdoptionAdapter(host, {
     root: getRootForStyleSheetAdoptionController(rootElement),
   });
 }

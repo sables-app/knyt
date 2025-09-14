@@ -25,7 +25,7 @@ export * from "./ReactiveController";
 export * from "./ReactiveControllerHostAdapter";
 export * from "./ReactiveStateController";
 export * from "./ResizeObserverController";
-export * from "./StyleSheetAdoptionController";
+export * from "./StyleSheetAdoptionAdapter";
 export * from "./tracking";
 export * from "./watch";
 export type * from "./types";

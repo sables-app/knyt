@@ -1,7 +1,7 @@
 import {
   createReference,
-  isCSSStyleSheet,
   ensureReference,
+  isCSSStyleSheet,
   type Observer,
   type Reference,
 } from "@knyt/artisan";
@@ -13,7 +13,7 @@ import type {
 } from "./ReactiveController";
 
 function normalizeCSSStyleSheet(
-  input: StyleSheetAdoptionController.Input,
+  input: StyleSheetAdoptionAdapter.Input,
   $CSSStyleSheet: typeof CSSStyleSheet | undefined,
 ): CSSStyleSheet {
   return isCSSStyleSheet(input) ? input : input.toCSSStyleSheet($CSSStyleSheet);
@@ -44,7 +44,7 @@ function addStyleSheetsToRoot(
 /**
  * @beta The interface for this controller is still experimental and may change in future releases.
  */
-export class StyleSheetAdoptionController
+export class StyleSheetAdoptionAdapter
   implements ReactiveController, Observer<ShadowRoot | Document | null>
 {
   #host: ReactiveControllerHost;
@@ -80,7 +80,7 @@ export class StyleSheetAdoptionController
     addStyleSheetsToRoot(root, this.#adoptedStyleSheets$.get());
   }
 
-  #normalizeCSSStyleSheet(input: StyleSheetAdoptionController.Input) {
+  #normalizeCSSStyleSheet(input: StyleSheetAdoptionAdapter.Input) {
     return normalizeCSSStyleSheet(input, this.#$CSSStyleSheet);
   }
 
@@ -88,7 +88,7 @@ export class StyleSheetAdoptionController
    * Adds the given style sheet to the adopted style sheets.
    * If the style sheet is already present, this is a no-op.
    */
-  adoptStyleSheet(input: StyleSheetAdoptionController.Input): void {
+  adoptStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
     const cssStyleSheet = this.#normalizeCSSStyleSheet(input);
     const adoptedStyleSheets = this.#adoptedStyleSheets$.get();
 
@@ -101,7 +101,7 @@ export class StyleSheetAdoptionController
    * Removes the first occurrence of the given style sheet from the adopted
    * style sheets.
    */
-  dropStyleSheet(input: StyleSheetAdoptionController.Input): void {
+  dropStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
     const cssStyleSheet = this.#normalizeCSSStyleSheet(input);
 
     this.#dropStyleSheetFromInternal(cssStyleSheet);
@@ -146,7 +146,7 @@ export class StyleSheetAdoptionController
   }
 }
 
-export namespace StyleSheetAdoptionController {
+export namespace StyleSheetAdoptionAdapter {
   export type Input =
     | CSSStyleSheet
     | {
