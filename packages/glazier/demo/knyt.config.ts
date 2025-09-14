@@ -3,8 +3,8 @@ import { defineConfig, disableDependencyInjection } from "@knyt/glazier";
 import { appMode } from "./lib/appMode";
 
 export default defineConfig({
-  onRequest(request: Request) {
-    appMode.associate(request, process.env.NODE_ENV || "development");
+  onRequest(request) {
+    appMode.associate(request, import.meta.env.NODE_ENV || "development");
     // disableDependencyInjection(request);
     request.headers.set("x-foo", "bar");
   },

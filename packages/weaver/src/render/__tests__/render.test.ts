@@ -411,7 +411,7 @@ describe("render", async () => {
       // timers are being ridiculously inconsistent,
       // right now in GitHub Actions with Bun.
       // TODO: Revisit this later.
-      process.env.GITHUB_ACTIONS === "true",
+      import.meta.env.GITHUB_ACTIONS === "true",
     )("should respect the reactiveElementTimeout option", async () => {
       const builder = dom["test-deferred-element"].strategy([1, 1000]);
       const resultPromise = render(builder, {

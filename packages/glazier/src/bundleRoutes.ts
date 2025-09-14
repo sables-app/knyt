@@ -5,7 +5,7 @@ import path from "node:path";
 
 import type { BuildConfig, BunPlugin, HTMLBundle } from "bun";
 
-import { getKnytBatchSize, isCIEnv, isProductionEnv } from "./env";
+import { getKnytBatchSize, isCIEnv, isProductionSSREnv } from "./env";
 import { getServeStaticPlugins } from "./getServeStaticPlugins";
 import glazierPlugin from "./plugin";
 import { rewriteRelativeResourceTags } from "./rewriteRelativeResourceTags";
@@ -185,7 +185,7 @@ export async function bundleRoutes(
   routes: BuildRoutesInput,
   options: BuildRoutesOptions = {},
 ): Promise<RouteBuildResult[]> {
-  const isProd = isProductionEnv();
+  const isProd = isProductionSSREnv();
 
   console.info(`[glazier] Building ...`);
 

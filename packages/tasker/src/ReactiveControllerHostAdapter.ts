@@ -361,9 +361,14 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
   /**
    * @internal scope: test
    */
+  /*
+   * ### Private Remarks
+   *
+   * A method used for testing that exposes the internal state of the host.
+   */
   // TODO: Remove this in production builds
   _getReactiveControllers(): ReactiveController[] {
-    if (typeof process !== "undefined" && process.env.NODE_ENV === "test") {
+    if (import.meta.env?.NODE_ENV === "test") {
       return [...this.#reactiveControllers];
     }
 

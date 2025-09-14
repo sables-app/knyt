@@ -52,6 +52,11 @@ enum EnvVarName {
   XDGConfigHome = "XDG_CONFIG_HOME",
 }
 
+/**
+ * Known application environments.
+ *
+ * @internal scope: package
+ */
 enum KnownEnvironments {
   Development = "development",
   Production = "production",
@@ -61,7 +66,7 @@ enum KnownEnvironments {
 const DEFAULT_CONFIG_NAME = "knyt.config.ts";
 
 export function getConfigModulePath() {
-  const pathFromEnv = process.env[EnvVarName.KnytConfigPath];
+  const pathFromEnv = import.meta.env[EnvVarName.KnytConfigPath];
 
   if (pathFromEnv) {
     return path.isAbsolute(pathFromEnv)
@@ -72,19 +77,45 @@ export function getConfigModulePath() {
   return path.resolve(process.cwd(), DEFAULT_CONFIG_NAME);
 }
 
-export function getNodeEnv() {
-  return process.env.NODE_ENV ?? KnownEnvironments.Development;
+/**
+ * Get the current application mode.
+ *
+ * @remarks
+ *
+ * This should be used within the context of SSR.
+ * This function ensures consistency between different
+ * parts of the transformation and rendering process.
+ *
+ * In other contexts, consider using `import.meta.env.NODE_ENV` directly.
+ *
+ * @internal scope: package
+ */
+export function getSSREnv(): string {
+  return import.meta.env.NODE_ENV ?? KnownEnvironments.Development;
 }
 
-export function isProductionEnv() {
-  return getNodeEnv() === KnownEnvironments.Production;
+/**
+ * Determine if the current environment is development.
+ *
+ * @remarks
+ *
+ * This function should be used within the context of SSR.
+ * This function ensures consistency between different
+ * parts of the transformation and rendering process.
+ *
+ * In other contexts, consider using `import.meta.env.NODE_ENV` directly.
+ *
+ * @internal scope: package
+ */
+export function isProductionSSREnv(): boolean {
+  return getSSREnv() === KnownEnvironments.Production;
 }
 
 export function getBooleanEnvVar(
   name: string,
   defaultValue = "false",
 ): boolean {
-  return Boolean(JSON.parse(process.env[name] || defaultValue));
+  return Boolean(JSON.parse(import.meta.env[name] || defaultValue));
 }
 
 export function isCIEnv(): boolean {
@@ -96,17 +127,18 @@ export function isVerboseEnv(): boolean {
 }
 
 export function getHomeDir() {
-  return process.env[EnvVarName.Home] ?? process.cwd();
+  return import.meta.env[EnvVarName.Home] ?? process.cwd();
 }
 
 export function getXDGConfigHome() {
   return (
-    process.env[EnvVarName.XDGConfigHome] ?? path.join(getHomeDir(), ".config")
+    import.meta.env[EnvVarName.XDGConfigHome] ??
+    path.join(getHomeDir(), ".config")
   );
 }
 
 export function getKnytBatchSize() {
-  const value = process.env[EnvVarName.KnytBatchSize];
+  const value = import.meta.env[EnvVarName.KnytBatchSize];
   const knytBatchSize = value ? parseInt(value, 10) : 4;
 
   if (isNaN(knytBatchSize) || knytBatchSize <= 0) {
