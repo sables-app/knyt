@@ -6,20 +6,6 @@ import type { Action, AnyAction } from "./types";
  */
 const ACTION_META_LOG_TYPE = "@knyt/clerk#logType";
 
-/***
- * Determine if the current environment is development.
- *
- * TODO: This function should be moved to a shared utility library.
- */
-const isTestEnv = (() => {
-  try {
-    return typeof process === "object" && process.env.NODE_ENV === "test";
-  } catch (e) {
-    console.warn("Failed to determine if the environment is test.", e);
-    return false;
-  }
-})();
-
 function getActionType(action: AnyAction): string {
   const actionType = String(action.type);
 
@@ -64,7 +50,8 @@ export function logDispatch<State = unknown>({
   nextState: State;
   prevState: State;
 }): void {
-  if (isTestEnv) return;
+  // Skip logging while running tests.
+  if (import.meta.env?.MODE === "test") return;
 
   const type = getActionType(action);
 

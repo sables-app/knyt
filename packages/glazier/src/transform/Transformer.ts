@@ -8,7 +8,7 @@ import type { BunRequest } from "bun";
 
 import { createBunRequest } from "../createBunRequest";
 import { createPage, type Page } from "../domEnv";
-import { getNodeEnv } from "../env";
+import { getSSREnv } from "../env";
 import { DEFAULT_SLOT_NAME } from "../htmlSlots";
 import {
   hasFrontmatterTag,
@@ -364,7 +364,7 @@ export class Transformer {
 
     let hasEncounteredProcessingTag = false;
 
-    const environment = getNodeEnv();
+    const environment = getSSREnv();
 
     /**
      * The output HTML that will be returned after processing.

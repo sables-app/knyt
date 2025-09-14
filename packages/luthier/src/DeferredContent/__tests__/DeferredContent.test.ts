@@ -24,7 +24,7 @@ describe.skipIf(
   // are cleaning up after themselves properly.
   //
   // TODO: Figure out why this is necessary
-  process.env.TEST_DEFERRED_CONTENT !== "true",
+  import.meta.env.TEST_DEFERRED_CONTENT !== "true",
 )("DeferredContent", () => {
   const Outer = defineElement("deferred-content-test-outer", {
     properties: {
