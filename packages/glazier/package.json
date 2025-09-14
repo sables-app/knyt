@@ -36,6 +36,7 @@
     "./client": "./dist/build/client.js",
     "./plugin": "./dist/build/plugin.js",
     "./preload": "./dist/build/preload.js",
+    "./hmr/runtime": "./dist/build/HmrRuntime/main.js",
     "./package.json": "./package.json"
   },
   "engines": {
@@ -45,8 +46,10 @@
     "@knyt/artisan": "^0.2.0",
     "@knyt/luthier": "^0.2.0",
     "@knyt/weaver": "^0.2.0",
+    "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
     "@types/bun": "^1.2.21",
-    "happy-dom": "^17.4.4"
+    "happy-dom": "^17.4.4",
+    "oxc-parser": "~0.87.0"
   },
   "devDependencies": {
     "knyt": "0.2.1"

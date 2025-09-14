@@ -8,9 +8,15 @@ import type { BunPlugin, PluginBuilder } from "bun";
 
 import { loadConfig } from "./ConfigLoader";
 import { DependencyManager } from "./DependencyManager";
+import { setupHmrTransform } from "./HmrTransform/mod";
+import { setupHtmlTransform } from "./setupHtmlTransform";
 import { setupImportBlocklist } from "./setupImportBlocklist";
-import { transform, type GlazierPluginOptions } from "./transform/mod";
-import type { BunKnytConfig, TransformerRenderOptions } from "./types";
+import { type GlazierPluginOptions } from "./transform/mod";
+import type {
+  BunKnytConfig,
+  MiddlewareConfig,
+  TransformerRenderOptions,
+} from "./types";
 
 export namespace Middleware {
   export enum Kind {
@@ -124,7 +130,7 @@ export class GlazierPlugin implements BunPlugin {
    * there's a desire to reuse the same configuration for both the static
    * server and dynamic routes.
    */
-  readonly options: GlazierPluginOptions.Middleware = {
+  readonly middleware: MiddlewareConfig = {
     onRequest: async (request) => {
       return this.#middleware.chain(Middleware.Kind.Request, request);
     },
@@ -141,6 +147,14 @@ export class GlazierPlugin implements BunPlugin {
       return result;
     },
   };
+
+  /**
+   * TODO: Remove in v1 release.
+   * @deprecated Use `middleware` instead.
+   */
+  get options(): MiddlewareConfig {
+    return this.middleware;
+  }
 
   #dependencyManager: DependencyManager | undefined;
 
@@ -167,26 +181,7 @@ export class GlazierPlugin implements BunPlugin {
     // builder.onEnd(console.debug);
 
     setupImportBlocklist(builder);
-
-    builder.onLoad(
-      { filter: /\.html$/ },
-      async ({ path: inputPath, defer }) => {
-        try {
-          const fileText = Bun.file(inputPath).text();
-          const [html] = await Promise.all([fileText, defer()]);
-          const options = this.options;
-          const transformResult = await transform(inputPath, html, options);
-          const contents = await dependencyManager.inject(transformResult);
-
-          return {
-            contents,
-            loader: "html",
-          };
-        } catch (error) {
-          console.error("[GlazierPlugin]", error);
-          throw error;
-        }
-      },
-    );
+    setupHtmlTransform(builder, dependencyManager, this.middleware);
+    setupHmrTransform(builder);
   };
 }
