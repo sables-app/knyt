@@ -2,10 +2,19 @@ import { css, type StyleSheet } from "@knyt/tailor";
 import type { HTMLElementTagName, RenderResult } from "@knyt/weaver";
 
 import {
+  __isKnytElementComposed,
+  __knytElementComposedHotUpdate,
+  __knytElementComposedLifecycle,
+  __knytElementComposedRenderer,
+} from "../constants";
+import { getConstructorStaticMember } from "../getConstructorStaticMember";
+import {
   isContainerModeEnabled,
   KnytElement,
   type KnytElementOptions,
 } from "../KnytElement";
+import type { HotUpdateFn, KnytElementComposed } from "../KnytElementComposed";
+import { performHotUpdate } from "../performHotUpdate";
 import type { ElementDefinition, PropertiesDefinition } from "../types";
 import {
   defineElementDefinition,
@@ -105,26 +114,54 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
   TN,
   PropertiesDefinition<PropInfoDict>
 > {
-  const { tagName, properties, lifecycle, options } = params;
-
   const ElementConstructor = class extends KnytElement {
-    #renderer: RendererFn<PropertiesDefinition<PropInfoDict>>;
+    static readonly [__isKnytElementComposed] = true as const;
+
+    static [__knytElementComposedLifecycle] = params.lifecycle;
+
+    // This can't be an arrow function, because we need to access `this` in the method.
+    // See comments below.
+    static [__knytElementComposedHotUpdate](params: HotUpdateFn.Params): void {
+      // TODO: Remove in production builds, and replace with a no-op containing
+      // a comment that explains that HMR is not supported in production builds.
+      performHotUpdate({
+        ...params,
+        // Note: We need to use `this` here to refer to the current constructor.
+        // Referencing `ElementConstructor` doesn't work, because it's not
+        // the constructor that's being updated during HMR. During HMR,
+        // a new constructor is created, and `this` refers to that new constructor.
+        prevConstructor: this as unknown as KnytElementComposed.Constructor,
+      });
+    }
+
+    /**
+     * Casted as non-nullable, because it will be set in the constructor
+     * by the `setComposedRenderer` function.
+     */
+    [__knytElementComposedRenderer]!: RendererFn<
+      PropertiesDefinition<PropInfoDict>
+    >;
 
     constructor() {
-      super(options);
+      super(params.options);
 
       const host = this as unknown as KnytElement.FromPropertiesDefinition<
         PropertiesDefinition<PropInfoDict>
       >;
 
-      this.#renderer = lifecycle.call(host, host) ?? (() => null);
+      const lifecycle = getConstructorStaticMember(
+        this,
+        __knytElementComposedLifecycle,
+      ) as LifecycleFn<PropertiesDefinition<PropInfoDict>>;
+
+      setComposedRenderer(this as unknown as KnytElementComposed, lifecycle);
     }
 
     render() {
       const host = this as unknown as KnytElement.FromPropertiesDefinition<
         PropertiesDefinition<PropInfoDict>
       >;
-      const renderer = this.#renderer;
+      const renderer = this[__knytElementComposedRenderer];
 
       return renderer.call(host, host);
     }
@@ -133,14 +170,14 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
   >;
 
   ElementConstructor.properties =
-    properties ?? ({} as PropertiesDefinition<PropInfoDict>);
+    params.properties ?? ({} as PropertiesDefinition<PropInfoDict>);
 
   ElementConstructor.styleSheet = getStyleSheet(params);
 
-  const { renderMode, customElements } = options ?? {};
+  const { renderMode, customElements } = params.options ?? {};
 
   const ElementBuilders = defineElementDefinition(
-    tagName as HTMLElementTagName,
+    params.tagName as HTMLElementTagName,
     ElementConstructor,
     {
       defaultRenderMode: renderMode,
@@ -152,6 +189,22 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
   >;
 
   return ElementBuilders;
+}
+
+/**
+ * Sets the renderer function for a `KnytElementComposed` instance based
+ * on the provided lifecycle function.
+ *
+ * @internal scope: workspace
+ */
+export function setComposedRenderer(
+  element: KnytElementComposed,
+  lifecycle: LifecycleFn<any>,
+): void {
+  const host = element as unknown as KnytElement.FromPropertiesDefinition<any>;
+
+  element[__knytElementComposedRenderer] =
+    lifecycle.call(host, host) ?? (() => null);
 }
 
 /**
