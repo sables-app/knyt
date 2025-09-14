@@ -3,6 +3,20 @@ import { isNonNullableObject } from "@knyt/artisan";
 import type { KnytContent } from "./types/mod";
 
 /**
+ * This symbol is used to attach the resource renderers host
+ * to an object that implements the `ResourceRendererHost` interface.
+ *
+ * @remarks
+ *
+ * This symbol must be in the runtime-wide symbol registry
+ * (`Symbol.for`) so that the resource renderer host can be
+ * accessed from within different contexts.
+ *
+ * @internal scope: workspace
+ */
+export const __resourceRenderers = Symbol.for("knyt.weaver.resourceRenderers");
+
+/**
  * An object that can render a resource.
  *
  * @remarks
@@ -63,12 +77,34 @@ export class BasicResourceRendererHost implements ResourceRendererHost {
    */
   #renderers = new Set<ResourceRenderer>();
 
+  /**
+   * Registers a resource renderer to the host.
+   */
   addRenderer(input: ResourceRenderer): void {
     this.#renderers.add(input);
   }
 
+  /**
+   * Removes a previously added resource renderer from the host.
+   */
   removeRenderer(input: ResourceRenderer): void {
     this.#renderers.delete(input);
+  }
+
+  /**
+   * Removes all registered resource renderers from the host.
+   *
+   * @remarks
+   *
+   * This is useful for cleaning up all resource renderers at once,
+   * for example when the host is being destroyed or reset.
+   *
+   * This method is used during hot module replacement.
+   *
+   * @internal scope: workspace
+   */
+  clearRenderers(): void {
+    this.#renderers.clear();
   }
 
   render(): ReadonlyArray<KnytContent | Promise<KnytContent>> {
