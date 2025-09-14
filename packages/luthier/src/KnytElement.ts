@@ -30,7 +30,7 @@ import {
   LifecycleAdapter,
   LifecycleInterrupt,
   listenTo,
-  StyleSheetAdoptionController,
+  StyleSheetAdoptionAdapter,
   type Controllable,
   type Effect,
   type EventListenableObserver,
@@ -39,6 +39,7 @@ import {
   type ReactiveControllerHost,
 } from "@knyt/tasker";
 import {
+  __resourceRenderers,
   BasicResourceRendererHost,
   dom,
   html,
@@ -212,6 +213,24 @@ export type ObservedProperties<
 const __isKnytElement = Symbol.for("knyt.luthier.isKnytElement");
 
 /**
+ * This symbol is used to access the post-construction logic of the `KnytElement`.
+ *
+ * @internal scope: workspace
+ */
+export const __postConstruct = Symbol.for(
+  "knyt.luthier.KnytElement.postConstruct",
+);
+
+/**
+ * This symbol is used to access the style sheet adoption controller of the `KnytElement`.
+ *
+ * @internal scope: workspace
+ */
+export const __styleSheetAdoption = Symbol.for(
+  "knyt.luthier.KnytElement.styleSheetAdoption",
+);
+
+/**
  * The base class for all Knyt elements.
  *
  * @remarks
@@ -303,24 +322,28 @@ export abstract class KnytElement
   declare removeDelegate: LifecycleAdapter<any>["removeDelegate"];
 
   /**
-   * Enables debug mode for the element
+   * Enables debug mode for the element.
    *
    * @public
    */
-  debug?: boolean;
+  /*
+   * ### Private Remarks
+   *
+   * This property is defined in the constructor so that it isn't
+   * enumerable, and thus doesn't show up in `for...in` loops.
+   *
+   * Setting the property will NOT update the `data-knytdebug` attribute,
+   * because I don't want to bother implementing synchronization for
+   * a debug feature that's rarely used; it should be as dumb and
+   * reliable as possible.
+   */
+  declare debug?: boolean;
 
-  get #isDebugMode(): boolean {
-    if (this.debug === undefined) {
-      this.debug = this.getAttribute(KNYT_DEBUG_DATA_ATTR) === "true";
-    }
-
-    return this.debug;
-  }
-
+  /**
+   * Logs a debug message to the console if debug mode is enabled.
+   */
   #debugLog(message: any): void {
-    if (this.#isDebugMode) {
-      console.debug(message);
-    }
+    if (this.debug) console.debug(message);
   }
 
   /**
@@ -352,6 +375,11 @@ export abstract class KnytElement
    *
    * @public
    */
+  /*
+   * ### Private Remarks
+   *
+   * This getter is only called once by the browser when the class is first defined.
+   */
   static get observedAttributes(): string[] {
     return convertPropertiesDefinition(this.properties).reduce<string[]>(
       (result, { attributeName }) => {
@@ -361,7 +389,10 @@ export abstract class KnytElement
 
         return result;
       },
-      [],
+      [
+        // Always observe this attribute for debug mode.
+        KNYT_DEBUG_DATA_ATTR,
+      ],
     );
   }
 
@@ -370,7 +401,7 @@ export abstract class KnytElement
    */
   async #renderRootContents(): Promise<KnytDeclaration> {
     const content = await normalizeRenderResult(this.render());
-    const resourcePromises = this.#resourceRenderers.render();
+    const resourcePromises = this[__resourceRenderers].render();
     const resources = resourcePromises.some(isPromiseLike)
       ? await Promise.all(resourcePromises)
       : (resourcePromises as readonly KnytContent[]);
@@ -499,7 +530,7 @@ export abstract class KnytElement
    */
   readonly #rootElement: ShadowRoot | HTMLElement;
 
-  readonly #styleSheetAdoption: StyleSheetAdoptionController;
+  readonly [__styleSheetAdoption]: StyleSheetAdoptionAdapter;
 
   /**
    * Indicates whether the element is a "Container" element.
@@ -514,12 +545,6 @@ export abstract class KnytElement
   }
 
   /**
-   * Whether the element has a declarative shadow root
-   * upon construction.
-   */
-  #hadDeclarativeShadowRoot = false;
-
-  /**
    * Determines whether the element should render adopted stylesheets
    * server-side.
    *
@@ -528,8 +553,34 @@ export abstract class KnytElement
   readonly #disableStylesheetSSR: boolean;
   readonly #appendChunkSize: number | undefined;
 
+  /**
+   * Creates a new instance of the `KnytElement`.
+   *
+   * @param options Options for configuring the element.
+   *
+   * @remarks
+   *
+   * While this constructor can accept options, elements will be created
+   * by the browser the vast majority of the time, and thus options
+   * will not be passed. The options are primarily useful for
+   * when `KnytElement` is extended by another class that is
+   * instantiated directly.
+   *
+   * If the element is created using the `define.element` function,
+   * the options passed to that function will be used here.
+   */
   constructor(options: KnytElementOptions = {}) {
     super();
+
+    // Define the `debug` property as non-enumerable.
+    Object.defineProperty(this, "debug", {
+      enumerable: false,
+      writable: true,
+      // Prevent the property from being deleted or reconfigured,
+      // because we want to ensure a reliable way to check for
+      // debug mode.
+      configurable: false,
+    });
 
     const preparedOptions = prepareElementOptions(options);
     const renderMode = preparedOptions.renderMode ?? RenderMode.Transparent;
@@ -556,12 +607,10 @@ export abstract class KnytElement
     });
 
     if (shadowRootEnabled) {
-      const { wasDeclarative, shadowRoot } = ensureShadowRoot(
-        this,
-        shadowRootInit,
-      );
+      // TODO: Create API to expose `elementInternals` and `wasDeclarative`,
+      // to the element instance for advanced use cases.
+      const { shadowRoot } = ensureShadowRoot(this, shadowRootInit);
 
-      this.#hadDeclarativeShadowRoot = wasDeclarative;
       this.#rootElement = shadowRoot;
 
       if (htmxInput) {
@@ -573,12 +622,11 @@ export abstract class KnytElement
 
     setRenderMode(this, renderMode);
 
-    this.#styleSheetAdoption = createStyleSheetAdoptionController(
-      this,
-      this.#rootElement,
-    );
+    this[__styleSheetAdoption] = new StyleSheetAdoptionAdapter(this, {
+      root: getRootForStyleSheetAdoptionController(this.#rootElement),
+    });
 
-    this.#postConstruct();
+    this[__postConstruct]();
   }
 
   /**
@@ -591,25 +639,44 @@ export abstract class KnytElement
    * Separating this from the constructor helps ensure that
    * post-construction logic runs only after the element is fully initialized,
    * improving clarity and maintainability.
+   *
+   * @internal scope: workspace
    */
-  #postConstruct(): void {
-    // Adopt the static stylesheet if it exists.
-    {
-      const staticStyleSheet = getKnytElementStyleSheet(this);
+  [__postConstruct](): void {
+    this.#adoptStaticStyleSheets();
+    this.#initListenersController();
+  }
 
-      if (staticStyleSheet) {
-        // NOTE: Avoid using `this.#styleSheetAdoption` directly here,
-        // to ensure the stylesheet is adopted properly in both
-        // client-side and server-side rendering scenarios.
-        if (Array.isArray(staticStyleSheet)) {
-          for (const styleSheet of staticStyleSheet) {
-            this.adoptStyleSheet(styleSheet);
-          }
-        } else {
-          this.adoptStyleSheet(staticStyleSheet);
-        }
+  /**
+   * Adopts the static style sheet(s) defined on the constructor.
+   */
+  #adoptStaticStyleSheets(): void {
+    const staticStyleSheet = getKnytElementStyleSheet(this);
+
+    if (!staticStyleSheet) return;
+
+    // NOTE: Avoid using `this[__styleSheetAdoption]` directly here,
+    // to ensure the stylesheet is adopted properly in both
+    // client-side and server-side rendering scenarios.
+    if (Array.isArray(staticStyleSheet)) {
+      for (const styleSheet of staticStyleSheet) {
+        this.adoptStyleSheet(styleSheet);
       }
+    } else {
+      this.adoptStyleSheet(staticStyleSheet);
     }
+  }
+
+  #initListenersController(): void {
+    Object.defineProperty(this, "listeners", {
+      value: listenTo(this, this),
+      // So it doesn't show up in `for...in` loops.
+      enumerable: false,
+      // So it can't be reassigned.
+      writable: false,
+      // Configurable; so it can be reconfigured for HMR.
+      configurable: true,
+    });
   }
 
   #addStylesheetFromHref(url: { href: string }): void {
@@ -642,7 +709,7 @@ export abstract class KnytElement
    * `disableStylesheetSSR` to `true` in the element's options.
    */
   adoptStyleSheet(
-    input: { href: string } | StyleSheetAdoptionController.Input,
+    input: { href: string } | StyleSheetAdoptionAdapter.Input,
   ): void {
     if ("href" in input && !isCSSStyleSheet(input)) {
       this.#addStylesheetFromHref(input);
@@ -657,20 +724,20 @@ export abstract class KnytElement
       return;
     }
 
-    this.#styleSheetAdoption.adoptStyleSheet(input);
+    this[__styleSheetAdoption].adoptStyleSheet(input);
   }
 
   /**
    * Drops a style sheet from the element's shadow root or light DOM.
    */
-  dropStyleSheet(input: StyleSheetAdoptionController.Input): void {
-    this.#styleSheetAdoption.dropStyleSheet(input);
+  dropStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
+    this[__styleSheetAdoption].dropStyleSheet(input);
   }
 
   /**
    * A manager for event listener controllers targeting the element.
    */
-  readonly listeners: EventListenerManager<this> = listenTo(this, this);
+  declare listeners: EventListenerManager<this>;
 
   /**
    * Adds a new event listener controller targeting the element for the given event name and listener.
@@ -757,8 +824,7 @@ export abstract class KnytElement
    *
    * @internal scope: package
    */
-  // TODO: Rename for clarity.
-  #resourceRenderers = new BasicResourceRendererHost();
+  [__resourceRenderers] = new BasicResourceRendererHost();
 
   /**
    * Adds a resource renderer to the element.
@@ -766,14 +832,14 @@ export abstract class KnytElement
    * @see {@link ResourceRenderer}
    */
   addRenderer(input: ResourceRenderer): void {
-    this.#resourceRenderers.addRenderer(input);
+    this[__resourceRenderers].addRenderer(input);
   }
 
   /**
    * Removes a renderer from the element.
    */
   removeRenderer(input: ResourceRenderer): void {
-    this.#resourceRenderers.removeRenderer(input);
+    this[__resourceRenderers].removeRenderer(input);
   }
 
   /**
@@ -1025,6 +1091,12 @@ export abstract class KnytElement
     previousValue: DOMAttributeValue,
     nextValue: DOMAttributeValue,
   ) {
+    // Add special handling for the debug attribute.
+    if (name === KNYT_DEBUG_DATA_ATTR) {
+      this.debug = nextValue !== null;
+      return;
+    }
+
     this[__reactiveAdapter].handleAttributeChanged(
       name,
       previousValue,
@@ -1222,7 +1294,7 @@ export function isKnytElement(value: unknown): value is KnytElement {
 }
 
 function normalizeStyleSheet(
-  input: StyleSheetAdoptionController.Input,
+  input: StyleSheetAdoptionAdapter.Input,
   documentOrShadow: DocumentOrShadowRoot | undefined | null,
 ): StyleSheet<{}> {
   if (isStyleSheet(input)) {
@@ -1287,15 +1359,6 @@ function getRootForStyleSheetAdoptionController(
   return isShadowRoot(rootElement) ? rootElement : rootElement.ownerDocument;
 }
 
-function createStyleSheetAdoptionController(
-  host: ReactiveControllerHost,
-  rootElement: ShadowRoot | HTMLElement,
-): StyleSheetAdoptionController {
-  return new StyleSheetAdoptionController(host, {
-    root: getRootForStyleSheetAdoptionController(rootElement),
-  });
-}
-
 /**
  * Either returns an existing declarative shadow root or creates a new one.
  *
@@ -1307,6 +1370,7 @@ function ensureShadowRoot(
   shadowRootInit: ShadowRootInit,
 ): {
   wasDeclarative: boolean;
+  elementInternals: ElementInternals | undefined;
   shadowRoot: ShadowRoot;
 } {
   const supportsDeclarative = Object.hasOwn(
@@ -1323,12 +1387,14 @@ function ensureShadowRoot(
     // the mode matches the requested mode.
     return {
       wasDeclarative: true,
+      elementInternals,
       shadowRoot: declarativeShadowRoot,
     };
   }
 
   return {
     wasDeclarative: false,
+    elementInternals,
     // TODO: Add support for `disabledFeatures`
     // See https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#disabling_shadow_dom
     shadowRoot: el.attachShadow(shadowRootInit),

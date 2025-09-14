@@ -2,11 +2,12 @@ import type { RenderResult } from "@knyt/weaver";
 
 import {
   __isKnytElementComposed,
-  __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
+  type __knytElementComposedHotUpdate,
+  type __knytElementComposedLifecycle,
 } from "./constants";
 import type { KnytElement } from "./KnytElement";
-import type { PropertiesDefinition } from "./types";
+import type { HTMLElementConstructor, PropertiesDefinition } from "./types";
 
 /**
  * @internal scope: package
@@ -50,12 +51,27 @@ export type LifecycleFn<TProperties extends PropertiesDefinition<any>> = (
 ) => RendererFn<TProperties> | void;
 
 /**
+ * An HMR hook that is called whenever the constructor is updated.
+ *
+ * @internal scope: package
+ */
+export type HotUpdateFn = (params: HotUpdateFn.Params) => void;
+
+export namespace HotUpdateFn {
+  export type Params = {
+    tagName: string;
+    nextConstructor: KnytElementComposed.Constructor;
+    instances: HTMLElement[];
+  };
+}
+
+/**
  * A type representing a `KnytElement` composed by `defineKnytElement`.
  *
  * @internal scope: workspace
  */
 export type KnytElementComposed = KnytElement & {
-  [__knytElementComposedRenderer]: () => unknown;
+  [__knytElementComposedRenderer]: RendererFn<any>;
 };
 
 export namespace KnytElementComposed {
@@ -65,8 +81,29 @@ export namespace KnytElementComposed {
    * @internal scope: workspace
    */
   export type ConstructorStaticMembers = {
+    /**
+     * A marker to identify a `KnytElementComposed` constructor.
+     *
+     * @internal scope: workspace
+     */
     readonly [__isKnytElementComposed]: true;
+    /**
+     * The lifecycle function used to create the renderer.
+     *
+     * @internal scope: workspace
+     */
     [__knytElementComposedLifecycle]: LifecycleFn<any>;
+    /**
+     * An HMR hook that is called whenever the constructor is updated.
+     *
+     * @internal scope: workspace
+     *
+     * @remarks
+     *
+     * Despite being optional, this method is NOT detachable from the constructor.
+     * It must be called with the constructor as `this` context.
+     */
+    [__knytElementComposedHotUpdate]?: HotUpdateFn;
   };
 
   /**
@@ -83,8 +120,23 @@ export namespace KnytElementComposed {
  *
  * @internal scope: workspace
  */
+export function isKnytElementComposed(
+  element: HTMLElement | undefined,
+): element is KnytElementComposed {
+  return (
+    typeof element === "object" &&
+    __knytElementComposedRenderer in element &&
+    typeof element[__knytElementComposedRenderer] === "function"
+  );
+}
+
+/**
+ * A type guard to check if a constructor is a FunctionKnytElement.
+ *
+ * @internal scope: workspace
+ */
 export function isKnytElementComposedConstructor(
-  constructor: unknown,
+  constructor: HTMLElementConstructor | undefined,
 ): constructor is KnytElementComposed.Constructor {
   return (
     typeof constructor === "function" &&

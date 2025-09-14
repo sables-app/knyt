@@ -1,7 +1,20 @@
 /**
  * An attribute name used to enable debugging for KnytElement.
  *
+ * @remarks
+ *
+ * When this attribute is present on a KnytElement instance,
+ * the instance's `debug` property is set to `true`, enabling debug mode.
+ * This can be useful for troubleshooting and development purposes.
+ *
+ * A `data-` prefix is used for consistency with other Knyt specific
+ * attributes. To clarify, the custom elements `observedAttributes` API
+ * doesn't care about the `data-` prefix, and the attribute can be
+ * observed and handled like any other attribute.
+ *
  * @internal scope: workspace
+ *
+ * @alpha This API is subject to change without a BREAKING CHANGE notice.
  */
 export const KNYT_DEBUG_DATA_ATTR = "data-knytdebug";
 
@@ -42,4 +55,14 @@ export const __knytElementComposedLifecycle = Symbol.for(
  */
 export const __knytElementComposedRenderer = Symbol.for(
   "knyt.luthier.element.composed.renderer",
+);
+
+/**
+ * A symbol to identify the hot-update static method
+ * on a composed `KnytElement` constructor.
+ *
+ * @internal scope: workspace
+ */
+export const __knytElementComposedHotUpdate = Symbol.for(
+  "knyt.luthier.element.composed.hotUpdate",
 );

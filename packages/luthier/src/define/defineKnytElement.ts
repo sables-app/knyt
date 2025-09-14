@@ -3,6 +3,7 @@ import type { HTMLElementTagName } from "@knyt/weaver";
 
 import {
   __isKnytElementComposed,
+  __knytElementComposedHotUpdate,
   __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
 } from "../constants";
@@ -13,10 +14,12 @@ import {
   type KnytElementOptions,
 } from "../KnytElement";
 import type {
+  HotUpdateFn,
   KnytElementComposed,
   LifecycleFn,
   RendererFn,
 } from "../KnytElementComposed";
+import { performHotUpdate } from "../performHotUpdate";
 import type { ElementDefinition, PropertiesDefinition } from "../types";
 import {
   defineElementDefinition,
@@ -88,9 +91,29 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
 > {
   const ElementConstructor = class extends KnytElement {
     static readonly [__isKnytElementComposed] = true as const;
+
     static [__knytElementComposedLifecycle] = params.lifecycle;
 
-    [__knytElementComposedRenderer]: RendererFn<
+    // This can't be an arrow function, because we need to access `this` in the method.
+    // See comments below.
+    static [__knytElementComposedHotUpdate](params: HotUpdateFn.Params): void {
+      // TODO: Remove in production builds, and replace with a no-op containing
+      // a comment that explains that HMR is not supported in production builds.
+      performHotUpdate({
+        ...params,
+        // Note: We need to use `this` here to refer to the current constructor.
+        // Referencing `ElementConstructor` doesn't work, because it's not
+        // the constructor that's being updated during HMR. During HMR,
+        // a new constructor is created, and `this` refers to that new constructor.
+        prevConstructor: this as unknown as KnytElementComposed.Constructor,
+      });
+    }
+
+    /**
+     * Casted as non-nullable, because it will be set in the constructor,
+     * the `setComposedRenderer` function.
+     */
+    [__knytElementComposedRenderer]!: RendererFn<
       PropertiesDefinition<PropInfoDict>
     >;
 
@@ -106,8 +129,7 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
         __knytElementComposedLifecycle,
       ) as LifecycleFn<PropertiesDefinition<PropInfoDict>>;
 
-      this[__knytElementComposedRenderer] =
-        lifecycle.call(host, host) ?? (() => null);
+      setComposedRenderer(this as unknown as KnytElementComposed, lifecycle);
     }
 
     render() {
@@ -144,6 +166,22 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
   >;
 
   return definition;
+}
+
+/**
+ * Sets the renderer function for a `KnytElementComposed` instance based
+ * on the provided lifecycle function.
+ *
+ * @internal scope: workspace
+ */
+export function setComposedRenderer(
+  element: KnytElementComposed,
+  lifecycle: LifecycleFn<any>,
+): void {
+  const host = element as unknown as KnytElement.FromPropertiesDefinition<any>;
+
+  element[__knytElementComposedRenderer] =
+    lifecycle.call(host, host) ?? (() => null);
 }
 
 /**
