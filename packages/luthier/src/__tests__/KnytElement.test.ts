@@ -35,6 +35,36 @@ describe("KnytElement", () => {
     );
   });
 
+  describe("basic properties", () => {
+    it("should have the correct initial property values", () => {
+      expect(hero.name).toBe("Superman");
+      expect(hero.getAttribute("name")).toBe("Superman");
+
+      expect(hero.alias).toBe("Clark Kent");
+      expect(hero.getAttribute("alias")).toBe("Clark Kent");
+
+      expect(hero.canFly).toBe(true);
+      expect(hero.getAttribute("flies")).toBe("");
+
+      expect(hero.canWallCrawl).toBeUndefined();
+      expect(hero.getAttribute("wall-crawls")).toBeNull();
+    });
+
+    // TODO: Consider making reactive properties enumerable on the instance as well.
+    // Probably would be expensive. Perhaps make it an option in the property definition?
+    it("only enumerates reactive properties on the prototype", () => {
+      const propNames = Object.keys(Object.getPrototypeOf(hero));
+
+      expect(propNames).toEqual([
+        "name",
+        "alias",
+        "canFly",
+        "canWallCrawl",
+        "innerRef$",
+      ]);
+    });
+  });
+
   describe("computeRef integration", () => {
     it("should compute a value based on individual observed properties", () => {
       const displayName$ = computeRef({
