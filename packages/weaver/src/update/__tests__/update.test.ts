@@ -920,6 +920,31 @@ describe("update", async () => {
     );
   });
 
+  it("should recognize empty strings as child nodes upon update", async () => {
+    const target = document.createElement("div");
+    const element = dom.div.$(
+      dom.h1.$("Hello, World!"),
+      dom.fragment.$("", dom.span.$("This is a span inside a fragment."), ""),
+      dom.p.$("Lorem ipsum"),
+    );
+
+    const expectedHtml =
+      "<div><h1>Hello, World!</h1><span>This is a span inside a fragment.</span><p>Lorem ipsum</p></div>";
+
+    // The first call simply builds and inserts the elements as expected.
+    await update(target, element);
+
+    expect(target.innerHTML).toBe(expectedHtml);
+
+    // The second call is the actual test:
+    //
+    // Empty strings were built properly built and inserted as text nodes in the first render,
+    // but on update, a development-only assertions recognized them as falsy and threw an error.
+    await update(target, element);
+
+    expect(target.innerHTML).toBe(expectedHtml);
+  });
+
   describe("with `style` prop", () => {
     [
       {
