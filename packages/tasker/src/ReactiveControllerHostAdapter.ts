@@ -185,6 +185,22 @@ export class ReactiveControllerHostAdapter implements ReactiveControllerHost {
   }
 
   /**
+   * Removes all registered controllers from the host.
+   *
+   * @remarks
+   *
+   * This is useful for cleaning up all controllers at once,
+   * for example when the host is being destroyed or reset.
+   *
+   * This method is used during hot module replacement.
+   *
+   * @internal scope: workspace
+   */
+  clearControllers(): void {
+    this.#reactiveControllers.clear();
+  }
+
+  /**
    * Called when the host is connected to the DOM.
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
