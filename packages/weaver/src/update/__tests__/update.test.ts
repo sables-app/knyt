@@ -938,7 +938,7 @@ describe("update", async () => {
 
     // The second call is the actual test:
     //
-    // Empty strings were built properly built and inserted as text nodes in the first render,
+    // Empty strings were properly built and inserted as text nodes in the first render,
     // but on update, a development-only assertions recognized them as falsy and threw an error.
     await update(target, element);
 
