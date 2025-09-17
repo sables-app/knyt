@@ -326,7 +326,7 @@ describe("listen", () => {
       get currentTarget() {
         return getCurrentTarget();
       },
-    } as unknown as TypedEvent<HTMLDivElement, MouseEvent>;
+    } as unknown as TypedEvent<HTMLDivElement, PointerEvent>;
 
     beforeEach(() => {
       getTarget.mockClear();
