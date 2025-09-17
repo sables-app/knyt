@@ -1291,7 +1291,7 @@ function createStyleSheetAdoptionController(
   host: ReactiveControllerHost,
   rootElement: ShadowRoot | HTMLElement,
 ): StyleSheetAdoptionAdapter {
-  return new StyleSheetAdoptionAdapter(host, {
+  return new StyleSheetAdoptionAdapter({
     root: getRootForStyleSheetAdoptionController(rootElement),
   });
 }
