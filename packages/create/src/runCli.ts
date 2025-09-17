@@ -145,7 +145,12 @@ function getOptions(): Options {
   return {
     isInteractive,
     targetDir,
-    ...values,
+    kind: values.kind,
+    mdx: values.mdx,
+    force: values.force,
+    help: values.help,
+    version: values.version,
+    dryRun: values.dryRun,
   };
 }
 
