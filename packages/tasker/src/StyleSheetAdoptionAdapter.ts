@@ -7,11 +7,10 @@ import {
 } from "@knyt/artisan";
 import { getCSSStyleSheetConstructor } from "@knyt/tailor";
 
-import type {
-  ReactiveController,
-  ReactiveControllerHost,
-} from "./ReactiveController";
-
+/**
+ * Normalizes the input into a `CSSStyleSheet` instance using
+ * the local `CSSStyleSheet` constructor, if available.
+ */
 function normalizeCSSStyleSheet(
   input: StyleSheetAdoptionAdapter.Input,
   $CSSStyleSheet: typeof CSSStyleSheet | undefined,
@@ -19,6 +18,9 @@ function normalizeCSSStyleSheet(
   return isCSSStyleSheet(input) ? input : input.toCSSStyleSheet($CSSStyleSheet);
 }
 
+/**
+ * Adds the given style sheets to the given root's adopted style sheets.
+ */
 function addStyleSheetsToRoot(
   root: ShadowRoot | Document | null,
   styleSheets: CSSStyleSheet[],
@@ -42,46 +44,55 @@ function addStyleSheetsToRoot(
 }
 
 /**
- * @beta The interface for this controller is still experimental and may change in future releases.
+ * @internal scope: workspace
+ */
+/**
+ * ### Private Remarks
+ *
+ * This is not a reactive controller, as it does not react to host updates.
+ * It only responds to changes in the root reference.
+ * Its purpose is to manage adopted style sheets for a root,
+ * separating style sheet adoption from controller logic.
+ * This makes its role clearer, especially in the context of HMR.
  */
 export class StyleSheetAdoptionAdapter
-  implements ReactiveController, Observer<ShadowRoot | Document | null>
+  implements Observer<ShadowRoot | Document | null>
 {
-  #host: ReactiveControllerHost;
   #root$: Reference.Readonly<ShadowRoot | Document | null>;
 
-  // When the adopted style sheets change, add them to the root.
-  #adoptedStyleSheets$ = createReference<CSSStyleSheet[]>(
-    [],
-    (adoptedStyleSheets) => {
-      addStyleSheetsToRoot(this.#root$.get(), adoptedStyleSheets);
-    },
+  /**
+   * A map of adopted style sheets by their input.
+   */
+  #adoptedStyleSheets$ = createReference(
+    new Map<StyleSheetAdoptionAdapter.Input, CSSStyleSheet>(),
+    () => this.#addStyleSheetsToRoot(),
   );
 
   get #$CSSStyleSheet() {
     return getCSSStyleSheetConstructor(this.#root$.get());
   }
 
-  constructor(
-    host: ReactiveControllerHost,
-    { root }: { root: Reference.Maybe<ShadowRoot | Document> },
-  ) {
-    this.#host = host;
+  constructor({ root }: { root: Reference.Maybe<ShadowRoot | Document> }) {
     this.#root$ = ensureReference(root);
 
     this.#root$.subscribe(this);
-    host.addController(this);
   }
 
-  hostConnected?: () => void;
+  get #currentRoot() {
+    return this.#root$.get();
+  }
 
-  // When the root changes, add the adopted style sheets.
+  get #currentCSSStyleSheets(): CSSStyleSheet[] {
+    return Array.from(this.#adoptedStyleSheets$.get().values());
+  }
+
+  /**
+   * Called when the host's root changes.
+   *
+   * @internal scope: module
+   */
   next(root: ShadowRoot | Document | null): void {
-    addStyleSheetsToRoot(root, this.#adoptedStyleSheets$.get());
-  }
-
-  #normalizeCSSStyleSheet(input: StyleSheetAdoptionAdapter.Input) {
-    return normalizeCSSStyleSheet(input, this.#$CSSStyleSheet);
+    this.#addStyleSheetsToRoot();
   }
 
   /**
@@ -89,12 +100,16 @@ export class StyleSheetAdoptionAdapter
    * If the style sheet is already present, this is a no-op.
    */
   adoptStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
-    const cssStyleSheet = this.#normalizeCSSStyleSheet(input);
     const adoptedStyleSheets = this.#adoptedStyleSheets$.get();
 
-    if (adoptedStyleSheets.includes(cssStyleSheet)) return;
+    if (adoptedStyleSheets.has(input)) return;
 
-    this.#adoptedStyleSheets$.set([...adoptedStyleSheets, cssStyleSheet]);
+    const cssStyleSheet = this.#normalizeCSSStyleSheet(input);
+    const nextAdoptedStyleSheets = new Map(adoptedStyleSheets);
+
+    nextAdoptedStyleSheets.set(input, cssStyleSheet);
+
+    this.#adoptedStyleSheets$.set(nextAdoptedStyleSheets);
   }
 
   /**
@@ -102,25 +117,61 @@ export class StyleSheetAdoptionAdapter
    * style sheets.
    */
   dropStyleSheet(input: StyleSheetAdoptionAdapter.Input): void {
-    const cssStyleSheet = this.#normalizeCSSStyleSheet(input);
+    const cssStyleSheet = this.#adoptedStyleSheets$.value.get(input);
 
-    this.#dropStyleSheetFromInternal(cssStyleSheet);
+    if (!cssStyleSheet) return;
+
+    this.#dropInputFromMap(input);
     this.#dropStyleSheetFromRoot(cssStyleSheet);
   }
 
   /**
-   * Removes the first occurrence of the given style sheet from the
-   * internal adopted style sheets list.
+   * Checks whether the given input is already adopted.
    */
-  #dropStyleSheetFromInternal(cssStyleSheet: CSSStyleSheet): void {
+  hasStyleSheet(input: StyleSheetAdoptionAdapter.Input): boolean {
+    return this.#adoptedStyleSheets$.get().has(input);
+  }
+
+  /**
+   * Drops all adopted style sheets.
+   */
+  clearStyleSheets(): void {
+    const styleSheets = this.#currentCSSStyleSheets;
+
+    // Unregister all adopted style sheets by clearing the map.
+    this.#adoptedStyleSheets$.set(new Map());
+
+    for (const sheet of styleSheets) {
+      this.#dropStyleSheetFromRoot(sheet);
+    }
+  }
+
+  /**
+   * Adds all currently adopted style sheets to the current root.
+   */
+  #addStyleSheetsToRoot() {
+    addStyleSheetsToRoot(this.#currentRoot, this.#currentCSSStyleSheets);
+  }
+
+  /**
+   * Normalizes the input into a `CSSStyleSheet` instance using
+   * the local `CSSStyleSheet` constructor, if available.
+   */
+  #normalizeCSSStyleSheet(input: StyleSheetAdoptionAdapter.Input) {
+    return normalizeCSSStyleSheet(input, this.#$CSSStyleSheet);
+  }
+
+  /**
+   * Removes the registered input from the map of adopted style sheets.
+   */
+  #dropInputFromMap(input: StyleSheetAdoptionAdapter.Input): void {
     const adoptedStyleSheets = this.#adoptedStyleSheets$.get();
-    const indexToRemove = adoptedStyleSheets.indexOf(cssStyleSheet);
 
-    if (indexToRemove === -1) return;
+    if (!adoptedStyleSheets.has(input)) return;
 
-    const nextAdoptedStyleSheets = [...adoptedStyleSheets];
+    const nextAdoptedStyleSheets = new Map(adoptedStyleSheets);
 
-    nextAdoptedStyleSheets.splice(indexToRemove, 1);
+    nextAdoptedStyleSheets.delete(input);
 
     this.#adoptedStyleSheets$.set(nextAdoptedStyleSheets);
   }
