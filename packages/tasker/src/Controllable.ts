@@ -24,7 +24,7 @@ import { watch } from "./watch";
  * (`Symbol.for`) so that the reactive adapter can be
  * accessed from within different contexts.
  *
- * @internal scope: package
+ * @internal scope: workspace
  */
 export const __hostAdapter = Symbol.for("knyt.luthier.hostAdapter");
 
