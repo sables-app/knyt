@@ -216,6 +216,7 @@ export class ComponentController<P extends AnyProps, E extends Element>
     this[__reactiveAdapter] = new ReactiveAdapter({
       reactiveProperties: convertPropertiesDefinition(properties),
       hooks: this.#createReactiveAdapterHooks(),
+      options: {},
     });
 
     this[__hostAdapter] = new ControllableAdapter({

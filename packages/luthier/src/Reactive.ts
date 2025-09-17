@@ -55,7 +55,7 @@ type EventListeners = {
  * (`Symbol.for`) so that the reactive adapter can be
  * accessed from within different contexts.
  *
- * @internal scope: package
+ * @internal scope: workspace
  */
 export const __reactiveAdapter = Symbol.for("knyt.luthier.reactiveAdapter");
 
@@ -93,23 +93,11 @@ enum ReactivePropertyChangeOrigin {
 
 /**
  * An object with reactive properties.
+ *
+ * @internal scope: workspace
  */
 export type Reactive = {
   [__reactiveAdapter]: ReactiveAdapter;
-};
-
-/**
- * @internal scope: package
- */
-type ReactiveInternal = {
-  /**
-   * Available on an instance of a reactive element.
-   */
-  [__reactiveAdapter]: ReactiveAdapter;
-  /**
-   * Available on the prototype of a reactive element.
-   */
-  [__reactiveProperties]: ReactiveProperties;
 };
 
 enum HookName {
@@ -123,6 +111,8 @@ type ChangedPropertiesByHookName<T = any> = Record<`${HookName}`, BoundMap<T>>;
 
 /**
  * A reactive adapter for managing reactive properties on an element.
+ *
+ * @internal scope: workspace
  */
 /*
  * ### Private Remarks
@@ -134,22 +124,25 @@ type ChangedPropertiesByHookName<T = any> = Record<`${HookName}`, BoundMap<T>>;
 export class ReactiveAdapter<
   Props extends Record<PropertyName, any> = Record<PropertyName, any>,
 > {
-  /** @internal scope: package */
+  /** @internal scope: module */
   readonly #reactiveProperties: ReactiveProperties;
 
-  /** @internal scope: package */
+  /** @internal scope: module */
   readonly #hooks: ReactiveAdapter.Hooks;
 
-  /** @internal scope: package */
+  /** @internal scope: module */
+  readonly #options: ReactiveAdapter.Options;
+
+  /** @internal scope: module */
   readonly #updateMode: `${ReactiveUpdateMode}`;
 
-  /** @internal scope: package */
+  /** @internal scope: module */
   readonly #propValues: Map<keyof Props, unknown>;
 
   /**
    * An event emitter for reactive property changes.
    *
-   * @internal scope: package
+   * @internal scope: module
    */
   readonly #reactivePropertyEmitter: EventStation<EventListeners>;
 
@@ -157,7 +150,7 @@ export class ReactiveAdapter<
    * Determine if a property is currently being updated.
    * This is used to prevent unnecessary updates when a property is associated with an attribute.
    *
-   * @internal scope: package
+   * @internal scope: module
    */
   readonly #isPropertyUpdating$: Reference<boolean>;
 
@@ -195,13 +188,15 @@ export class ReactiveAdapter<
     options,
   }: {
     reactiveProperties: ReactiveProperties;
-    hooks?: ReactiveAdapter.Hooks;
-    options?: ReactiveAdapter.Options;
+    hooks: ReactiveAdapter.Hooks;
+    options: ReactiveAdapter.Options;
   }) {
-    this.#hooks = hooks ?? {};
+    this.#hooks = hooks;
+    this.#reactiveProperties = reactiveProperties;
+    this.#options = options;
+
     this.#isPropertyUpdating$ = createReference(false);
     this.#propValues = new Map<keyof Props, unknown>();
-    this.#reactiveProperties = reactiveProperties;
     this.#reactivePropertyEmitter = new EventStation<EventListeners>();
     this.#updateMode = options?.updateMode ?? ReactiveUpdateMode.Reactive;
     this.isPropertyUpdating$ = this.#isPropertyUpdating$.asReadonly();
@@ -217,6 +212,15 @@ export class ReactiveAdapter<
       // is fully constructed, and not during the construction phase.
       this.syncAttributeValues();
     });
+  }
+
+  /**
+   * Check if a property name is a valid reactive property.
+   *
+   * @internal scope: workspace
+   */
+  isValidPropName(name: PropertyName): name is Exclude<keyof Props, number> {
+    return !!this._findPropConfig(name as keyof Props);
   }
 
   /**
@@ -251,6 +255,8 @@ export class ReactiveAdapter<
 
   /**
    * Set the values of multiple reactive properties at once.
+   *
+   * @public
    */
   /*
    * ### Private Remarks
@@ -263,6 +269,22 @@ export class ReactiveAdapter<
     for (const [propertyName, nextValue] of Object.entries(props)) {
       this.setProp(propertyName, nextValue);
     }
+  }
+
+  /**
+   * Set the values of multiple reactive properties at once,
+   * filtering out any invalid property names.
+   *
+   * @internal scope: package
+   */
+  setPropsSafely(props: Partial<Props>): void {
+    const safeProps = Object.fromEntries(
+      Object.entries(props).filter(([propertyName]) =>
+        this.isValidPropName(propertyName),
+      ),
+    ) as Partial<Props>;
+
+    this.setProps(safeProps);
   }
 
   /**
@@ -766,9 +788,26 @@ export class ReactiveAdapter<
       this._setPropertyFromAttributeChange(name, previousValue, nextValue);
     }
   }
+
+  /**
+   * Get a snapshot of the internal state and configuration
+   * of the reactive adapter.
+   *
+   * @internal scope: workspace
+   */
+  getInternalSnapshot(): ReactiveAdapter.InternalSnapshot<Props> {
+    return {
+      state: this.getProps(),
+      hooks: this.#hooks,
+      options: this.#options,
+    };
+  }
 }
 
 export namespace ReactiveAdapter {
+  /**
+   * @internal scope: workspace
+   */
   export type Options = {
     updateMode?: `${ReactiveUpdateMode}`;
   };
@@ -796,12 +835,23 @@ export namespace ReactiveAdapter {
     setAttribute?: HTMLElement["setAttribute"];
     requestUpdate?: ReactiveControllerHost["requestUpdate"];
   };
+
+  /**
+   * @internal scope: workspace
+   */
+  export type InternalSnapshot<Props = any> = {
+    state: Record<PropertyName, Props>;
+    hooks: ReactiveAdapter.Hooks;
+    options: ReactiveAdapter.Options;
+  };
 }
 
 /**
  * Determines whether the input is a {@link ReactiveAdapter}.
+ *
+ * @internal scope: workspace
  */
-export function isReactiveAdapter(value: unknown): value is ReactiveAdapter {
+function isReactiveAdapter(value: unknown): value is ReactiveAdapter {
   return (
     isNonNullableObject(value) &&
     "_findPropConfig" in value &&
@@ -817,8 +867,10 @@ export function isReactiveAdapter(value: unknown): value is ReactiveAdapter {
 
 /**
  * Determines whether the input is a {@link Reactive}.
+ *
+ * @internal scope: module
  */
-export function isReactive(value: unknown): value is Reactive {
+function isReactive(value: unknown): value is Reactive {
   return (
     isNonNullableObject(value) &&
     __reactiveAdapter in value &&
@@ -827,27 +879,11 @@ export function isReactive(value: unknown): value is Reactive {
 }
 
 /**
- * Retrieves the reactive adapter from an object.
+ * Assert that the object is a {@link Reactive}
  *
- * @returns The reactive adapter if the object is reactive,
- * otherwise `undefined`.
- *
- * @internal scope: package
+ * @internal scope: module
  */
-export function getReactiveAdapter(
-  value: unknown,
-): ReactiveAdapter | undefined {
-  if (isReactive(value)) {
-    return value[__reactiveAdapter];
-  }
-
-  return undefined;
-}
-
-/**
- * Assert that the object is a {@link Reactive}.
- */
-export function assertReactive(value: unknown): asserts value is Reactive {
+function assertReactive(value: unknown): asserts value is Reactive {
   if (!isReactive(value)) {
     throw new TypeError("Object is not reactive");
   }
@@ -856,7 +892,7 @@ export function assertReactive(value: unknown): asserts value is Reactive {
 /**
  * Defines reactive properties on a given object.
  */
-export function makeReactive<T extends object, B>(
+function defineReactiveProperties<T extends object, B>(
   targetObj: T,
   properties: PropertiesDefinition<B>,
 ): ReactiveProperties {
@@ -864,6 +900,8 @@ export function makeReactive<T extends object, B>(
 
   for (const config of reactiveProperties) {
     Object.defineProperty(targetObj, config.propertyName, {
+      configurable: true,
+      enumerable: true,
       get(this: Reactive) {
         // TODO: Remove in production
         assertReactive(this);
@@ -886,15 +924,41 @@ export function makeReactive<T extends object, B>(
   return reactiveProperties;
 }
 
+function deleteReactiveProperties(
+  targetObj: object,
+  reactiveProperties: ReactiveProperties,
+): void {
+  for (const config of reactiveProperties) {
+    const propertyName = config.propertyName;
+
+    if (Object.hasOwn(targetObj, propertyName)) {
+      // Type cast to allow property deletion.
+      delete (targetObj as any)[propertyName];
+    }
+  }
+}
+
+type ObjectWithReactiveProperties = {
+  [__reactiveProperties]: ReactiveProperties;
+};
+
+function hasReactiveProperties(
+  proto: object,
+): proto is ObjectWithReactiveProperties {
+  return Object.hasOwn(proto, __reactiveProperties);
+}
+
 /**
- * Adds reactivity to an instance of a class.
+ * Enables reactivity for a class instance.
  *
  * @remarks
  *
- * Although the function works on class instances, it modifies the prototype of the class.
- * The prototype is modified only once, so all instances of the class will have the same reactive properties.
- * The trade-off is miniscule overhead to check if the prototype has already been modified
- * on each instance creation.
+ * This function sets up reactive properties on the class prototype,
+ * but only once per prototype. Each instance gets its own
+ * `ReactiveAdapter`, so state is not shared. The check for
+ * prototype reactivity adds miniscule overhead.
+ *
+ * @internal scope: package
  */
 /*
  * ### Private Remarks
@@ -932,31 +996,203 @@ export function withReactivity<T extends object, P>({
 }: {
   instance: T;
   properties: PropertiesDefinition<P>;
-  hooks?: ReactiveAdapter.Hooks;
-  options?: ReactiveAdapter.Options;
+  hooks: ReactiveAdapter.Hooks;
+  options: ReactiveAdapter.Options;
 }): void {
   const proto = Object.getPrototypeOf(instance);
 
   let reactiveProperties: ReactiveProperties;
 
-  if (Object.hasOwn(proto, __reactiveProperties)) {
+  if (hasReactiveProperties(proto)) {
     // Reactive properties have already been prepared.
-    reactiveProperties = (proto as ReactiveInternal)[__reactiveProperties];
+    reactiveProperties = proto[__reactiveProperties];
   } else {
-    reactiveProperties = makeReactive(proto, properties);
-
-    Object.defineProperty(proto, __reactiveProperties, {
-      get() {
-        return reactiveProperties;
-      },
-    });
+    reactiveProperties = setupPrototypeReactivity({ proto, properties });
   }
 
-  (instance as Reactive)[__reactiveAdapter] = new ReactiveAdapter({
+  setupInstanceReactivity({
+    instance,
     reactiveProperties,
     hooks,
     options,
   });
+}
+
+function setupPrototypeReactivity<P>({
+  proto,
+  properties,
+}: {
+  proto: object;
+  properties: PropertiesDefinition<P>;
+}): ReactiveProperties {
+  const reactiveProperties = defineReactiveProperties(proto, properties);
+
+  Object.defineProperty(proto, __reactiveProperties, {
+    value: reactiveProperties,
+    configurable: true,
+    enumerable: false,
+    writable: false,
+  });
+
+  return reactiveProperties;
+}
+
+/**
+ * Tears down the reactivity defined on a prototype.
+ *
+ * @internals scope: package
+ */
+function teardownPrototypeReactivity(proto: object): void {
+  if (!hasReactiveProperties(proto)) {
+    // Prototype is not reactive.
+    return;
+  }
+
+  const reactiveProperties = proto[__reactiveProperties];
+
+  deleteReactiveProperties(proto, reactiveProperties);
+
+  // Type cast to allow property deletion.
+  delete (proto as Partial<ObjectWithReactiveProperties>)[__reactiveProperties];
+}
+
+/**
+ * Updates the reactive properties defined on a prototype.
+ *
+ * @remarks
+ *
+ * This is useful for scenarios where the properties
+ * definition has changed (such as during HMR),
+ * and we need to update the prototype to reflect
+ * those changes.
+ *
+ * This is typically only called when HMR is enabled.
+ *
+ * @internal scope: workspace
+ */
+export function updatePrototypeReactivity<P>({
+  proto,
+  nextProperties,
+}: {
+  proto: object;
+  nextProperties: PropertiesDefinition<P>;
+}): void {
+  teardownPrototypeReactivity(proto);
+  setupPrototypeReactivity({
+    proto,
+    properties: nextProperties,
+  });
+}
+
+/**
+ * Sets up reactivity on an instance that already has
+ * reactive properties defined on its prototype.
+ *
+ * @remarks
+ *
+ * This is useful for scenarios where the reactive properties
+ * on the constructor prototype have changed, and we need
+ * to update the instance to reflect those changes.
+ *
+ * This is typically only called when HMR is enabled.
+ *
+ * @internal scope: workspace
+ */
+export function updateInstanceReactivity<T extends object, P>({
+  instance,
+}: {
+  instance: T;
+}): void {
+  const proto = Object.getPrototypeOf(instance);
+
+  if (!Object.hasOwn(proto, __reactiveProperties)) {
+    throw new Error("Prototype does not have reactive properties.");
+  }
+
+  const reactiveProperties = proto[__reactiveProperties];
+
+  /**
+   * Tear down the existing reactivity on the instance,
+   * and capture the current state so that it can be
+   * restored after the new reactivity is set up.
+   *
+   * This is important, because the reactive properties
+   * may have changed, and we want to ensure that the
+   * instance reflects the current state of the properties.
+   */
+  const prevReactiveAdapter = teardownInstanceReactivity({
+    instance,
+  });
+
+  if (!prevReactiveAdapter) {
+    // The instance was not previously reactive.
+    // This should never happen, because we checked
+    // if the prototype has reactive properties,
+    // and if it does, then the instance should
+    // also be reactive.
+    throw new Error("Instance is not reactive.");
+  }
+
+  const snapshot = prevReactiveAdapter.getInternalSnapshot();
+
+  setupInstanceReactivity({
+    instance,
+    reactiveProperties,
+    hooks: snapshot.hooks,
+    options: snapshot.options,
+    initialState: snapshot.state,
+  });
+}
+
+function setupInstanceReactivity<T extends object, P>({
+  instance,
+  reactiveProperties,
+  hooks,
+  options,
+  initialState,
+}: {
+  instance: T;
+  reactiveProperties: ReactiveProperties;
+  hooks: ReactiveAdapter.Hooks;
+  options: ReactiveAdapter.Options;
+  initialState?: Record<PropertyName, any>;
+}): void {
+  const reactiveAdapter = new ReactiveAdapter({
+    reactiveProperties,
+    hooks,
+    options,
+  });
+
+  if (initialState) {
+    reactiveAdapter.setPropsSafely(initialState);
+  }
+
+  Object.defineProperty(instance, __reactiveAdapter, {
+    value: reactiveAdapter,
+    configurable: true,
+    enumerable: false,
+    writable: false,
+  });
+}
+
+/**
+ * Tears down reactivity on an instance, returning its current state.
+ */
+function teardownInstanceReactivity({
+  instance,
+}: {
+  instance: object;
+}): ReactiveAdapter | undefined {
+  if (!Object.hasOwn(instance, __reactiveAdapter)) {
+    return;
+  }
+
+  const reactiveAdapter = (instance as Reactive)[__reactiveAdapter];
+
+  // Type cast to allow property deletion.
+  delete (instance as Partial<Reactive>)[__reactiveAdapter];
+
+  return reactiveAdapter;
 }
 
 type MixableMemberName = ObjectToFunctionPropertyNames<ReactiveAdapter>;
@@ -971,7 +1207,13 @@ function attachReactiveMembers(
         `Method "${memberName}" does not exist on the ReactiveAdapter prototype.`,
       );
     }
-    if (memberName in targetObj) {
+    if (
+      // Intentionally `in` instead of `hasOwn` to
+      // check the entire prototype chain.
+      // This is to prevent overwriting methods
+      // that exist on parent prototypes.
+      memberName in targetObj
+    ) {
       throw new Error(
         `Member "${memberName}" already exists on the prototype. Please rename the member.`,
       );
