@@ -289,6 +289,20 @@ describe("build", async () => {
     );
   });
 
+  it("should build empty strings as text nodes", async () => {
+    const input = dom.div.$children("", dom.span, "");
+
+    const result = await build(input);
+
+    expect(result).toBeInstanceOf(HTMLDivElement);
+    expect(result.childNodes.length).toBe(3);
+    expect(result.childNodes[0]).toBeInstanceOf(Text);
+    expect(result.childNodes[0].textContent).toBe("");
+    expect(result.childNodes[1]).toBeInstanceOf(HTMLSpanElement);
+    expect(result.childNodes[2]).toBeInstanceOf(Text);
+    expect(result.childNodes[2].textContent).toBe("");
+  });
+
   describe("with `style` prop", () => {
     [
       {

@@ -312,7 +312,7 @@ async function updateDomElementChildren(
           const newChild = newChildren.at(newHead);
 
           // TODO: Remove this check in production
-          if (!newChild) {
+          if (newChild === undefined) {
             // This should never happen, because the children are
             // within the bounds of the array.
             throw new Error("Child is undefined");
@@ -341,7 +341,8 @@ async function updateDomElementChildren(
 
           const oldChild = oldChildren.at(oldHead);
 
-          if (!oldChild) {
+          // TODO: Remove this check in production
+          if (oldChild === undefined) {
             // This should never happen, because the children are
             // within the bounds of the array.
             throw new Error("Child is undefined");
@@ -364,7 +365,8 @@ async function updateDomElementChildren(
       for (let i = oldHead; i <= oldTail; i++) {
         const oldChild = oldChildren.at(i);
 
-        if (!oldChild) {
+        // TODO: Remove this check in production
+        if (oldChild === undefined) {
           // This should never happen, because the children are
           // within the bounds of the array.
           throw new Error("Child is undefined");
@@ -384,7 +386,8 @@ async function updateDomElementChildren(
         const [oldChild, oldKey] = getChildAtPosition(oldChildren, oldHead);
         const [newChild, newKey] = getChildAtPosition(newChildren, newHead);
 
-        if (!newChild) {
+        // TODO: Remove this check in production
+        if (newChild === undefined) {
           // This should never happen, because the child is
           // within the bounds of the array.
           throw new Error("Child is undefined");
@@ -405,7 +408,7 @@ async function updateDomElementChildren(
           if (
             newKey === undefined ||
             newKey !== subsequentOldKey ||
-            !oldChild
+            oldChild === undefined
           ) {
             break subsequentChild;
           }
