@@ -82,23 +82,43 @@ export class DependencyManager {
    */
   async inject(transformResult: TransformResult): Promise<string> {
     const { html, rendererModulePaths, request } = transformResult;
-    const hasDependencies = rendererModulePaths.length > 0;
 
-    if (!hasDependencies || !isDependencyInjectionEnabled(request)) {
+    if (!isDependencyInjectionEnabled(request)) {
       return html;
     }
 
-    const scriptPath = await this.#createPageScript(rendererModulePaths);
-    const scriptTag = `<script type="module" src="${scriptPath}"></script>`;
+    const hasDependencies = rendererModulePaths.length > 0;
+    // TODO: Determine if HMR is enabled in the relevant Bun server(s).
+    // This may not be possible to do without monkey-patching Bun.
+    // For now, we assume HMR is enabled in non-production environments.
+    const shouldInjectHmr = import.meta.env.NODE_ENV !== "production";
+    const scriptPaths = [];
+
+    if (shouldInjectHmr) {
+      // In development mode, include the HMR runtime for Glazier.
+      // This enables hot updates for composed Knyt elements.
+      // Otherwise, errors will occur when modules containing
+      // Knyt elements are hot reloaded.
+      scriptPaths.push("@knyt/glazier/_hmr/runtime");
+    }
+    if (hasDependencies) {
+      scriptPaths.push(await this.#createPageScript(rendererModulePaths));
+    }
+
+    const scriptTags = scriptPaths
+      .map(
+        (scriptPath) => `<script type="module" src="${scriptPath}"></script>`,
+      )
+      .join("\n");
 
     if (html.includes("</head>")) {
-      return html.replace("</head>", `${scriptTag}</head>`);
+      return html.replace("</head>", `${scriptTags}</head>`);
     }
     if (html.includes("</body>")) {
-      return html.replace("</body>", `${scriptTag}</body>`);
+      return html.replace("</body>", `${scriptTags}</body>`);
     }
 
-    return `${html}\n${scriptTag}`;
+    return `${html}\n${scriptTags}`;
   }
 }
 
