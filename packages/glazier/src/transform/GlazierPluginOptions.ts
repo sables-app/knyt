@@ -14,11 +14,6 @@ export type GlazierPluginOptions = GlazierPluginOptions.Mutable &
 export namespace GlazierPluginOptions {
   export type Mutable = {
     /**
-     * The cache ID to use for the plugin.
-     * This is used to create a unique cache directory for the plugin.
-     */
-    cacheId?: string;
-    /**
      * A flag to enable debug mode.
      * This will enable verbose logging and other debug features.
      */

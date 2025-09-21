@@ -47,17 +47,6 @@ export class GlazierPlugin implements BunPlugin {
 
   readonly #mutableOptions$: Reference<GlazierPluginOptions.Mutable>;
 
-  get cacheId() {
-    return this.#mutableOptions$.value.cacheId ?? "default";
-  }
-
-  set cacheId(value: string) {
-    this.#mutableOptions$.set({
-      ...this.#mutableOptions$.value,
-      cacheId: value,
-    });
-  }
-
   get debug() {
     return this.#mutableOptions$.value.debug ?? false;
   }
