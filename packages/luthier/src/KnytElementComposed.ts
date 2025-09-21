@@ -53,6 +53,13 @@ export type LifecycleFn<TProperties extends PropertiesDefinition<any>> = (
 /**
  * An HMR hook that is called whenever the constructor is updated.
  *
+ * @remarks
+ *
+ * The function shouldn't return a promise, because we don't want to
+ * encourage any wait logic. The HMR process should simply be fire-and-forget.
+ * Generally speaking, the update should occur within a few microtasks,
+ * and not await any element operations.
+ *
  * @internal scope: package
  */
 export type HotUpdateFn = (params: HotUpdateFn.Params) => void;

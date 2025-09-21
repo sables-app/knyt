@@ -131,6 +131,11 @@ export function defineKnytElement<TN extends string, PropInfoDict>(
         // the constructor that's being updated during HMR. During HMR,
         // a new constructor is created, and `this` refers to that new constructor.
         prevConstructor: this as unknown as KnytElementComposed.Constructor,
+      }).catch((error) => {
+        console.error(
+          `[Luthier:HMR] Error during hot update for <${params.tagName}>:`,
+          error,
+        );
       });
     }
 
