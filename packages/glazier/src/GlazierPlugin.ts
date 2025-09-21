@@ -8,6 +8,7 @@ import type { BunPlugin, PluginBuilder } from "bun";
 
 import { loadConfig } from "./ConfigLoader";
 import { DependencyManager } from "./DependencyManager";
+import { setupHmrTransform } from "./HmrTransform/mod";
 import { setupHtmlTransform } from "./setupHtmlTransform";
 import { setupImportBlocklist } from "./setupImportBlocklist";
 import { type GlazierPluginOptions } from "./transform/mod";
@@ -181,5 +182,6 @@ export class GlazierPlugin implements BunPlugin {
 
     setupImportBlocklist(builder);
     setupHtmlTransform(builder, dependencyManager, this.middleware);
+    setupHmrTransform(builder);
   };
 }
