@@ -36,6 +36,7 @@
     "./client": "./dist/build/client.js",
     "./plugin": "./dist/build/plugin.js",
     "./preload": "./dist/build/preload.js",
+    "./_hmr/runtime": "./dist/build/HmrRuntime/main.js",
     "./package.json": "./package.json"
   },
   "engines": {
