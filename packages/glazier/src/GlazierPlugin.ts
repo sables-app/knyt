@@ -182,6 +182,8 @@ export class GlazierPlugin implements BunPlugin {
 
     setupImportBlocklist(builder);
     setupHtmlTransform(builder, dependencyManager, this.middleware);
+    // HMR transform is always set up, regardless of HMR being enabled.
+    // The transform checks if HMR is enabled before injecting code.
     setupHmrTransform(builder);
   };
 }

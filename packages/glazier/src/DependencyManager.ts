@@ -88,19 +88,9 @@ export class DependencyManager {
     }
 
     const hasDependencies = rendererModulePaths.length > 0;
-    // TODO: Determine if HMR is enabled in the relevant Bun server(s).
-    // This may not be possible to do without monkey-patching Bun.
-    // For now, we assume HMR is enabled in non-production environments.
-    const shouldInjectHmr = import.meta.env.NODE_ENV !== "production";
+
     const scriptPaths = [];
 
-    if (shouldInjectHmr) {
-      // In development mode, include the HMR runtime for Glazier.
-      // This enables hot updates for composed Knyt elements.
-      // Otherwise, errors will occur when modules containing
-      // Knyt elements are hot reloaded.
-      scriptPaths.push("@knyt/glazier/_hmr/runtime");
-    }
     if (hasDependencies) {
       scriptPaths.push(await this.#createPageScript(rendererModulePaths));
     }
