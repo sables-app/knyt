@@ -22,7 +22,7 @@
     "@happy-dom/global-registrator": "^18.0.1",
     "@microsoft/api-extractor": "^7.52.13",
     "@sables-app/scripts": "^1.0.4",
-    "bun-types": "1.2.21",
+    "bun-types": "1.2.22",
     "typescript": "5.9.2"
   },
   "scripts": {
