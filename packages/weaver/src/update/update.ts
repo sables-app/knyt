@@ -3,7 +3,6 @@ import {
   isElement,
   isText,
   isUnknownDictionary,
-  shallowEqual,
   typeCheck,
 } from "@knyt/artisan";
 
@@ -25,7 +24,6 @@ import type {
   FlattenedElementDeclarationChild,
   FlattenedElementDeclarationChildren,
   KnytDeclaration,
-  ListenerDeclaration,
   SingularElement,
   UpdatableParentNode,
 } from "../types/mod";
@@ -38,6 +36,7 @@ import {
   isElementDeclaration,
   normalizeElementDeclarationRef,
 } from "../utils/mod";
+import { areListenersEqual } from "./areListenersEqual";
 import { flattenElement } from "./flatten";
 import {
   createSharedOptions,
@@ -1097,27 +1096,4 @@ export async function update(
     await flattenElement(input, optionsWithDocument),
     options,
   );
-}
-
-function areListenersEqual<E extends AnyProps = AnyProps>(
-  prevListener: ListenerDeclaration<E> | undefined,
-  nextListener: ListenerDeclaration<E> | undefined,
-): boolean {
-  if (prevListener === nextListener) {
-    return true;
-  }
-
-  if (!prevListener || !nextListener) {
-    return false;
-  }
-
-  if (
-    prevListener.type === nextListener.type ||
-    prevListener.handler === nextListener.handler ||
-    shallowEqual(prevListener.options, nextListener.options)
-  ) {
-    return true;
-  }
-
-  return false;
 }
