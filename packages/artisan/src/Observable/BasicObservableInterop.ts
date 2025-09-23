@@ -56,6 +56,7 @@ export class BasicObservableInterop<T> implements ObservableInterop<T> {
   #terminationObserver: Observer<T> = {
     next: () => {
       // Do nothing on next, as we are only interested in termination.
+      // The next handler is required to implement the Observer interface.
     },
     error: (error: unknown) => {
       // When an error occurs, clear all observers so they can be garbage collected.
