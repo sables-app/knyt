@@ -2,8 +2,16 @@ import { mkdir, rm, watch } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
-import type { Subscription } from "@knyt/artisan";
+import {
+  BufferedObservable,
+  MappedObservable,
+  SubscriptionRegistry,
+  type Observer,
+  type Subscription,
+} from "@knyt/artisan";
 
+import { dependencyChanges, type DependencyChange } from "./dependencyChanges";
+import { FilesWatcher } from "./FilesWatcher/mod";
 import { getTempDir } from "./getTempDir";
 import { KnytTagName } from "./importTags";
 import { default as glazierPlugin } from "./plugin";
@@ -16,10 +24,9 @@ import {
 import type { BunKnytConfig } from "./types";
 
 /**
- * The `HTMLBundle` type is the actual type that's returned by the
- * `generateRoutes` function. It's a record of route paths to `HTMLBundle`.
+ * A mapping of route pathnames to their corresponding HTML bundles.
  */
-type Routes = Record<string, Bun.HTMLBundle>;
+type Routes = Record<RoutePathname, Bun.HTMLBundle>;
 
 // TODO: Consider adding support for an absolute path to the template.
 type PageTemplate = PageTemplate.Renderer | Promise<BunHTMLBundleModule>;
@@ -54,6 +61,13 @@ namespace PageTemplate {
 type DocumentPath = string;
 
 /**
+ * An absolute path to a resolved document.
+ *
+ * @example "/absolute/path/to/docs/getting-started.mdx"
+ */
+type ResolvedDocumentPath = string;
+
+/**
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname}
  *
  * @example "/getting-started"
@@ -74,12 +88,13 @@ type DocumentRootPath = string;
 /**
  * An absolute path to the generated HTML file.
  */
-type HTMLPath = `${string}.html`;
+type DocumentHTMLPath = `${string}.html`;
 
 export type RouteDocument = {
   path: DocumentPath;
+  resolvedPath: ResolvedDocumentPath;
   route: RoutePathname;
-  htmlPath: HTMLPath;
+  htmlPath: DocumentHTMLPath;
 };
 
 /**
@@ -110,6 +125,8 @@ async function resolveOptions(
     ((documentPath: DocumentPath): RoutePathname => {
       return generateRoutePathname(documentRoot, documentPath);
     });
+  const development =
+    original.development ?? import.meta.env.NODE_ENV !== "production";
 
   // Log the destination directory if it wasn't explicitly provided.
   if (!original.dest) {
@@ -122,6 +139,7 @@ async function resolveOptions(
   return {
     ...original,
     dest,
+    development,
     documentRoot,
     fresh,
     documentPathToRoutePathname,
@@ -144,22 +162,25 @@ async function resolveOptions(
  * @beta This API is experimental and may change.
  */
 export class DocumentRouteBuilder {
-  #originalOptions: DocumentRouteBuilder.Options;
-  #resolvedOptions: DocumentRouteBuilder.Options.Resolved | undefined;
+  /**
+   * Resolved options for the builder.
+   */
+  #options: Promise<DocumentRouteBuilder.Options.Resolved>;
+  /**
+   * A subscription to the request events from the default glazier plugin.
+   */
   #requestSubscription: Subscription;
-
-  async #getResolvedOptions(): Promise<DocumentRouteBuilder.Options.Resolved> {
-    if (!this.#resolvedOptions) {
-      this.#resolvedOptions = await resolveOptions(this.#originalOptions);
-    }
-
-    return this.#resolvedOptions;
-  }
+  /**
+   * A promise that resolves to the generated route documents.
+   */
+  #routeDocuments: Promise<readonly RouteDocument[]>;
 
   constructor(options: DocumentRouteBuilder.Options) {
-    this.#originalOptions = options;
+    this.#options = resolveOptions(options);
+    this.#routeDocuments = this.#options.then(createRouteDocuments);
 
     // By default, listen to the default plugin
+    // TODO: Add option to listen to a given plugin instead of the default one.
     this.#requestSubscription = glazierPlugin.onRequest(this.#handleRequest);
   }
 
@@ -167,70 +188,157 @@ export class DocumentRouteBuilder {
     this.#requestSubscription.unsubscribe();
   }
 
-  #routes: Promise<Routes> | undefined;
+  #result = new Deferred<GenerateRoutesResult>();
 
-  async getRoutes(): Promise<
+  async #initializeRoutes(): Promise<GenerateRoutesResult> {
+    const options = await this.#options;
+
+    if (options.fresh) {
+      await cleanDestDir(options.dest);
+    }
+
+    const result = await generateRoutes({
+      ...options,
+      routeDocuments: await this.#routeDocuments,
+    });
+
+    // If we're in development mode, watch the documents
+    // for changes and regenerate the routes.
+    if (options.development) {
+      await this.#startWatching();
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the generated routes, generating them on the first call.
+   *
+   * @remarks
+   *
+   * On the first invocation, this method generates and caches the routes.
+   * Subsequent calls return the cached result without regenerating.
+   *
+   * In development mode, this also starts watching documents for changes
+   * and will regenerate routes as needed.
+   */
+  getRoutes(): Promise<
     // This needs to use `any` because Bun uses a generic to infer route information
     // but generated routes are not typed.
     // TODO: Revisit this to see if we can avoid `any`.
     Record<string, any>
   > {
-    if (!this.#routes) {
-      const resolvedOptions = await this.#getResolvedOptions();
-
-      this.#routes = cleanAndGenerateRoutes(resolvedOptions);
-
-      // If we're in development mode, watch the documents
-      // for changes and regenerate the routes.
-      // TODO: Uncomment this once the API is made available.
-      // if (resolvedOptions.development) {
-      //   this.#watchDocuments();
-      // }
+    if (!this.#result.isFulfilled) {
+      // NOTE: This shouldn't be awaited here, because this function
+      // may be called multiple times, and we only want to generate
+      // the routes once.
+      this.#result.resolve(this.#initializeRoutes());
     }
 
-    return this.#routes;
+    return this.#result.promise.then((result) => result.routes);
   }
 
-  // TODO: Finish implementing this method.
-  async #watchDocuments(): Promise<void> {
-    const { documents, ...otherOptions } = await this.#getResolvedOptions();
-    const abortController = new AbortController();
+  #subscriptions?: SubscriptionRegistry;
+  #dependencyChangeBuffer$?: BufferedObservable<DependencyChange>;
+  #documentWatcher$?: FilesWatcher;
 
-    console.info("Watching documents for changes...");
+  #dependencyChangeBufferObserver: Observer<DependencyChange[]> = {
+    next: async (changes) => {
+      const routeDocuments = await this.#routeDocuments;
+      const affectedDocuments: RouteDocument[] = [];
 
-    documents.forEach(async (documentPath) => {
-      // The document path may be a module path or an absolute path.
-      // We need to resolve it to an absolute path.
-      // Relative paths aren't supported, but we can resolve
-      // them to the current working directory for a sane default.
-      const filePath = Bun.resolveSync(documentPath, process.cwd());
+      for (const change of changes) {
+        console.info(`[glazier] detected document change:`, change);
 
-      if (!(await Bun.file(filePath).exists())) {
-        console.warn(`Could not resolve document path: ${documentPath}.`);
-        return;
+        const { entrypointPath } = change;
+
+        for (const routeDocument of routeDocuments) {
+          if (
+            routeDocument.path === entrypointPath ||
+            routeDocument.resolvedPath === entrypointPath ||
+            routeDocument.htmlPath === entrypointPath
+          ) {
+            affectedDocuments.push(routeDocument);
+          }
+        }
       }
 
-      const watcher = watch(filePath, { signal: abortController.signal });
+      if (affectedDocuments.length === 0) return;
 
-      for await (const event of watcher) {
-        console.info(`Detected ${event.eventType} in ${event.filename}`);
+      const documentsToRegenerate = Array.from(affectedDocuments);
 
-        // TODO: It isn't enough to regenerate the route document.
-        // We need to clean the module cache for the document,
-        // and reload the server routes.
-        // TODO: Finish implementing this once the APIs are available.
-        await regenerateRoute(documentPath, otherOptions);
-      }
-    });
+      console.info(
+        `[glazier] regenerating route for documents: ${documentsToRegenerate}`,
+      );
+
+      await generateRoutes({
+        ...(await this.#options),
+        routeDocuments: documentsToRegenerate,
+        force: true,
+      });
+    },
+    complete: () => {
+      console.info(`[glazier] document watcher stopped.`);
+    },
+    error: (error: unknown) => {
+      console.error(`[glazier] error watching document`, error);
+    },
+  };
+
+  #documentChanges$?: MappedObservable<string, DependencyChange>;
+
+  async #startWatching(): Promise<void> {
+    console.info(`[glazier] watching documents for changes...`);
+
+    const { documents } = await this.#options;
+
+    // Watch the documents for changes
+    this.#documentWatcher$ = new FilesWatcher(documents);
+    // Map file change events to dependency changes
+    this.#documentChanges$ = new MappedObservable<string, DependencyChange>(
+      (documentPath) => ({
+        entrypointPath: documentPath,
+        dependencyModulePath: documentPath,
+      }),
+    );
+    // Buffer dependency change events to avoid rapid successive regenerations
+    this.#dependencyChangeBuffer$ = new BufferedObservable<DependencyChange>(
+      10,
+    );
+
+    // Capture subscriptions to clean up on exit
+    this.#subscriptions = new SubscriptionRegistry([
+      // Connect the document watcher to the document changes mapper
+      this.#documentWatcher$.subscribe(this.#documentChanges$),
+      // Connect the dependency changes to the buffer observer
+      dependencyChanges.beacon.subscribe(this.#dependencyChangeBuffer$),
+      // Connect the document changes to the buffer observer
+      this.#documentChanges$.subscribe(this.#dependencyChangeBuffer$),
+      // Connect the buffer to the buffer observer to handle regenerations
+      this.#dependencyChangeBuffer$.subscribe(
+        this.#dependencyChangeBufferObserver,
+      ),
+    ]);
 
     process.on("SIGINT", () => {
-      console.info("Stopping watcher...");
-      abortController.abort();
+      console.info(`[glazier] stopping document watcher...`);
+
+      this.#subscriptions?.unsubscribeAll();
+
+      this.#documentWatcher$?.complete();
+      this.#documentChanges$?.complete();
+      this.#dependencyChangeBuffer$?.complete();
+
+      this.#documentWatcher$ = undefined;
+      this.#documentChanges$ = undefined;
+      this.#dependencyChangeBuffer$ = undefined;
+
+      process.exit(0);
     });
   }
 
   #handleRequest: BunKnytConfig.OnRequest = async (request): Promise<void> => {
-    const resolvedOptions = await this.#getResolvedOptions();
+    const resolvedOptions = await this.#options;
     const urlBase = Bun.pathToFileURL(resolvedOptions.dest).toString();
     const routePath = request.url
       .slice(urlBase.length)
@@ -253,12 +361,10 @@ export namespace DocumentRouteBuilder {
      *
      * @remarks
      *
-     * When enabled, the server will automatically regenerate the routes
-     * when the documents change.
-     * This is useful for development, but should be disabled in production.
+     * When enabled, the server will automatically regenerate a route's HTML file
+     * when the corresponding document changes.
      */
-    // TODO: Implement this option
-    // development?: boolean;
+    development?: boolean;
     /**
      * The destination path for the generated routes.
      *
@@ -322,26 +428,50 @@ export namespace DocumentRouteBuilder {
   }
 }
 
-type RouteDocumentParams = {
+function createRouteDocuments(
+  options: DocumentRouteBuilder.Options.Resolved,
+): RouteDocument[] {
+  const cwd = process.cwd();
+
+  return options.documents.reduce<RouteDocument[]>((result, documentPath) => {
+    try {
+      const routePathname = options.documentPathToRoutePathname(documentPath);
+      const resolvedPath = Bun.resolveSync(documentPath, cwd);
+      const htmlPath = getHtmlPath({
+        dest: options.dest,
+        documentPath,
+        routePathname,
+      });
+
+      result.push({
+        path: documentPath,
+        resolvedPath,
+        route: routePathname,
+        htmlPath,
+      });
+    } catch (error) {
+      console.error(
+        `[glazier] failed to resolve document path: ${documentPath}`,
+        error,
+      );
+    }
+
+    return result;
+  }, []);
+}
+
+type GetHtmlPathParams = {
   dest: string;
   documentPath: DocumentPath;
   routePathname: RoutePathname;
 };
-
-function createRouteDocument(params: RouteDocumentParams): RouteDocument {
-  return {
-    path: params.documentPath,
-    route: params.routePathname,
-    htmlPath: getHtmlPath(params),
-  };
-}
 
 /**
  * Generates the HTML path for the route document.
  *
  * @internal scope: package
  */
-export function getHtmlPath(params: RouteDocumentParams): HTMLPath {
+export function getHtmlPath(params: GetHtmlPathParams): DocumentHTMLPath {
   const { dest, documentPath, routePathname } = params;
   const parsedDocumentPath = path.parse(documentPath);
   const relativePath = routePathname.slice(1);
@@ -349,7 +479,7 @@ export function getHtmlPath(params: RouteDocumentParams): HTMLPath {
     parsedDocumentPath.name === "index"
       ? path.join(relativePath, "index.html")
       : `${relativePath}.html`;
-  const htmlPath = path.resolve(dest, relativeFilePath) as HTMLPath;
+  const htmlPath = path.resolve(dest, relativeFilePath) as DocumentHTMLPath;
 
   return htmlPath;
 }
@@ -357,26 +487,6 @@ export function getHtmlPath(params: RouteDocumentParams): HTMLPath {
 async function cleanDestDir(dest: string): Promise<void> {
   await rm(dest, { recursive: true, force: true });
   await mkdir(dest, { recursive: true });
-}
-
-async function cleanAndGenerateRoutes(
-  options: DocumentRouteBuilder.Options.Resolved,
-): Promise<Routes> {
-  if (options.fresh) {
-    await cleanDestDir(options.dest);
-  }
-
-  return generateRoutes(options);
-}
-
-async function regenerateRoute(
-  documentPath: string,
-  options: Omit<DocumentRouteBuilder.Options.Resolved, "documents">,
-): Promise<void> {
-  await generateRoutes({
-    ...options,
-    documents: [documentPath],
-  });
 }
 
 /**
@@ -416,36 +526,57 @@ export function findRootPath(documentPaths: DocumentPath[]): DocumentRootPath {
   return commonParts.join(separator);
 }
 
+type GenerateRoutesResult = {
+  routes: Routes;
+};
+
 async function generateRoutes(
-  options: DocumentRouteBuilder.Options.Resolved,
-): Promise<Routes> {
-  const { dest, documents, pageTemplate } = options;
+  options: Omit<DocumentRouteBuilder.Options.Resolved, "documents"> & {
+    /**
+     * An array of route document paths to generate routes for.
+     */
+    routeDocuments: readonly RouteDocument[];
+    /**
+     * Whether to force regeneration of all routes, even if the HTML file already exists.
+     */
+    force?: boolean;
+  },
+): Promise<GenerateRoutesResult> {
+  const { dest, routeDocuments, pageTemplate, force } = options;
   const startTime = performance.now();
-  const output: Routes = {};
+  // NOTE: While `Routes` don't _need_ to be created in this function,
+  // they must not be created before the HTML files are generated,
+  // because the HTML files are imported as HTML bundles.
+  // As such, we create the `Routes` while generating the HTML files,
+  // to ensure the files are generated first.
+  const routes: Routes = {};
   const htmlGenerator = new RouteHtmlGenerator(dest, pageTemplate);
   const documentPathToRoutePathname = options.documentPathToRoutePathname;
 
   let numFileWritten = 0;
 
   await Promise.all(
-    documents.map(async (documentPath) => {
-      const routePathname = documentPathToRoutePathname(documentPath);
-      const routeDocument = await createRouteDocument({
-        dest,
-        documentPath,
-        routePathname,
-      });
+    routeDocuments.map(async (routeDocument) => {
       const htmlPath = routeDocument.htmlPath;
+      const routePathname = routeDocument.route;
       const htmlFile = Bun.file(htmlPath);
+      const htmlFileExists = await htmlFile.exists();
 
-      if ((await htmlFile.exists()) === false) {
+      if (force || !htmlFileExists) {
+        // console.debug(`[glazier] writing:`, {
+        //   documentPath: routeDocument.path,
+        //   routePathname,
+        //   htmlPath,
+        // });
+
         await Bun.write(htmlFile, await htmlGenerator.generate(routeDocument));
+
         numFileWritten++;
       }
 
       // Then immediately import the generated HTML file
       // as a HTMLBundle
-      output[routePathname] = (
+      routes[routePathname] = (
         (await import(htmlPath)) as BunHTMLBundleModule
       ).default;
     }),
@@ -454,10 +585,12 @@ async function generateRoutes(
   const duration = performance.now() - startTime;
 
   console.info(
-    `[glazier] ${documents.length} routes, ${numFileWritten} files written. (${duration.toFixed(2)}ms)`,
+    `[glazier] ${routeDocuments.length} routes, ${numFileWritten} files written. (${duration.toFixed(2)}ms)`,
   );
 
-  return output;
+  return {
+    routes,
+  };
 }
 
 // TODO: Remove this function if not needed.
@@ -563,4 +696,29 @@ class RouteHtmlGenerator {
 
     return this.#generateFromHtmlBundle(doc);
   }
+}
+
+class Deferred<T> {
+  #isFulfilled = false;
+  #deferred = Promise.withResolvers<T>();
+
+  get isFulfilled(): boolean {
+    return this.#isFulfilled;
+  }
+
+  get promise(): Promise<T> {
+    return this.#deferred.promise;
+  }
+
+  resolve = (value: T | PromiseLike<T>) => {
+    this.#isFulfilled = true;
+
+    this.#deferred.resolve(value);
+  };
+
+  reject = (reason?: unknown) => {
+    this.#isFulfilled = true;
+
+    this.#deferred.reject(reason);
+  };
 }

@@ -1,6 +1,7 @@
 import type { PluginBuilder } from "bun";
 
 import { DependencyManager } from "./DependencyManager";
+import { DependencyTracker } from "./DependencyTracker";
 import { transform } from "./transform/mod";
 import type { MiddlewareConfig } from "./types";
 
@@ -12,12 +13,16 @@ export function setupHtmlTransform(
   dependencyManager: DependencyManager,
   middleware: MiddlewareConfig,
 ): void {
+  const dependencyTracker = new DependencyTracker();
+
   builder.onLoad({ filter: /\.html$/ }, async ({ path: inputPath, defer }) => {
     try {
       const fileText = Bun.file(inputPath).text();
       const [html] = await Promise.all([fileText, defer()]);
       const transformResult = await transform(inputPath, html, middleware);
       const contents = await dependencyManager.inject(transformResult);
+
+      dependencyTracker.track(transformResult);
 
       return {
         contents,
