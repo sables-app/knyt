@@ -25,7 +25,7 @@ export async function transform(
 
   const transformer = new Transformer(options);
   const outputHtml = await transformer.transform(inputPath, inputHtml);
-  const { request, rendererModulePaths } = transformer;
+  const { request, rendererModulePaths, includesProcessed } = transformer;
   const duration = Math.round(performance.now() - startTime);
 
   console.info(
@@ -37,5 +37,6 @@ export async function transform(
     inputPath,
     html: outputHtml,
     rendererModulePaths,
+    includesProcessed,
   };
 }

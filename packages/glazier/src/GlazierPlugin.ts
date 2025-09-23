@@ -8,9 +8,15 @@ import type { BunPlugin, PluginBuilder } from "bun";
 
 import { loadConfig } from "./ConfigLoader";
 import { DependencyManager } from "./DependencyManager";
+import { setupHmrTransform } from "./HmrTransform/mod";
+import { setupHtmlTransform } from "./setupHtmlTransform";
 import { setupImportBlocklist } from "./setupImportBlocklist";
-import { transform, type GlazierPluginOptions } from "./transform/mod";
-import type { BunKnytConfig, TransformerRenderOptions } from "./types";
+import { type GlazierPluginOptions } from "./transform/mod";
+import type {
+  BunKnytConfig,
+  MiddlewareConfig,
+  TransformerRenderOptions,
+} from "./types";
 
 export namespace Middleware {
   export enum Kind {
@@ -40,17 +46,6 @@ export class GlazierPlugin implements BunPlugin {
   #middleware = new MiddlewareRunner<Middleware.ByKind>();
 
   readonly #mutableOptions$: Reference<GlazierPluginOptions.Mutable>;
-
-  get cacheId() {
-    return this.#mutableOptions$.value.cacheId ?? "default";
-  }
-
-  set cacheId(value: string) {
-    this.#mutableOptions$.set({
-      ...this.#mutableOptions$.value,
-      cacheId: value,
-    });
-  }
 
   get debug() {
     return this.#mutableOptions$.value.debug ?? false;
@@ -124,7 +119,7 @@ export class GlazierPlugin implements BunPlugin {
    * there's a desire to reuse the same configuration for both the static
    * server and dynamic routes.
    */
-  readonly options: GlazierPluginOptions.Middleware = {
+  readonly middleware: MiddlewareConfig = {
     onRequest: async (request) => {
       return this.#middleware.chain(Middleware.Kind.Request, request);
     },
@@ -141,6 +136,14 @@ export class GlazierPlugin implements BunPlugin {
       return result;
     },
   };
+
+  /**
+   * TODO: Remove in v1 release.
+   * @deprecated Use `middleware` instead.
+   */
+  get options(): MiddlewareConfig {
+    return this.middleware;
+  }
 
   #dependencyManager: DependencyManager | undefined;
 
@@ -167,26 +170,9 @@ export class GlazierPlugin implements BunPlugin {
     // builder.onEnd(console.debug);
 
     setupImportBlocklist(builder);
-
-    builder.onLoad(
-      { filter: /\.html$/ },
-      async ({ path: inputPath, defer }) => {
-        try {
-          const fileText = Bun.file(inputPath).text();
-          const [html] = await Promise.all([fileText, defer()]);
-          const options = this.options;
-          const transformResult = await transform(inputPath, html, options);
-          const contents = await dependencyManager.inject(transformResult);
-
-          return {
-            contents,
-            loader: "html",
-          };
-        } catch (error) {
-          console.error("[GlazierPlugin]", error);
-          throw error;
-        }
-      },
-    );
+    setupHtmlTransform(builder, dependencyManager, this.middleware);
+    // HMR transform is always set up, regardless of HMR being enabled.
+    // The transform checks if HMR is enabled before injecting code.
+    setupHmrTransform(builder);
   };
 }

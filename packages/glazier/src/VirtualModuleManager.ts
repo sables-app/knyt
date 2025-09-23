@@ -1,15 +1,12 @@
-import fs from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 
 import { ensureReference, type Reference } from "@knyt/artisan";
 import type { Loader, OnResolveResult, PluginBuilder } from "bun";
 
+import { getTempDir } from "./getTempDir";
 import type { GlazierPluginOptions } from "./transform/mod";
 
 const VIRTUAL_PATH_ROOT = "virtual-knyt-bun";
-
-const TEMP_DIR = path.resolve(await fs.realpath(os.tmpdir()), "knyt.glazier");
 
 type VirtualPath = `${typeof VIRTUAL_PATH_ROOT}/${string}/${string}.${Loader}`;
 
@@ -85,29 +82,31 @@ enum Mode {
 const DEFAULT_MODE = Mode.Memory;
 
 export class VirtualModuleManager {
-  static parsePath(path: string): VirtualPath.Parsed {
-    const virtualPath = path.startsWith("/") ? path.slice(1) : path;
-    const [front, loader] = virtualPath.split(".");
-    const [_root, managerId, moduleId] = front.split("/");
-
-    if (!managerId || !moduleId || !loader) {
-      throw new Error(`Invalid virtual module path: ${path}`);
-    }
-
-    return {
-      managerId,
-      moduleId,
-      loader: loader as Loader,
-    };
-  }
-
+  /**
+   * Promise resolving to a temp directory path for storing
+   * virtual modules. Uses a stable salt so the same directory
+   * is reused across multiple runs.
+   */
+  readonly #tempDir = getTempDir("virtual-modules");
+  /**
+   * A unique ID for this instance of the VirtualModuleManager.
+   * This is used to create a unique path prefix for in-memory
+   * virtual modules, to avoid conflicts with other instances.
+   *
+   * Unlike the temp directory, this ID is not stable across
+   * multiple runs.
+   */
   readonly #managerId = Math.random().toString(36).slice(2);
+  /**
+   * The path prefix for in-memory virtual modules.
+   * This is used to identify virtual modules created by
+   * this instance of the VirtualModuleManager.
+   */
   readonly #pathPrefix = `${VIRTUAL_PATH_ROOT}/${this.#managerId}` as const;
+  /**
+   * A map of virtual modules created by this instance.
+   */
   readonly #modules = new Map<VirtualPath, VirtualModule>();
-
-  get #cacheId() {
-    return this.#options$.value?.cacheId ?? "default";
-  }
 
   get #debug() {
     return this.#options$.value?.debug ?? false;
@@ -147,14 +146,14 @@ export class VirtualModuleManager {
   /**
    * Creates a virtual module with the given contents and file extension.
    */
-  addModule(contents: string, loader: Loader): VirtualModule {
+  async addModule(contents: string, loader: Loader): Promise<VirtualModule> {
     const hash = this.#hashContents(contents);
 
     const existingModule = this.#findDuplicateModule(hash, loader);
 
     if (existingModule) {
       this.#log(
-        `[knyt-plugin] Reusing existing virtual module: ${existingModule.virtualPath}`,
+        `[Glazier] Reusing existing virtual module: ${existingModule.virtualPath}`,
       );
 
       return existingModule;
@@ -162,7 +161,7 @@ export class VirtualModuleManager {
 
     const id = Math.random().toString(36).slice(2);
     const virtualPath = this.#createVirtualPath(id, loader);
-    const cachePath = this.#createCachePath(hash, loader);
+    const cachePath = await this.#createCachePath(hash, loader);
 
     const virtualModule: VirtualModule = {
       id,
@@ -178,15 +177,11 @@ export class VirtualModuleManager {
     return virtualModule;
   }
 
-  async #ensureVirtualModuleCache(virtualModule: VirtualModule): Promise<void> {
-    if (this.#mode === Mode.Memory) {
-      return Promise.resolve();
-    }
-
+  async ensureVirtualModuleCache(virtualModule: VirtualModule): Promise<void> {
     const cachedModule = Bun.file(virtualModule.cachePath);
 
     this.#log(
-      `[knyt-plugin] Ensuring virtual module cache: ${virtualModule.cachePath}`,
+      `[Glazier] Ensuring virtual module cache: ${virtualModule.cachePath}`,
     );
 
     if (!(await cachedModule.exists())) {
@@ -204,14 +199,18 @@ export class VirtualModuleManager {
   }
 
   connectInFileSystemMode(builder: PluginBuilder): void {
-    this.#log(
-      `[knyt-plugin] VirtualModuleManager connected with temporary directory: ${TEMP_DIR}`,
-    );
+    this.#tempDir
+      .then((dir) => {
+        this.#log(`[Glazier] VirtualModuleManager temp dir: ${dir}`);
+      })
+      .catch((err) => {
+        console.error("[Glazier] Error getting temp dir:", err);
+      });
 
     builder.onResolve(
       { filter: new RegExp(`^${this.#pathPrefix}`) },
       async ({ path }): Promise<OnResolveResult | null> => {
-        this.#log(`[knyt-plugin] Resolving virtual module path: ${path}`);
+        this.#log(`[Glazier] Resolving virtual module path: ${path}`);
 
         const virtualModule = this.getModuleByPath(path);
 
@@ -221,7 +220,7 @@ export class VirtualModuleManager {
           );
         }
 
-        this.#ensureVirtualModuleCache(virtualModule);
+        await this.ensureVirtualModuleCache(virtualModule);
 
         return {
           path: virtualModule.cachePath,
@@ -233,13 +232,13 @@ export class VirtualModuleManager {
 
   connectInMemoryMode(builder: PluginBuilder): void {
     this.#log(
-      `[knyt-plugin] VirtualModuleManager connected with path prefix: ${this.#pathPrefix}`,
+      `[Glazier] VirtualModuleManager connected with path prefix: ${this.#pathPrefix}`,
     );
 
     builder.onResolve(
       { filter: new RegExp(`^${this.#pathPrefix}`) },
       async ({ path }): Promise<OnResolveResult | null> => {
-        this.#log(`[knyt-plugin] Resolving virtual module path: ${path}`);
+        this.#log(`[Glazier] Resolving virtual module path: ${path}`);
 
         return { path: `/${path}`, external: false };
       },
@@ -253,7 +252,7 @@ export class VirtualModuleManager {
         }
 
         this.#log(
-          `[knyt-plugin] Loading virtual module path: ${path} in namespace: ${namespace}`,
+          `[Glazier] Loading virtual module path: ${path} in namespace: ${namespace}`,
         );
 
         await defer();
@@ -277,7 +276,7 @@ export class VirtualModuleManager {
   }
 
   getModuleByPath(path: string): VirtualModule | undefined {
-    const parsedPath = VirtualModuleManager.parsePath(path);
+    const parsedPath = parsePath(path);
     const { moduleId, loader } = parsedPath;
 
     return this.getModuleById(moduleId, loader);
@@ -291,13 +290,29 @@ export class VirtualModuleManager {
     return `${this.#pathPrefix}/${moduleId}.${loader}`;
   }
 
-  #createCachePath(hash: string, loader: Loader): string {
-    return path.resolve(TEMP_DIR, this.#cacheId, `${hash}.${loader}`);
+  async #createCachePath(hash: string, loader: Loader): Promise<string> {
+    return path.resolve(await this.#tempDir, `${hash}.${loader}`);
   }
 }
 
 export namespace VirtualModuleManager {
   export type Options = GlazierPluginOptions.Mutable & {
     mode?: Mode;
+  };
+}
+
+function parsePath(path: string): VirtualPath.Parsed {
+  const virtualPath = path.startsWith("/") ? path.slice(1) : path;
+  const [front, loader] = virtualPath.split(".");
+  const [_root, managerId, moduleId] = front.split("/");
+
+  if (!managerId || !moduleId || !loader) {
+    throw new Error(`Invalid virtual module path: ${path}`);
+  }
+
+  return {
+    managerId,
+    moduleId,
+    loader: loader as Loader,
   };
 }

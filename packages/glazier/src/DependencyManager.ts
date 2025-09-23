@@ -1,6 +1,9 @@
+import path from "node:path";
+
 import { ensureReference, type Reference } from "@knyt/artisan";
 import type { PluginBuilder } from "bun";
 
+import { relativePathWithDotSlash } from "./relativePathWithDotSlash";
 import { isDependencyInjectionEnabled } from "./RequestState/mod";
 import type { GlazierPluginOptions, TransformResult } from "./transform/mod";
 import { VirtualModuleManager } from "./VirtualModuleManager";
@@ -11,17 +14,14 @@ function renderDependenciesScriptContents(
   const importStatements: string[] = [];
   const usageStatements: string[] = [];
 
-  let moduleCount = 0;
-
-  for (const modulePath of rendererModulePaths) {
-    const defaultImportName = `r${moduleCount}`;
+  for (let i = 0; i < rendererModulePaths.length; i++) {
+    const modulePath = rendererModulePaths[i];
+    const defaultImportName = `r${i}`;
 
     importStatements.push(`import ${defaultImportName} from "${modulePath}";`);
 
     // Add a no-op reference to prevent the module from being tree-shaken away.
     usageStatements.push(`void ${defaultImportName};`);
-
-    moduleCount++;
   }
 
   const contents = [
@@ -63,13 +63,35 @@ export class DependencyManager {
    * Generates a virtual module that imports the given renderer modules,
    * and returns the virtual path of the generated module.
    */
-  async #createPageScript(rendererModulePaths: string[]): Promise<string> {
-    const { virtualPath } = await this.#virtualModules.addModule(
-      renderDependenciesScriptContents(rendererModulePaths),
-      "js",
-    );
+  async #createPageScript(
+    inputPath: string,
+    rendererModulePaths: string[],
+  ): Promise<string> {
+    const contents = renderDependenciesScriptContents(rendererModulePaths);
+    const virtualModule = await this.#virtualModules.addModule(contents, "js");
 
-    return virtualPath;
+    /**
+     * Decide whether to use the virtual path or cached file path.
+     *
+     * Virtual paths are faster, but Bun's static server cannot resolve them
+     * when HMR is enabled. In production (no HMR), use the virtual path.
+     * In development (with HMR), use the cached file path.
+     *
+     * This is a temporary workaround until Bun supports virtual modules
+     * natively or its static server can resolve them with HMR enabled.
+     */
+    const shouldUseVirtualPath = import.meta.env.NODE_ENV === "production";
+
+    if (shouldUseVirtualPath) {
+      return virtualModule.virtualPath;
+    }
+
+    await this.#virtualModules.ensureVirtualModuleCache(virtualModule);
+
+    return relativePathWithDotSlash(
+      path.dirname(inputPath),
+      virtualModule.cachePath,
+    );
   }
 
   /**
@@ -81,24 +103,36 @@ export class DependencyManager {
    * If neither tag is found, the script tag is appended to the end of the HTML.
    */
   async inject(transformResult: TransformResult): Promise<string> {
-    const { html, rendererModulePaths, request } = transformResult;
-    const hasDependencies = rendererModulePaths.length > 0;
+    const { html, inputPath, rendererModulePaths, request } = transformResult;
 
-    if (!hasDependencies || !isDependencyInjectionEnabled(request)) {
+    if (!isDependencyInjectionEnabled(request)) {
       return html;
     }
 
-    const scriptPath = await this.#createPageScript(rendererModulePaths);
-    const scriptTag = `<script type="module" src="${scriptPath}"></script>`;
+    const hasDependencies = rendererModulePaths.length > 0;
+
+    const scriptPaths = [];
+
+    if (hasDependencies) {
+      scriptPaths.push(
+        await this.#createPageScript(inputPath, rendererModulePaths),
+      );
+    }
+
+    const scriptTags = scriptPaths
+      .map(
+        (scriptPath) => `<script type="module" src="${scriptPath}"></script>`,
+      )
+      .join("\n");
 
     if (html.includes("</head>")) {
-      return html.replace("</head>", `${scriptTag}</head>`);
+      return html.replace("</head>", `${scriptTags}</head>`);
     }
     if (html.includes("</body>")) {
-      return html.replace("</body>", `${scriptTag}</body>`);
+      return html.replace("</body>", `${scriptTags}</body>`);
     }
 
-    return `${html}\n${scriptTag}`;
+    return `${html}\n${scriptTags}`;
   }
 }
 

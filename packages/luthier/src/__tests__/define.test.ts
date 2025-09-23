@@ -62,7 +62,7 @@ describe("define", () => {
       expect(elementDefinition).toHaveProperty("Element", elementConstructor);
     });
 
-    it("accepts an overload with a tag name and an options object", async () => {
+    it("accepts an overload with a tag name and parameters", async () => {
       const tagName = `knyt-${crypto.randomUUID()}`;
       const elementDefinition = define.element(tagName, {
         options: {

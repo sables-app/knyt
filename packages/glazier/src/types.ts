@@ -1,6 +1,8 @@
 import type { RenderOptions } from "@knyt/weaver";
 import type { BunRequest } from "bun";
 
+import type { GlazierPluginOptions } from "./transform/mod";
+
 /**
  * Options for module includes.
  *
@@ -84,3 +86,12 @@ export namespace GetRequestProps {
       response?: ResponseInit;
     };
 }
+
+/**
+ * A fully defined set of plugin middleware.
+ *
+ * @internal scope: package
+ */
+export type MiddlewareConfig = Readonly<
+  Required<GlazierPluginOptions.Middleware>
+>;

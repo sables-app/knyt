@@ -93,6 +93,11 @@ export type TransformResult = {
    * in the transformation.
    */
   rendererModulePaths: string[];
+  /**
+   * A list of include src values that were processed
+   * in the transformation.
+   */
+  includesProcessed: string[];
 };
 
 /**
@@ -174,12 +179,27 @@ export class Transformer {
    */
   readonly #rendererModulePaths = new Set<string>();
 
+  /**
+   * A set of include src values that have been processed
+   * in the transformer.
+   *
+   * @remarks
+   *
+   * This set exists to be able to later watch these files
+   * for changes in a development environment.
+   */
+  readonly #includesProcessed = new Set<string>();
+
   constructor(options: TransformOptions) {
     this.#options = options;
   }
 
   get rendererModulePaths(): string[] {
     return [...this.#rendererModulePaths];
+  }
+
+  get includesProcessed(): string[] {
+    return [...this.#includesProcessed];
   }
 
   #request: BunRequest | undefined;
@@ -469,8 +489,19 @@ export class Transformer {
           element: async (includeElement): Promise<void> => {
             let include: Include;
 
+            const src = includeElement.getAttribute("src");
+
+            if (!src) {
+              console.error(
+                `Missing src attribute in <${ProcessingTag.Include}> tag in ${inputPath}.`,
+              );
+
+              includeElement.remove();
+              return;
+            }
+
             try {
-              include = await importInclude(inputPath, includeElement);
+              include = await importInclude(inputPath, src);
             } catch (error) {
               console.error(`Error importing from ${inputPath}:`, error);
 
@@ -478,42 +509,46 @@ export class Transformer {
               return;
             }
 
-            try {
-              if (isRendererInclude(include)) {
+            if (isRendererInclude(include)) {
+              this.#includesProcessed.add(include.modulePath);
+
+              try {
                 await this.#processRendererInclude(
                   inputPath,
                   includeElement,
                   include,
                 );
                 return;
-              }
-            } catch (error) {
-              console.error(
-                `Error processing renderer include from ${inputPath}:`,
-                error,
-              );
+              } catch (error) {
+                console.error(
+                  `Error processing renderer include from ${inputPath}:`,
+                  error,
+                );
 
-              includeElement.remove();
-              return;
+                includeElement.remove();
+                return;
+              }
             }
 
-            try {
-              if (isBunHTMLBundle(include)) {
+            if (isBunHTMLBundle(include)) {
+              this.#includesProcessed.add(include.index);
+
+              try {
                 await this.#processBunHTMLBundleInclude(
                   inputPath,
                   includeElement,
                   include,
                 );
                 return;
-              }
-            } catch (error) {
-              console.error(
-                `Error processing HTML bundle from ${inputPath}:`,
-                error,
-              );
+              } catch (error) {
+                console.error(
+                  `Error processing HTML bundle from ${inputPath}:`,
+                  error,
+                );
 
-              includeElement.remove();
-              return;
+                includeElement.remove();
+                return;
+              }
             }
 
             typeCheck<never>(typeCheck.identify(include));

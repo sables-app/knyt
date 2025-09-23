@@ -6,6 +6,7 @@ export * from "./DeferredContent/mod";
 export * from "./DeferredContent/SkipRenderSignal";
 export * from "./define/mod";
 export * from "./KnytElement";
+export * from "./KnytElementComposed";
 export * from "./lazy";
 export * from "./typeGuards";
 export type * from "./DeferredContent/PromiseReference";
