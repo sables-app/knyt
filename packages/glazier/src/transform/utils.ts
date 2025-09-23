@@ -485,7 +485,5 @@ export async function normalizeFrontmatter(
 
   // TODO: Add support for TOML for feature parity with other plugins.
   // Currently, we only support YAML.
-  // TODO: Remove ts-expect-error when Bun.YAML is added to the types.
-  // @ts-expect-error because Bun.YAML is not in the types yet
-  return (Bun.YAML as JSON).parse(text.join("\n"));
+  return Bun.YAML.parse(text.join("\n")) as Record<string, unknown>;
 }
