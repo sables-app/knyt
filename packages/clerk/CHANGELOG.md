@@ -1,5 +1,12 @@
 # @knyt/clerk
 
+## 0.3.0
+
+### Patch Changes
+
+- Updated dependencies [faa654e]
+  - @knyt/artisan@0.3.0
+
 ## 0.2.0
 
 ### Patch Changes
