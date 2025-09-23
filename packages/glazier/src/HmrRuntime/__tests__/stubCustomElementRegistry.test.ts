@@ -2,6 +2,7 @@ import {
   __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
   define,
+  type KnytElementComposed,
 } from "@knyt/luthier";
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
@@ -154,13 +155,15 @@ describe("stubCustomElementRegistry", async () => {
           const nextConstructor = composedKnytElementNext;
 
           it("should call updateElementConstructor", () => {
-            const originalPrevLifecycleFn =
-              prevConstructor[__knytElementComposedLifecycle];
+            const originalPrevLifecycleFn = (
+              prevConstructor as KnytElementComposed.Constructor
+            )[__knytElementComposedLifecycle];
 
             $customElements.define("knyt-test-element", nextConstructor);
 
-            const updatedPrevLifecycleFn =
-              prevConstructor[__knytElementComposedLifecycle];
+            const updatedPrevLifecycleFn = (
+              prevConstructor as KnytElementComposed.Constructor
+            )[__knytElementComposedLifecycle];
 
             {
               // The lifecycle function should be updated to the new one.
@@ -168,7 +171,9 @@ describe("stubCustomElementRegistry", async () => {
               // The updated lifecycle function should be the same as the
               // next constructor's lifecycle function.
               expect(updatedPrevLifecycleFn).toBe(
-                nextConstructor[__knytElementComposedLifecycle],
+                (nextConstructor as KnytElementComposed.Constructor)[
+                  __knytElementComposedLifecycle
+                ],
               );
             }
           });
