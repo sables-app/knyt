@@ -181,7 +181,7 @@ export class Transformer {
 
   /**
    * A set of include src values that have been processed
-   * in the by transformer.
+   * in the transformer.
    *
    * @remarks
    *
