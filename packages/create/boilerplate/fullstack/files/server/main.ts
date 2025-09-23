@@ -1,17 +1,11 @@
 import homepage from "../pages/index.html";
 
 const server = Bun.serve({
-  development: {
-    // Disable Bun's HMR, because it's currently unstable,
-    // and doesn't work with the Knyt plugin.
-    hmr: false,
-  },
   routes: {
     "/": homepage,
   },
   error: (error) => {
     console.error(error);
-
     return new Response("Internal Server Error", { status: 500 });
   },
   fetch(req) {

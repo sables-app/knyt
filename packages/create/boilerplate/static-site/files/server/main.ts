@@ -1,15 +1,9 @@
 import routes from "../routes";
 
 const server = Bun.serve({
-  development: {
-    // Disable Bun's HMR, because it's currently unstable,
-    // and doesn't work with the Knyt plugin.
-    hmr: false,
-  },
   routes,
   error: (error) => {
     console.error(error);
-
     return new Response("Internal Server Error", { status: 500 });
   },
   fetch(req) {

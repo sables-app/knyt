@@ -16,6 +16,7 @@
     "build": "bun build --outdir=./dist --format=esm --target=browser --minify --sourcemap  ./src/main.ts"
   },
   "dependencies": {
+    "@knyt/glazier": "latest",
     "knyt": "latest"
   }
 }
