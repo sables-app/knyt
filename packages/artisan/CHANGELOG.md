@@ -1,5 +1,11 @@
 # @knyt/artisan
 
+## 0.3.0
+
+### Minor Changes
+
+- faa654e: Add `bufferObservable` and `mapObservable` utilities to the Knyt Artisan for enhanced data handling and transformation capabilities.
+
 ## 0.2.0
 
 ### Patch Changes

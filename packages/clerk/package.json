@@ -1,6 +1,6 @@
 {
   "name": "@knyt/clerk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A lightweight, observable state management library with built-in utilities for actions, reducers, and selectors.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -31,7 +31,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.2.0"
+    "@knyt/artisan": "^0.3.0"
   },
   "files": [
     "dist",
