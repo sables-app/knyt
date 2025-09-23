@@ -14,17 +14,14 @@ function renderDependenciesScriptContents(
   const importStatements: string[] = [];
   const usageStatements: string[] = [];
 
-  let moduleCount = 0;
-
-  for (const modulePath of rendererModulePaths) {
-    const defaultImportName = `r${moduleCount}`;
+  for (let i = 0; i < rendererModulePaths.length; i++) {
+    const modulePath = rendererModulePaths[i];
+    const defaultImportName = `r${i}`;
 
     importStatements.push(`import ${defaultImportName} from "${modulePath}";`);
 
     // Add a no-op reference to prevent the module from being tree-shaken away.
     usageStatements.push(`void ${defaultImportName};`);
-
-    moduleCount++;
   }
 
   const contents = [

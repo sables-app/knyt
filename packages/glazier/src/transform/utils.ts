@@ -98,6 +98,11 @@ export type BunHTMLBundleModule = {
 
 export type RendererInclude = {
   getRequestProps: GetRequestProps | undefined;
+  /**
+   * Either an absolute file path or a full module specifier
+   *
+   * @example `"/path/to/module.js"` or `"some-package/module"`
+   */
   modulePath: string;
   properties: PropertiesDefinition<any> | undefined;
   renderer: Renderer;
