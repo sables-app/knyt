@@ -86,39 +86,52 @@ function startWatching() {
   console.info("Watching for changes...");
 
   getModulePaths().forEach(async (filePath) => {
-    const watcher = watch(filePath, { signal: abortController.signal });
+    try {
+      const watcher = watch(filePath, {
+        signal: abortController.signal,
+        persistent: false,
+      });
 
-    let isSkipping = false;
+      let isSkipping = false;
 
-    for await (const event of watcher) {
-      if (isSkipping) continue;
+      for await (const event of watcher) {
+        if (isSkipping) continue;
 
-      console.info(`Detected ${event.eventType} in ${event.filename}`);
+        console.info(`Detected ${event.eventType} in ${event.filename}`);
 
-      isSkipping = true;
+        isSkipping = true;
 
-      // Skip events for a time to avoid the watcher from responding to
-      // events originating from itself. This is a workaround for the
-      // issue where the watcher responds to its own changes, causing
-      // an infinite loop.
-      //
-      // This is a temporary solution until we find a better way to
-      // handle this; tbh, it's good enough, and I probably won't
-      // change it, spend my time on something else. 🙃
-      setTimeout(() => {
-        isSkipping = false;
-      }, 250);
+        // Skip events for a time to avoid the watcher from responding to
+        // events originating from itself. This is a workaround for the
+        // issue where the watcher responds to its own changes, causing
+        // an infinite loop.
+        //
+        // This is a temporary solution until we find a better way to
+        // handle this; tbh, it's good enough, and I probably won't
+        // change it, spend my time on something else. 🙃
+        setTimeout(() => {
+          isSkipping = false;
+        }, 250);
 
-      // Wait for the files to be fully written before stubbing it.
-      await new Promise((resolve) => setTimeout(resolve, 100));
+        // Wait for the files to be fully written before stubbing it.
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
-      await stubPackageDist();
+        await stubPackageDist();
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        // Ignore abort errors
+        return;
+      }
+
+      console.error(error);
     }
   });
 
   process.on("SIGINT", () => {
     console.info("Stopping watcher...");
     abortController.abort();
+    process.exit(0);
   });
 }
 
