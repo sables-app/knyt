@@ -248,8 +248,6 @@ export class DocumentRouteBuilder {
       const affectedDocuments: RouteDocument[] = [];
 
       for (const change of changes) {
-        console.info(`[glazier] detected document change:`, change);
-
         const { entrypointPath } = change;
 
         for (const routeDocument of routeDocuments) {
