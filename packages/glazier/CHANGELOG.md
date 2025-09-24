@@ -1,5 +1,11 @@
 # @knyt/glazier
 
+## 0.3.1
+
+### Patch Changes
+
+- 74f2446: Remove loud HMR log message.
+
 ## 0.3.0
 
 ### Minor Changes

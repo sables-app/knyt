@@ -1,6 +1,6 @@
 {
   "name": "@knyt/glazier",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A Bun plugin for server-side rendering and static site generation with built-in hydration for web components.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
