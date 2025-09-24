@@ -35,6 +35,14 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 
 </small>
 
+## Try in GitHub Codespaces
+
+You can try Knyt Glazier in your browser using [GitHub Codespaces][]. The pre-configured devcontainers can be used to explore Knyt's server-side capabilities without needing to set up a local environment.
+
+[GitHub Codespaces]: https://github.com/features/codespaces
+
+[![Edit in GitHub Codespaces](./docs/edit-in-codespaces.svg)](https://knyt.dev/try/codespaces)
+
 ## Key Features
 
 #### HTML composition
