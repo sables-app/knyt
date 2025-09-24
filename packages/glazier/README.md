@@ -64,6 +64,9 @@ This package is part of [Knyt](https://knyt.dev/), a toolkit designed to simplif
 - Automatic frontmatter and table-of-contents extraction from MDX
 - Optional file-based routing (document path to route conversion)
 - Route-aware asset handling via Bun's static bundler
+- [Knyt Live Mode][] for development with hot reloading
+
+[Knyt Live Mode]: https://knyt.dev/guide/live-mode
 
 #### Dependency management
 
