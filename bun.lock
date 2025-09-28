@@ -14,21 +14,21 @@
     },
     "packages/artisan": {
       "name": "@knyt/artisan",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "devDependencies": {
         "rxjs": "^7.8.2",
       },
     },
     "packages/clerk": {
       "name": "@knyt/clerk",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
       },
     },
     "packages/create": {
       "name": "create-knyt",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "bin": {
         "create-knyt": "bin/create-knyt.bundle.js",
       },
@@ -39,18 +39,18 @@
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.2.0",
+      "version": "0.3.1",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/luthier": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
-        "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/luthier": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
+        "@oxc-parser/binding-wasm32-wasi": "~0.93.0",
         "@types/bun": "^1.2.22",
         "happy-dom": "^18.0.1",
         "oxc-parser": "~0.87.0",
       },
       "devDependencies": {
-        "knyt": "0.2.1",
+        "knyt": "0.3.0",
       },
     },
     "packages/html-type": {
@@ -62,54 +62,54 @@
     },
     "packages/luthier": {
       "name": "@knyt/luthier",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/tasker": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/tasker": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
         "event-station": "^2.0.0",
       },
     },
     "packages/tailor": {
       "name": "@knyt/tailor",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/weaver": "^0.3.0",
       },
     },
     "packages/tasker": {
       "name": "@knyt/tasker",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
         "event-station": "^2.0.0",
       },
     },
     "packages/toolkit": {
       "name": "knyt",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
-        "@knyt/luthier": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/tasker": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/luthier": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/tasker": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
       },
     },
     "packages/weaver": {
       "name": "@knyt/weaver",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
       },
     },
@@ -343,7 +343,7 @@
 
     "@oxc-parser/binding-linux-x64-musl": ["@oxc-parser/binding-linux-x64-musl@0.87.0", "", { "os": "linux", "cpu": "x64" }, "sha512-3+M9hfrZSDi4+Uy4Ll3rtOuVG3IHDQlj027jgtmAAHJK1eqp4CQfC7rrwE+LFUqUwX+KD2GwlxR+eHyyEf5Gbg=="],
 
-    "@oxc-parser/binding-wasm32-wasi": ["@oxc-parser/binding-wasm32-wasi@0.87.0", "", { "dependencies": { "@napi-rs/wasm-runtime": "^1.0.3" }, "cpu": "none" }, "sha512-2jgeEeOa4GbQQg2Et/gFTgs5wKS/+CxIg+CN2mMOJ4EqbmvUVeGiumO01oFOWTYnJy1oONwIocBzrnMuvOcItA=="],
+    "@oxc-parser/binding-wasm32-wasi": ["@oxc-parser/binding-wasm32-wasi@0.93.0", "", { "dependencies": { "@napi-rs/wasm-runtime": "^1.0.5" }, "cpu": "none" }, "sha512-EXyCyY4GJO+SNTQJPPmJJwYbPkPOzw2nxSRMmUlwG19WKO7QHzHyL6u+4hXpp5IwgIWvgQgoix2/pB9JF+EA7w=="],
 
     "@oxc-parser/binding-win32-arm64-msvc": ["@oxc-parser/binding-win32-arm64-msvc@0.87.0", "", { "os": "win32", "cpu": "arm64" }, "sha512-KZp9poaBaVvuFM0TrsHCDOjPQK5eMDXblz21boMhKHGW5/bOlkMlg3CYn5j0f67FkK68NSdNKREMxmibBeXllQ=="],
 
@@ -1236,6 +1236,8 @@
     "js-yaml/argparse": ["argparse@2.0.1", "", {}, "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="],
 
     "mlly/pathe": ["pathe@1.1.2", "", {}, "sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ=="],
+
+    "oxc-parser/@oxc-parser/binding-wasm32-wasi": ["@oxc-parser/binding-wasm32-wasi@0.87.0", "", { "dependencies": { "@napi-rs/wasm-runtime": "^1.0.3" }, "cpu": "none" }, "sha512-2jgeEeOa4GbQQg2Et/gFTgs5wKS/+CxIg+CN2mMOJ4EqbmvUVeGiumO01oFOWTYnJy1oONwIocBzrnMuvOcItA=="],
 
     "p-locate/p-limit": ["p-limit@3.1.0", "", { "dependencies": { "yocto-queue": "^0.1.0" } }, "sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ=="],
 

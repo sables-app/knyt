@@ -46,7 +46,7 @@
     "@knyt/artisan": "^0.3.0",
     "@knyt/luthier": "^0.3.0",
     "@knyt/weaver": "^0.3.0",
-    "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
+    "@oxc-parser/binding-wasm32-wasi": "~0.93.0",
     "@types/bun": "^1.2.22",
     "happy-dom": "^18.0.1",
     "oxc-parser": "~0.87.0"
