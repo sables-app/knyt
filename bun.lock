@@ -14,21 +14,21 @@
     },
     "packages/artisan": {
       "name": "@knyt/artisan",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "devDependencies": {
         "rxjs": "^7.8.2",
       },
     },
     "packages/clerk": {
       "name": "@knyt/clerk",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
       },
     },
     "packages/create": {
       "name": "create-knyt",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "bin": {
         "create-knyt": "bin/create-knyt.bundle.js",
       },
@@ -39,18 +39,18 @@
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.2.0",
+      "version": "0.3.1",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/luthier": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/luthier": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
         "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
         "@types/bun": "^1.2.22",
-        "happy-dom": "^18.0.1",
+        "happy-dom": "^19.0.2",
         "oxc-parser": "~0.87.0",
       },
       "devDependencies": {
-        "knyt": "0.2.1",
+        "knyt": "0.3.0",
       },
     },
     "packages/html-type": {
@@ -62,54 +62,54 @@
     },
     "packages/luthier": {
       "name": "@knyt/luthier",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/tasker": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/tasker": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
         "event-station": "^2.0.0",
       },
     },
     "packages/tailor": {
       "name": "@knyt/tailor",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/weaver": "^0.3.0",
       },
     },
     "packages/tasker": {
       "name": "@knyt/tasker",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
         "event-station": "^2.0.0",
       },
     },
     "packages/toolkit": {
       "name": "knyt",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
-        "@knyt/clerk": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
+        "@knyt/clerk": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
-        "@knyt/luthier": "^0.2.0",
-        "@knyt/tailor": "^0.2.0",
-        "@knyt/tasker": "^0.2.0",
-        "@knyt/weaver": "^0.2.0",
+        "@knyt/luthier": "^0.3.0",
+        "@knyt/tailor": "^0.3.0",
+        "@knyt/tasker": "^0.3.0",
+        "@knyt/weaver": "^0.3.0",
       },
     },
     "packages/weaver": {
       "name": "@knyt/weaver",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
-        "@knyt/artisan": "^0.2.0",
+        "@knyt/artisan": "^0.3.0",
         "@knyt/html-type": "^0.1.0",
       },
     },
@@ -699,7 +699,7 @@
 
     "graphemer": ["graphemer@1.4.0", "", {}, "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag=="],
 
-    "happy-dom": ["happy-dom@18.0.1", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA=="],
+    "happy-dom": ["happy-dom@19.0.2", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-831CLbgDyjRbd2lApHZFsBDe56onuFcjsCBPodzWpzedTpeDr8CGZjs7iEIdNW1DVwSFRecfwzLpVyGBPamwGA=="],
 
     "has-bigints": ["has-bigints@1.0.2", "", {}, "sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ=="],
 
@@ -1166,6 +1166,8 @@
     "@eslint/eslintrc/ajv": ["ajv@6.12.6", "", { "dependencies": { "fast-deep-equal": "^3.1.1", "fast-json-stable-stringify": "^2.0.0", "json-schema-traverse": "^0.4.1", "uri-js": "^4.2.2" } }, "sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g=="],
 
     "@eslint/eslintrc/minimatch": ["minimatch@3.1.2", "", { "dependencies": { "brace-expansion": "^1.1.7" } }, "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="],
+
+    "@happy-dom/global-registrator/happy-dom": ["happy-dom@18.0.1", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA=="],
 
     "@humanwhocodes/config-array/minimatch": ["minimatch@3.1.2", "", { "dependencies": { "brace-expansion": "^1.1.7" } }, "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="],
 
