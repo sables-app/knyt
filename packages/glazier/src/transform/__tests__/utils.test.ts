@@ -21,7 +21,8 @@ describe("transform/utils", () => {
         },
       });
 
-      const result = rewriter.transform(htmlDocument);
+      // TypeScript is confused about the overload here for some reason.
+      const result = rewriter.transform(htmlDocument) as unknown as string;
 
       expect(result).toBe(`<header><h1>Welcome</h1></header>`);
     });
@@ -36,7 +37,8 @@ describe("transform/utils", () => {
           },
         });
 
-        const result = rewriter.transform(htmlDocument);
+        // TypeScript is confused about the overload here for some reason.
+        const result = rewriter.transform(htmlDocument) as unknown as string;
 
         expect(result).toBe(`<header><h1>Welcome</h1><h2>Hello</h2></header>`);
       });
@@ -72,7 +74,7 @@ describe("transform/utils", () => {
 
     describe("when given a Custom Element constructor", () => {
       it("should render the Custom Element", () => {
-        class JumboSectionElement extends HTMLElement {}
+        class JumboSectionElement extends HTMLElement { }
         customElements.define(
           `knyt-${crypto.randomUUID()}`,
           JumboSectionElement,

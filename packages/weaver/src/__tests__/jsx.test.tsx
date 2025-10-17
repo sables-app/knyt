@@ -106,6 +106,8 @@ describe("jsx function", async () => {
       const ref = mock();
 
       const builder = (
+        // @ts-expect-error TypeScript expects React to be present in scope for JSX.
+        // However, this module is using a custom JSX pragma instead.
         <>
           <div key="myKey" ref={ref} className="success">
             <a href="https://example.com">

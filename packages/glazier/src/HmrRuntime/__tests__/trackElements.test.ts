@@ -1,3 +1,4 @@
+/// <reference types="@types/bun" />
 import { expect, test } from "bun:test";
 
 import { getElements, trackElements } from "../trackElements.ts";
@@ -11,7 +12,7 @@ test.skipIf(
   // the garbage collector.
   import.meta.env.TEST_ELEMENT_TRACKING !== "true",
 )("element tracking", async () => {
-  class TestElement extends HTMLElement {}
+  class TestElement extends HTMLElement { }
   const tagName = `test-element-${crypto.randomUUID()}`;
   const trackedConstructor = trackElements(TestElement);
 

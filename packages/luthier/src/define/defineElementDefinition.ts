@@ -17,12 +17,6 @@ declare const customElements: never;
 declare const document: never;
 declare const window: never;
 
-declare global {
-  interface ImportMeta {
-    hot: unknown;
-  }
-}
-
 /**
  * @internal scope: workspace
  */
