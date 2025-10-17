@@ -15,16 +15,16 @@
     },
     "packages/artisan": {
       "name": "@knyt/artisan",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "devDependencies": {
         "rxjs": "^7.8.2",
       },
     },
     "packages/clerk": {
       "name": "@knyt/clerk",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
       },
       "devDependencies": {
         "@types/bun": "~1.3.0",
@@ -32,7 +32,7 @@
     },
     "packages/create": {
       "name": "create-knyt",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "bin": {
         "create-knyt": "bin/create-knyt.bundle.js",
       },
@@ -44,35 +44,35 @@
     },
     "packages/glazier": {
       "name": "@knyt/glazier",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/luthier": "^0.3.0",
-        "@knyt/weaver": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/luthier": "^0.4.0",
+        "@knyt/weaver": "^0.4.0",
         "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
         "@types/bun": "~1.3.0",
-        "happy-dom": "^18.0.1",
+        "happy-dom": "^20.0.5",
         "oxc-parser": "~0.87.0",
       },
       "devDependencies": {
-        "knyt": "0.3.0",
+        "knyt": "0.4.0",
       },
     },
     "packages/html-type": {
       "name": "@knyt/html-type",
-      "version": "0.1.0",
+      "version": "0.4.0",
       "dependencies": {
         "csstype": "^3.1.3",
       },
     },
     "packages/luthier": {
       "name": "@knyt/luthier",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/tailor": "^0.3.0",
-        "@knyt/tasker": "^0.3.0",
-        "@knyt/weaver": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/tailor": "^0.4.0",
+        "@knyt/tasker": "^0.4.0",
+        "@knyt/weaver": "^0.4.0",
         "event-station": "^2.0.0",
       },
       "devDependencies": {
@@ -81,23 +81,23 @@
     },
     "packages/tailor": {
       "name": "@knyt/tailor",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/clerk": "^0.3.0",
-        "@knyt/html-type": "^0.1.0",
-        "@knyt/weaver": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/clerk": "^0.4.0",
+        "@knyt/html-type": "^0.4.0",
+        "@knyt/weaver": "^0.4.0",
       },
     },
     "packages/tasker": {
       "name": "@knyt/tasker",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/clerk": "^0.3.0",
-        "@knyt/html-type": "^0.1.0",
-        "@knyt/tailor": "^0.3.0",
-        "@knyt/weaver": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/clerk": "^0.4.0",
+        "@knyt/html-type": "^0.4.0",
+        "@knyt/tailor": "^0.4.0",
+        "@knyt/weaver": "^0.4.0",
         "event-station": "^2.0.0",
       },
       "devDependencies": {
@@ -106,23 +106,23 @@
     },
     "packages/toolkit": {
       "name": "knyt",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/clerk": "^0.3.0",
-        "@knyt/html-type": "^0.1.0",
-        "@knyt/luthier": "^0.3.0",
-        "@knyt/tailor": "^0.3.0",
-        "@knyt/tasker": "^0.3.0",
-        "@knyt/weaver": "^0.3.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/clerk": "^0.4.0",
+        "@knyt/html-type": "^0.4.0",
+        "@knyt/luthier": "^0.4.0",
+        "@knyt/tailor": "^0.4.0",
+        "@knyt/tasker": "^0.4.0",
+        "@knyt/weaver": "^0.4.0",
       },
     },
     "packages/weaver": {
       "name": "@knyt/weaver",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "dependencies": {
-        "@knyt/artisan": "^0.3.0",
-        "@knyt/html-type": "^0.1.0",
+        "@knyt/artisan": "^0.4.0",
+        "@knyt/html-type": "^0.4.0",
       },
     },
   },
@@ -713,7 +713,7 @@
 
     "graphemer": ["graphemer@1.4.0", "", {}, "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag=="],
 
-    "happy-dom": ["happy-dom@18.0.1", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA=="],
+    "happy-dom": ["happy-dom@20.0.5", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-AiqA0rfS7WR1kihXt9W9aA5LFLaOKzwiL+QoI7BkOQ0r21C7VHTOf4k8QNlnWYaHLhpI2tZzJPLV1lY1obDTmw=="],
 
     "has-bigints": ["has-bigints@1.0.2", "", {}, "sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ=="],
 
@@ -1220,6 +1220,8 @@
     "@eslint/eslintrc/minimatch": ["minimatch@3.1.2", "", { "dependencies": { "brace-expansion": "^1.1.7" } }, "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="],
 
     "@happy-dom/global-registrator/@types/node": ["@types/node@20.19.16", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-VS6TTONVdgwJwtJr7U+ghEjpfmQdqehLLpg/iMYGOd1+ilaFjdBJwFuPggJ4EAYPDCzWfDUHoIxyVnu+tOWVuQ=="],
+
+    "@happy-dom/global-registrator/happy-dom": ["happy-dom@18.0.1", "", { "dependencies": { "@types/node": "^20.0.0", "@types/whatwg-mimetype": "^3.0.2", "whatwg-mimetype": "^3.0.0" } }, "sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA=="],
 
     "@humanwhocodes/config-array/minimatch": ["minimatch@3.1.2", "", { "dependencies": { "brace-expansion": "^1.1.7" } }, "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="],
 
