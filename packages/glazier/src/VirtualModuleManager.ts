@@ -216,7 +216,7 @@ export class VirtualModuleManager {
 
         if (!virtualModule) {
           throw new Error(
-            `Virtual module not found for path: ${path} in namespace: ${namespace}`,
+            `Virtual module not found for path: ${path}`,
           );
         }
 
@@ -246,13 +246,18 @@ export class VirtualModuleManager {
 
     builder.onLoad(
       { filter: new RegExp(`^/${this.#pathPrefix}`) },
-      async ({ path, namespace, defer }) => {
+      async ({
+        path,
+        // Renamed to avoid conflict TypeScript keyword
+        namespace: moduleNamespace,
+        defer
+      }) => {
         if (path.endsWith(".html")) {
           return null as any;
         }
 
         this.#log(
-          `[Glazier] Loading virtual module path: ${path} in namespace: ${namespace}`,
+          `[Glazier] Loading virtual module path: ${path} in namespace: ${moduleNamespace}`,
         );
 
         await defer();
@@ -261,7 +266,7 @@ export class VirtualModuleManager {
 
         if (!virtualModule) {
           throw new Error(
-            `Virtual module not found for path: ${path} in namespace: ${namespace}`,
+            `Virtual module not found for path: ${path} in namespace: ${moduleNamespace}`,
           );
         }
 

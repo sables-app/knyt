@@ -35,6 +35,7 @@
     "@knyt/artisan": "^0.3.0",
     "@knyt/weaver": "^0.3.0",
     "@knyt/clerk": "^0.3.0",
+    "@knyt/html-type": "^0.1.0",
     "@knyt/tailor": "^0.3.0",
     "event-station": "^2.0.0"
   },

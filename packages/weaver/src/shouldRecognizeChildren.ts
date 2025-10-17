@@ -1,6 +1,8 @@
 import type { ElementDeclaration } from "./types/mod";
 import { isElementDeclaration, isNodeOpaque, RenderMode } from "./utils/mod";
 
+declare const Bun: unknown;
+
 export function shouldRecognizeChildren(
   declaration: ElementDeclaration.Input,
   element: Element | undefined,
@@ -15,6 +17,7 @@ export function shouldRecognizeChildren(
   if (isElementOpaque) {
     // TODO: Remove this in production
     if (hasChildren) {
+
       // TODO: Enable this warning again when we have a better solution for it.
       //
       // This warning is disabled when running in Bun for now, because a false

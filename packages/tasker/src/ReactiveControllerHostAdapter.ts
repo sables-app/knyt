@@ -5,6 +5,14 @@ import type {
   ReactiveControllerHost,
 } from "./ReactiveController";
 
+declare global {
+  interface ImportMeta {
+    env?: {
+      NODE_ENV: "development" | "production" | "test" | string;
+    }
+  }
+}
+
 type ReactiveControllerHostAdapterHooks = {
   /**
    * A callback that performs an update of the adapted element or component.

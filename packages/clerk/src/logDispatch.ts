@@ -38,6 +38,14 @@ export function addLogType<T extends Action<any>>(
   };
 }
 
+declare global {
+  interface ImportMeta {
+    env?: {
+      MODE: "development" | "production" | "test" | string;
+    }
+  }
+}
+
 /**
  * @public
  */

@@ -29,6 +29,7 @@
     "create-knyt": "bin/create-knyt.bundle.js"
   },
   "devDependencies": {
+    "@types/node": "^24.8.1",
     "@clack/prompts": "^0.11.0",
     "picocolors": "^1.1.1"
   },

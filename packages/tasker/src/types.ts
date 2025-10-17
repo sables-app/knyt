@@ -1,4 +1,3 @@
-import type { Reference, Subscription } from "@knyt/artisan";
 import type { TypedEvent } from "@knyt/html-type";
 
 import type { BasicEvent } from "./BasicEvent";
@@ -26,10 +25,10 @@ export type SyncEventListener<T> = (event: T) => unknown;
  */
 export type InferEventFromName<K extends string> =
   K extends keyof HTMLElementEventMap
-    ? HTMLElementEventMap[K]
-    : K extends keyof GlobalEventHandlersEventMap
-      ? GlobalEventHandlersEventMap[K]
-      : Event;
+  ? HTMLElementEventMap[K]
+  : K extends keyof GlobalEventHandlersEventMap
+  ? GlobalEventHandlersEventMap[K]
+  : Event;
 
 /**
  * @beta
