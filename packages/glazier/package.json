@@ -49,7 +49,7 @@
     "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
     "@types/bun": "~1.3.0",
     "happy-dom": "^18.0.1",
-    "oxc-parser": "~0.87.0"
+    "oxc-parser": "~0.95.0"
   },
   "devDependencies": {
     "knyt": "0.4.0"
