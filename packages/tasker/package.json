@@ -1,6 +1,6 @@
 {
   "name": "@knyt/tasker",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A system for creating reusable, stateful logic controllers compatible with Lit.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -32,11 +32,11 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.3.0",
-    "@knyt/weaver": "^0.3.0",
-    "@knyt/clerk": "^0.3.0",
-    "@knyt/html-type": "^0.1.0",
-    "@knyt/tailor": "^0.3.0",
+    "@knyt/artisan": "^0.4.0",
+    "@knyt/weaver": "^0.4.0",
+    "@knyt/clerk": "^0.4.0",
+    "@knyt/html-type": "^0.4.0",
+    "@knyt/tailor": "^0.4.0",
     "event-station": "^2.0.0"
   },
   "devDependencies": {
