@@ -40,14 +40,14 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "bun": "^1.2.22"
+    "bun": "^1.3.0"
   },
   "dependencies": {
     "@knyt/artisan": "^0.3.0",
     "@knyt/luthier": "^0.3.0",
     "@knyt/weaver": "^0.3.0",
     "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
-    "@types/bun": "^1.2.22",
+    "@types/bun": "^1.3.0",
     "happy-dom": "^18.0.1",
     "oxc-parser": "~0.87.0"
   },
