@@ -1,0 +1,10 @@
+{
+  "name": "Knyt Fullstack",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "workspaceMount": "type=volume,src=knyt-volume,target=/workspace",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [3000],
+  "postCreateCommand": "bun create knyt@latest --kind=fullstack --mdx --force . && bun install"
+}
