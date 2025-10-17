@@ -1,6 +1,6 @@
 {
   "name": "@knyt/weaver",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A declarative, type-safe DOM renderer with concurrent rendering and a native DOM API alignment.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -37,8 +37,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.3.0",
-    "@knyt/html-type": "^0.1.0"
+    "@knyt/artisan": "^0.4.0",
+    "@knyt/html-type": "^0.4.0"
   },
   "files": [
     "dist",

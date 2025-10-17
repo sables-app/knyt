@@ -1,6 +1,6 @@
 {
   "name": "@knyt/glazier",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A Bun plugin for server-side rendering and static site generation with built-in hydration for web components.",
   "author": "Morris Allison III (https://morris.xyz)",
   "license": "BSD-3-Clause",
@@ -43,16 +43,16 @@
     "bun": "~1.3.0"
   },
   "dependencies": {
-    "@knyt/artisan": "^0.3.0",
-    "@knyt/luthier": "^0.3.0",
-    "@knyt/weaver": "^0.3.0",
+    "@knyt/artisan": "^0.4.0",
+    "@knyt/luthier": "^0.4.0",
+    "@knyt/weaver": "^0.4.0",
     "@oxc-parser/binding-wasm32-wasi": "~0.87.0",
     "@types/bun": "~1.3.0",
     "happy-dom": "^18.0.1",
     "oxc-parser": "~0.87.0"
   },
   "devDependencies": {
-    "knyt": "0.3.0"
+    "knyt": "0.4.0"
   },
   "scripts": {
     "demo:server": "cd ./demo && bash ./server.sh",
