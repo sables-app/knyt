@@ -1,5 +1,5 @@
-import { createSelector } from "./createSelector";
-import * as selectors from "./selectors";
+import { createSelector } from "./createSelector.ts";
+import * as selectors from "./selectors.ts";
 
 type Select = typeof createSelector & typeof selectors;
 

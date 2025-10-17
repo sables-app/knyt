@@ -1,6 +1,6 @@
 import { createContext } from "@knyt/tasker";
 
-import type { DeferredContentController } from "./DeferredContentController";
+import type { DeferredContentController } from "./DeferredContentController.ts";
 
 /**
  * @internal scope: package

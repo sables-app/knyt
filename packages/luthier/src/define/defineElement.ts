@@ -4,20 +4,20 @@ import type {
   HTMLElementTagName,
 } from "@knyt/weaver";
 
-import type { KnytElement } from "../KnytElement";
+import type { KnytElement } from "../KnytElement.ts";
 import type {
   ElementDefinition,
   HTMLElementConstructor,
   PropertiesDefinition,
-} from "../types";
+} from "../types.ts";
 import {
   defineElementDefinition,
   type DefineElementDefinitionOptions,
-} from "./defineElementDefinition";
+} from "./defineElementDefinition.ts";
 import {
   defineKnytElement,
   type DefineElementOptions,
-} from "./defineKnytElement";
+} from "./defineKnytElement.ts";
 
 /**
  * Creates a custom element with the given tagname and options.

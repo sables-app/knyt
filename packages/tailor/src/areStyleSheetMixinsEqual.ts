@@ -1,6 +1,6 @@
 import { shallowEqual } from "@knyt/artisan";
 
-import type { StyleSheetMixin } from "./types";
+import type { StyleSheetMixin } from "./types.ts";
 
 // TODO: Rename for clarity
 export function areStyleSheetMixinsEqual(

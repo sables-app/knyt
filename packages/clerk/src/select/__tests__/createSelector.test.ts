@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { createSelector } from "../createSelector";
+import { createSelector } from "../createSelector.ts";
 
 describe("createSelector", () => {
   type StateA = {

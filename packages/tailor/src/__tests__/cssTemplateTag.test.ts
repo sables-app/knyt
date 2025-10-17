@@ -3,8 +3,8 @@
 
 import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { cssTemplateTag } from "../cssTemplateTag";
-import { StyleSheet } from "../StyleSheet";
+import { cssTemplateTag } from "../cssTemplateTag.ts";
+import { StyleSheet } from "../StyleSheet.ts";
 
 describe("cssTemplateTag", () => {
   it("should return a StyleSheet instance with the correct CSS string for plain strings", () => {

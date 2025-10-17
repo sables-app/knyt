@@ -1,4 +1,4 @@
-export * from "./MouseButton";
-export type * from "./CSS";
-export type * from "./InferAttributes";
-export type * from "./StyleObject";
+export * from "./MouseButton.ts";
+export type * from "./CSS.ts";
+export type * from "./InferAttributes.ts";
+export type * from "./StyleObject.ts";

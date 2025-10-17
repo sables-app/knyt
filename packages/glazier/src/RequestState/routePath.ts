@@ -1,4 +1,4 @@
-import { createRequestState } from "./RequestState";
+import { createRequestState } from "./RequestState.ts";
 
 /**
  * @internal scope: workspace

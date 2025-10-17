@@ -1,8 +1,8 @@
 import type { Observable } from "@knyt/artisan";
 
-import { effect, type Effect } from "./Effect";
-import type { ReactiveControllerHost } from "./ReactiveController";
-import { track, untrack } from "./tracking";
+import { effect, type Effect } from "./Effect.ts";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
+import { track, untrack } from "./tracking.ts";
 
 /**
  * @internal scope: workspace

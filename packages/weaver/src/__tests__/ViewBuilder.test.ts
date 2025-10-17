@@ -1,9 +1,9 @@
 import { typeCheck } from "@knyt/artisan";
 import { describe, expect, it, mock } from "bun:test";
 
-import { html } from "../ElementBuilder";
-import { render } from "../render/mod";
-import type { ViewBuilder } from "../types/mod";
+import { html } from "../ElementBuilder.ts";
+import { render } from "../render/mod.ts";
+import type { ViewBuilder } from "../types/mod.ts";
 import {
   assertElementBuilder,
   assertViewBuilder,
@@ -11,8 +11,8 @@ import {
   getMutableElementDeclarationFromElementBuilder,
   getViewDeclaration,
   isElementDeclaration,
-} from "../utils/mod";
-import { defineView } from "../ViewBuilder";
+} from "../utils/mod.ts";
+import { defineView } from "../ViewBuilder.ts";
 
 describe("defineView", async () => {
   it("produces a template that build views", async () => {

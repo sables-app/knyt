@@ -5,14 +5,14 @@ import type {
   ViewBuilderTargetSymbol,
   ViewDeclarationSymbol,
   ViewSymbol,
-} from "../constants";
+} from "../constants.ts";
 import type {
   AnyProps,
   ElementDeclaration,
   KnytDeclaration,
   RenderResult,
-} from "./core";
-import type { ElementBuilder } from "./ElementBuilder";
+} from "./core.ts";
+import type { ElementBuilder } from "./ElementBuilder.ts";
 
 export type ViewDeclaration<
   P extends AnyProps = AnyProps,

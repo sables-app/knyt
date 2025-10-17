@@ -4,7 +4,7 @@ import type {
   AttributeDictionary,
   AttributeValue,
   SingularElement,
-} from "./types/mod";
+} from "./types/mod.ts";
 
 /**
  * Sets an attribute on an element.

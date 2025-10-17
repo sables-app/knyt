@@ -1,5 +1,5 @@
-import { ReferenceCompute } from "./ReferenceCompute";
-import type { Reference } from "./types";
+import { ReferenceCompute } from "./ReferenceCompute.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * @internal scope: workspace

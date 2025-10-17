@@ -1,9 +1,9 @@
 import {
   OBSERVABLE_PROPERTY_NAME,
   type ObservableInterop,
-} from "../Observable/mod";
-import { __isKnytReference } from "./typeGuards";
-import type { Reference } from "./types";
+} from "../Observable/mod.ts";
+import { __isKnytReference } from "./typeGuards.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * Wrap a given reference, replacing its mutator with a custom one.

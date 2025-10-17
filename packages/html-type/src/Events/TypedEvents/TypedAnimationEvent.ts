@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 export interface TypedAnimationEvent<T> extends TypedEvent<T> {
   readonly animationName: string;

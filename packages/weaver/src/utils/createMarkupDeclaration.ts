@@ -1,9 +1,9 @@
-import { ElementDeclarationKind, ElementDeclarationSymbol } from "../constants";
+import { ElementDeclarationKind, ElementDeclarationSymbol } from "../constants.ts";
 import type {
   ElementBuilder,
   ElementDeclaration,
   HTMLElementTagName,
-} from "../types/mod";
+} from "../types/mod.ts";
 
 /**
  * @internal scope: workspace

@@ -1,1 +1,1 @@
-export * from "./FilesWatcher";
+export * from "./FilesWatcher.ts";

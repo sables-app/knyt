@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 export interface TypedPageTransitionEvent<T> extends TypedEvent<T> {
   /**

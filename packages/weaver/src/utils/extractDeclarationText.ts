@@ -4,9 +4,9 @@ import type {
   ElementDeclaration,
   KnytDeclaration,
   StringDocumentFragment,
-} from "../types/mod";
-import { isElementDeclaration } from "./other";
-import { resolveDeclarationTree } from "./resolveDeclarationTree";
+} from "../types/mod.ts";
+import { isElementDeclaration } from "./other.ts";
+import { resolveDeclarationTree } from "./resolveDeclarationTree.ts";
 
 /**
  * Extracts the text from an element declaration.

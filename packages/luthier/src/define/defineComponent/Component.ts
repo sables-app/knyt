@@ -5,8 +5,8 @@ import type {
   ViewBuilder,
 } from "@knyt/weaver";
 
-import type { PropertiesDefinition } from "../../types";
-import type { ComponentController } from "./ComponentController";
+import type { PropertiesDefinition } from "../../types.ts";
+import type { ComponentController } from "./ComponentController.ts";
 
 /**
  * @deprecated This is an experimental API that will change in the future.

@@ -1,8 +1,8 @@
 import { escapeHtml, isNonNullableObject, typeCheck } from "@knyt/artisan";
 
-import type { StringDocumentFragment } from "../types/mod";
-import { stringToTemplateStringsArray } from "./stringToTemplateStringsArray";
-import { isUnescapedString } from "./UnescapedString";
+import type { StringDocumentFragment } from "../types/mod.ts";
+import { stringToTemplateStringsArray } from "./stringToTemplateStringsArray.ts";
+import { isUnescapedString } from "./UnescapedString.ts";
 
 export function isStringDocumentFragment(
   value: unknown,

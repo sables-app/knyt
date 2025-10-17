@@ -1,4 +1,4 @@
-import { StyleObject } from "../lib/StyleObject";
+import { StyleObject } from "../lib/StyleObject.ts";
 
 export interface ValueSets {
   41?: "ltr" | "rtl";

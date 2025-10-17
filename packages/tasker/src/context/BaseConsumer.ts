@@ -8,11 +8,11 @@ import {
   type Subscription,
 } from "@knyt/artisan";
 
-import type { BasicEvent } from "../BasicEvent";
-import { hold } from "../hold";
-import type { ReactiveControllerHost } from "../ReactiveController";
-import { ContextRequestEvent } from "./events";
-import type { Context } from "./types";
+import type { BasicEvent } from "../BasicEvent.ts";
+import { hold } from "../hold.ts";
+import type { ReactiveControllerHost } from "../ReactiveController.ts";
+import { ContextRequestEvent } from "./events.ts";
+import type { Context } from "./types.ts";
 
 export abstract class BaseConsumer<T> implements Context.ConsumerType<T> {
   #state: Reference<T>;

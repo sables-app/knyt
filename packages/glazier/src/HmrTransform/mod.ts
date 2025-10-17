@@ -1,1 +1,1 @@
-export * from "./setupHmrTransform";
+export * from "./setupHmrTransform.ts";

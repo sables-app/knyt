@@ -1,5 +1,5 @@
-import { mapRef } from "./mapRef";
-import type { Reference } from "./types";
+import { mapRef } from "./mapRef.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * A convenience function that creates a reference which falls back to a specified value

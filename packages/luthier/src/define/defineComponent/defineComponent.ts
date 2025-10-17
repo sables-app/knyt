@@ -1,11 +1,11 @@
 import { defineView, type AnyProps } from "@knyt/weaver";
 
-import type { PropertiesDefinition } from "../../types";
-import type { Component } from "./Component";
+import type { PropertiesDefinition } from "../../types.ts";
+import type { Component } from "./Component.ts";
 import {
   globalComponentRegistry,
   type ComponentOptions,
-} from "./ComponentControllerRegistry";
+} from "./ComponentControllerRegistry.ts";
 
 /**
  * @deprecated This is an experimental API that will change in the future.

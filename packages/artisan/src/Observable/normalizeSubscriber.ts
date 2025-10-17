@@ -1,5 +1,5 @@
-import { assertObserver } from "./typeGuards";
-import type { Observable, Observer } from "./types";
+import { assertObserver } from "./typeGuards.ts";
+import type { Observable, Observer } from "./types.ts";
 
 /**
  * Normalizes subscribe input to an observer.

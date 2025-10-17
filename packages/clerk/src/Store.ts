@@ -15,13 +15,13 @@ import {
   isAction,
   type ActionCreatorFactory,
   type BoundActionCreator,
-} from "./action/fsa";
+} from "./action/fsa.ts";
 import {
   createAccessor,
   type ReferenceAccessor,
   type SelectorDictionary,
-} from "./createAccessor";
-import { logDispatch } from "./logDispatch";
+} from "./createAccessor.ts";
+import { logDispatch } from "./logDispatch.ts";
 import type {
   Action,
   AnyAction,
@@ -29,7 +29,7 @@ import type {
   Listener,
   Selector,
   SubscriptionFactory,
-} from "./types";
+} from "./types.ts";
 
 /**
  * An `Reference` that can dispatch actions to update its state.

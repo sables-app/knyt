@@ -1,11 +1,11 @@
-import { dom } from "./ElementBuilder";
+import { dom } from "./ElementBuilder.ts";
 import type {
   AnyProps,
   AttributeDictionary,
   ElementBuilder,
   KnytDeclaration,
   ViewBuilder,
-} from "./types/mod";
+} from "./types/mod.ts";
 
 /*
  * ### Private Remarks

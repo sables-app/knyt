@@ -1,4 +1,4 @@
-import type { OBSERVABLE_PROPERTY_NAME } from "./ObservableProtocol";
+import type { OBSERVABLE_PROPERTY_NAME } from "./ObservableProtocol.ts";
 
 /**
  * An object that subscribes to an observable.

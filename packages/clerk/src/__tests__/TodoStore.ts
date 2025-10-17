@@ -1,6 +1,6 @@
-import { reduce } from "../reduce/mod";
-import { select } from "../select/mod";
-import { Store } from "../Store";
+import { reduce } from "../reduce/mod.ts";
+import { select } from "../select/mod.ts";
+import { Store } from "../Store.ts";
 
 export type Todo = {
   id: number;

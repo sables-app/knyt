@@ -1,8 +1,8 @@
-export * from "./transform";
+export * from "./transform.ts";
 export {
   isBunHTMLBundleModule,
   assertBunHTMLBundleModule,
   type BunHTMLBundleModule,
-} from "./utils";
-export type { TransformResult, TransformOptions } from "./Transformer";
-export type * from "./GlazierPluginOptions";
+} from "./utils.ts";
+export type { TransformResult, TransformOptions } from "./Transformer.ts";
+export type * from "./GlazierPluginOptions.ts";

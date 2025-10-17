@@ -1,4 +1,4 @@
-import type { EventHandler, TypedEvent } from "./types/core";
+import type { EventHandler, TypedEvent } from "./types/core.ts";
 
 type NativeEventHandler<T, U extends Event> = (this: T, event: U) => any;
 

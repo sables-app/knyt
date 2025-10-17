@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvents/TypedEvent";
+import { TypedEvent } from "./TypedEvents/TypedEvent.ts";
 
 export interface TypedElementEvent<T> {
   onfullscreenchange?(ev: TypedEvent<T>): unknown;

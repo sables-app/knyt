@@ -6,17 +6,17 @@ import {
 } from "@knyt/artisan";
 import type { BunPlugin, PluginBuilder } from "bun";
 
-import { loadConfig } from "./ConfigLoader";
-import { DependencyManager } from "./DependencyManager";
-import { setupHmrTransform } from "./HmrTransform/mod";
-import { setupHtmlTransform } from "./setupHtmlTransform";
-import { setupImportBlocklist } from "./setupImportBlocklist";
-import { type GlazierPluginOptions } from "./transform/mod";
+import { loadConfig } from "./ConfigLoader.ts";
+import { DependencyManager } from "./DependencyManager.ts";
+import { setupHmrTransform } from "./HmrTransform/mod.ts";
+import { setupHtmlTransform } from "./setupHtmlTransform.ts";
+import { setupImportBlocklist } from "./setupImportBlocklist.ts";
+import { type GlazierPluginOptions } from "./transform/mod.ts";
 import type {
   BunKnytConfig,
   MiddlewareConfig,
   TransformerRenderOptions,
-} from "./types";
+} from "./types.ts";
 
 export namespace Middleware {
   export enum Kind {

@@ -1,7 +1,7 @@
-import type { Observer, Subscription } from "../Observable/mod";
-import { BasicReference } from "./BasicReference";
-import { isReadableReference } from "./typeGuards";
-import type { Reference } from "./types";
+import type { Observer, Subscription } from "../Observable/mod.ts";
+import { BasicReference } from "./BasicReference.ts";
+import { isReadableReference } from "./typeGuards.ts";
+import type { Reference } from "./types.ts";
 
 function getDerivedValue<T, U>(
   options: ReferenceUnwrapped.AllOptions<T, U>,

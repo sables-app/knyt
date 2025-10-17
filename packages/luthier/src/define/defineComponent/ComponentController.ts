@@ -15,16 +15,16 @@ import {
 } from "@knyt/weaver";
 import type { AnyProps, ElementBuilder, KnytDeclaration } from "@knyt/weaver";
 
-import { convertPropertiesDefinition } from "../../convertPropertiesDefinition";
+import { convertPropertiesDefinition } from "../../convertPropertiesDefinition.ts";
 import {
   __reactiveAdapter,
   applyReactiveMixin,
   ReactiveAdapter,
-} from "../../Reactive";
-import type { Reactive } from "../../Reactive";
-import type { PropertiesDefinition } from "../../types";
-import { defineKnytElement } from "../defineKnytElement";
-import type { Component } from "./Component";
+} from "../../Reactive.ts";
+import type { Reactive } from "../../Reactive.ts";
+import type { PropertiesDefinition } from "../../types.ts";
+import { defineKnytElement } from "../defineKnytElement.ts";
+import type { Component } from "./Component.ts";
 
 // TODO: Consider exporting `ComponentHost` instead to use `ComponentHost.tagName`.
 export const COMPONENT_HOST_TAG_NAME = "knyt-component-host";

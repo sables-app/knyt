@@ -3,7 +3,7 @@ import type { Observable, Observer, Subscription } from "@knyt/artisan";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 /**
  * A controller and observer that requests a host update when a new value is received.

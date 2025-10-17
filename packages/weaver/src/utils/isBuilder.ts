@@ -1,5 +1,5 @@
-import type { Builder } from "../types/mod";
-import { isElementBuilder, isViewBuilder } from "./other";
+import type { Builder } from "../types/mod.ts";
+import { isElementBuilder, isViewBuilder } from "./other.ts";
 
 /**
  * Extracts the element declaration from a builder.

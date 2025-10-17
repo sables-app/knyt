@@ -1,5 +1,5 @@
-import { normalizeSubscriber } from "./normalizeSubscriber";
-import type { Observable, Observer, Subscription } from "./types";
+import { normalizeSubscriber } from "./normalizeSubscriber.ts";
+import type { Observable, Observer, Subscription } from "./types.ts";
 
 /**
  * DynamicObserver is an observer that dynamically updates its

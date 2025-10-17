@@ -10,18 +10,18 @@ import {
   type Subscription,
 } from "@knyt/artisan";
 
-import { dependencyChanges, type DependencyChange } from "./dependencyChanges";
-import { FilesWatcher } from "./FilesWatcher/mod";
-import { getTempDir } from "./getTempDir";
-import { KnytTagName } from "./importTags";
-import { default as glazierPlugin } from "./plugin";
-import { routePathState } from "./RequestState/mod";
+import { dependencyChanges, type DependencyChange } from "./dependencyChanges.ts";
+import { FilesWatcher } from "./FilesWatcher/mod.ts";
+import { getTempDir } from "./getTempDir.ts";
+import { KnytTagName } from "./importTags.ts";
+import { default as glazierPlugin } from "./plugin.ts";
+import { routePathState } from "./RequestState/mod.ts";
 import {
   assertBunHTMLBundleModule,
   prepareHtmlForTransformation,
   type BunHTMLBundleModule,
-} from "./transform/utils";
-import type { BunKnytConfig } from "./types";
+} from "./transform/utils.ts";
+import type { BunKnytConfig } from "./types.ts";
 
 /**
  * A mapping of route pathnames to their corresponding HTML bundles.

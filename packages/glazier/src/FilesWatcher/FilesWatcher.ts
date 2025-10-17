@@ -2,7 +2,7 @@ import { watch } from "node:fs/promises";
 
 import { Beacon, typeCheck, type Observer } from "@knyt/artisan";
 
-import { getOptimalWatchPoints } from "./getOptimalWatchPoints";
+import { getOptimalWatchPoints } from "./getOptimalWatchPoints.ts";
 
 /**
  * A beacon that emits events when files change.

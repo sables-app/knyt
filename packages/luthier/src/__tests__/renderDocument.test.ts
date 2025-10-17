@@ -3,7 +3,7 @@
 import { dom, html, render } from "@knyt/weaver";
 import { expect, test } from "bun:test";
 
-import { define } from "../define/mod";
+import { define } from "../define/mod.ts";
 
 const Head = define.view<{ title?: string; description?: string }>(
   ({ title, description }) => {

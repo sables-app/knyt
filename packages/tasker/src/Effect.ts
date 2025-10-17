@@ -1,7 +1,7 @@
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 /**
  * @internal scope: workspace

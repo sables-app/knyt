@@ -1,8 +1,8 @@
 import type { Observer } from "@knyt/artisan";
 
-import { dependencyChanges } from "./dependencyChanges";
-import { FilesWatcher } from "./FilesWatcher/mod";
-import type { TransformResult } from "./transform/mod";
+import { dependencyChanges } from "./dependencyChanges.ts";
+import { FilesWatcher } from "./FilesWatcher/mod.ts";
+import type { TransformResult } from "./transform/mod.ts";
 
 type ProcessedIncludePath = string;
 type InputPath = string;

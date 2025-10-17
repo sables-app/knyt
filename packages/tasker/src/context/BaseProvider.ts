@@ -6,16 +6,16 @@ import {
 } from "@knyt/artisan";
 import { EventStation, type Listeners } from "event-station";
 
-import type { BasicEvent } from "../BasicEvent";
-import { HostMonitor } from "../HostMonitor";
-import { listenTo } from "../listenTo";
-import type { ReactiveControllerHost } from "../ReactiveController";
+import type { BasicEvent } from "../BasicEvent.ts";
+import { HostMonitor } from "../HostMonitor.ts";
+import { listenTo } from "../listenTo.ts";
+import type { ReactiveControllerHost } from "../ReactiveController.ts";
 import {
   ContextEventName,
   ContextProviderAvailableEvent,
   ContextRequestEvent,
-} from "./events";
-import type { Context, ValueUpdateHandler } from "./types";
+} from "./events.ts";
+import type { Context, ValueUpdateHandler } from "./types.ts";
 
 type EventListeners<T> = {
   [ContextEventName.ValueUpdate]: ValueUpdateHandler<T>;

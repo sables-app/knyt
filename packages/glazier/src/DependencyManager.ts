@@ -3,10 +3,10 @@ import path from "node:path";
 import { ensureReference, type Reference } from "@knyt/artisan";
 import type { PluginBuilder } from "bun";
 
-import { relativePathWithDotSlash } from "./relativePathWithDotSlash";
-import { isDependencyInjectionEnabled } from "./RequestState/mod";
-import type { GlazierPluginOptions, TransformResult } from "./transform/mod";
-import { VirtualModuleManager } from "./VirtualModuleManager";
+import { relativePathWithDotSlash } from "./relativePathWithDotSlash.ts";
+import { isDependencyInjectionEnabled } from "./RequestState/mod.ts";
+import type { GlazierPluginOptions, TransformResult } from "./transform/mod.ts";
+import { VirtualModuleManager } from "./VirtualModuleManager.ts";
 
 function renderDependenciesScriptContents(
   rendererModulePaths: string[],

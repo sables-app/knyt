@@ -1,10 +1,10 @@
-// Import directly from the the module to avoid circular dependencies
-import { rateLimitMutatorRef } from "../Reference/rateLimitMutatorRef";
-// Import directly from the the module to avoid circular dependencies
-import type { Reference } from "../Reference/types";
-import { debounceAnimationFrame } from "./debounceAnimationFrame";
-import { debounceMicrotask } from "./debounceMicrotask";
-import { debounceTimeout } from "./debounceTimeout";
+// import directly from the the module to avoid circular dependencies
+import { rateLimitMutatorRef } from "../Reference/rateLimitMutatorRef.ts";
+// import directly from the the module to avoid circular dependencies
+import type { Reference } from "../Reference/types.ts";
+import { debounceAnimationFrame } from "./debounceAnimationFrame.ts";
+import { debounceMicrotask } from "./debounceMicrotask.ts";
+import { debounceTimeout } from "./debounceTimeout.ts";
 
 /**
  * Debounce a function to only run after a certain amount of time has passed

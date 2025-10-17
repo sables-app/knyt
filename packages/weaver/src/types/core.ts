@@ -17,10 +17,10 @@ import type {
   ElementDeclarationKind,
   ElementDeclarationSymbol,
   FragmentTypeSymbol,
-} from "../constants";
-import type { RenderMode } from "../utils/mod";
-import type { ElementBuilder } from "./ElementBuilder";
-import type { ViewBuilder } from "./ViewBuilder";
+} from "../constants.ts";
+import type { RenderMode } from "../utils/mod.ts";
+import type { ElementBuilder } from "./ElementBuilder.ts";
+import type { ViewBuilder } from "./ViewBuilder.ts";
 
 // Re-export types from `@knyt/html-type` for convenience,
 // because they're used frequently in the renderer.

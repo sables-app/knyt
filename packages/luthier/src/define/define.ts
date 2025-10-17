@@ -1,9 +1,9 @@
 import { defineView } from "@knyt/weaver";
 
-import { defineComponent } from "./defineComponent/mod";
-import { defineElement } from "./defineElement";
-import { defineProperties } from "./defineProperties";
-import { defineProperty } from "./defineProperty";
+import { defineComponent } from "./defineComponent/mod.ts";
+import { defineElement } from "./defineElement.ts";
+import { defineProperties } from "./defineProperties.ts";
+import { defineProperty } from "./defineProperty.ts";
 
 /**
  * A set of functions for defining custom elements and their properties.

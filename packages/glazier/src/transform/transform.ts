@@ -6,7 +6,7 @@ import {
   Transformer,
   type TransformOptions,
   type TransformResult,
-} from "./Transformer";
+} from "./Transformer.ts";
 
 // Banned globals
 declare const customElements: never;

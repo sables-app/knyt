@@ -6,7 +6,7 @@ import {
   parseData,
   sanitizeAttributeName,
   serializeData,
-} from "../escapeHtml";
+} from "../escapeHtml.ts";
 
 describe("escapeHtml", () => {
   describe("escapeHtml", () => {

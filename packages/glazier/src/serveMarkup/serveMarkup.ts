@@ -3,8 +3,8 @@ import type { RouterTypes } from "bun";
 import type {
   BunHTMLBundleModule,
   GlazierPluginOptions,
-} from "../transform/mod";
-import { GlazierServer } from "./GlazierServer";
+} from "../transform/mod.ts";
+import { GlazierServer } from "./GlazierServer.ts";
 
 /**
  * Returns a Bun route handler that serves HTML markup using the Knyt Glazier transformer.

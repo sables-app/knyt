@@ -1,9 +1,9 @@
 // file generated from @michijs/vscode-mathml 1.0.3
 // HTML Data Version 1.1
-import { DataGlobalAttributes } from "../DataGlobalAttributes";
-import { MathMLEvents } from "../Events";
-import { AllAttributes } from "./AllAttributes";
-import { ValueSets } from "./ValueSets";
+import { DataGlobalAttributes } from "../DataGlobalAttributes.ts";
+import { MathMLEvents } from "../Events/index.ts";
+import { AllAttributes } from "./AllAttributes.ts";
+import { ValueSets } from "./ValueSets.ts";
 
 export { GlobalAttributes as MathMLGlobalAttributes };
 

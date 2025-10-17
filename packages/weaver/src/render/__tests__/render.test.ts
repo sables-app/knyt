@@ -3,10 +3,10 @@
 
 import { beforeAll, describe, expect, it } from "bun:test";
 
-import { Table } from "../../__tests__/Table";
-import { dom, html, svg } from "../../ElementBuilder";
-import { render } from "../render";
-import { defineDeferredElement } from "./DeferredElement";
+import { Table } from "../../__tests__/Table.ts";
+import { dom, html, svg } from "../../ElementBuilder.ts";
+import { render } from "../render.ts";
+import { defineDeferredElement } from "./DeferredElement.ts";
 
 describe("render", async () => {
   it("should render a simple string", async () => {

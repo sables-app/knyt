@@ -1,4 +1,4 @@
-import type { AssociationMap } from "./types";
+import type { AssociationMap } from "./types.ts";
 
 /**
  * A basic implementation of AssociationMap that uses a WeakMap to store values

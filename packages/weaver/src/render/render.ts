@@ -8,11 +8,11 @@ import {
   type OptionalAndComplete,
 } from "@knyt/artisan";
 
-import { build } from "../build/mod";
-import { KEY_ATTRIBUTE } from "../constants";
-import { renderCSS } from "../CSSRenderer";
-import { shouldRecognizeChildren } from "../shouldRecognizeChildren";
-import { syncCustomElementRegistries } from "../syncCustomElementRegistries";
+import { build } from "../build/mod.ts";
+import { KEY_ATTRIBUTE } from "../constants.ts";
+import { renderCSS } from "../CSSRenderer.ts";
+import { shouldRecognizeChildren } from "../shouldRecognizeChildren.ts";
+import { syncCustomElementRegistries } from "../syncCustomElementRegistries.ts";
 import type {
   AnyProps,
   AttributeDictionary,
@@ -23,11 +23,11 @@ import type {
   SharedOptions,
   SingularElement,
   StringDocumentFragment,
-} from "../types/mod";
+} from "../types/mod.ts";
 import {
   isUpdatableHost,
   uponElementUpdatesSettled,
-} from "../uponElementUpdatesSettled";
+} from "../uponElementUpdatesSettled.ts";
 import {
   containsOnlyStrings,
   createFragmentDeclaration,
@@ -45,7 +45,7 @@ import {
   nodesToElementBuilderChildren,
   nodeToHtml,
   renderStringsOnlyFragment,
-} from "../utils/mod";
+} from "../utils/mod.ts";
 
 // Banned globals
 declare const document: never;

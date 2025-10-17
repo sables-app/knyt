@@ -3,8 +3,8 @@
 import { describe, expect, it, mock } from "bun:test";
 import { filter, from, takeLast } from "rxjs";
 
-import { Beacon } from "../Observable/mod";
-import { ref } from "../Reference/mod";
+import { Beacon } from "../Observable/mod.ts";
+import { ref } from "../Reference/mod.ts";
 
 describe("rxjs integration", () => {
   describe("Beacon", () => {

@@ -2,8 +2,8 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { createReference } from "../createReference";
-import { fallbackRef } from "../fallbackRef";
+import { createReference } from "../createReference.ts";
+import { fallbackRef } from "../fallbackRef.ts";
 
 describe("fallbackRef", () => {
   it("returns the source value when it is not null or undefined", async () => {

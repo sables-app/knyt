@@ -1,4 +1,4 @@
-import { TypedEvent } from "../Events";
+import { TypedEvent } from "../Events/index.ts";
 
 /**
  * @remarks

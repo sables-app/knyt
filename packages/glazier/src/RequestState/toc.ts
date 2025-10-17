@@ -1,4 +1,4 @@
-import { createRequestState } from "./RequestState";
+import { createRequestState } from "./RequestState.ts";
 
 /**
  * Table of contents for the MDX document.

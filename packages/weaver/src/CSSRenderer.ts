@@ -1,5 +1,5 @@
-import { setSingularElementStyleProperty } from "./setSingularElementStyleProperty";
-import type { SingularElement, StyleObject } from "./types/mod";
+import { setSingularElementStyleProperty } from "./setSingularElementStyleProperty.ts";
+import type { SingularElement, StyleObject } from "./types/mod.ts";
 
 // Banned globals
 declare const document: never;

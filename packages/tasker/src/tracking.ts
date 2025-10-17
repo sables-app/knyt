@@ -1,7 +1,7 @@
 import type { Observable } from "@knyt/artisan";
 
-import { HostUpdater } from "./HostUpdater";
-import type { ReactiveControllerHost } from "./ReactiveController";
+import { HostUpdater } from "./HostUpdater.ts";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
 
 const hostUpdatersByObservable = new WeakMap<Observable<any>, HostUpdater>();
 

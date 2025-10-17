@@ -1,7 +1,7 @@
-import { type Observer, type Subscription } from "../Observable/mod";
-import { strictEqual } from "../utils/mod";
-import { BasicReference } from "./BasicReference";
-import type { Reference } from "./types";
+import { type Observer, type Subscription } from "../Observable/mod.ts";
+import { strictEqual } from "../utils/mod.ts";
+import { BasicReference } from "./BasicReference.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * A reference that maps the value of another reference

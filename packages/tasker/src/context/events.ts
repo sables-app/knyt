@@ -1,6 +1,6 @@
 import type { Subscription } from "@knyt/artisan";
 
-import type { ValueUpdateHandler } from "./types";
+import type { ValueUpdateHandler } from "./types.ts";
 
 export enum ContextEventName {
   ValueUpdate = "knyt-value-update",

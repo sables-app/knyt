@@ -1,6 +1,6 @@
-import { html } from "./ElementBuilder";
-import { render, type RenderOptions } from "./render/mod";
-import type { KnytDeclaration } from "./types/mod";
+import { html } from "./ElementBuilder.ts";
+import { render, type RenderOptions } from "./render/mod.ts";
+import type { KnytDeclaration } from "./types/mod.ts";
 
 function getElementAttributes(el: Element): Record<string, string> {
   return el

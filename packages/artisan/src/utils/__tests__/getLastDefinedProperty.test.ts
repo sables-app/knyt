@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { getLastDefinedProperty } from "../getLastDefinedProperty";
+import { getLastDefinedProperty } from "../getLastDefinedProperty.ts";
 
 describe("getLastDefinedProperty", () => {
   it("should return the last defined property", () => {

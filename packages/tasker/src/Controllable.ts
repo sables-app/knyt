@@ -5,14 +5,14 @@ import {
   type Reference,
 } from "@knyt/artisan";
 
-import { controlInput } from "./controlInput";
-import type { Effect } from "./Effect";
-import { hold } from "./hold";
-import { InputStateController } from "./InputStateController";
-import { isReactiveControllerHost } from "./ReactiveController";
-import { ReactiveControllerHostAdapter } from "./ReactiveControllerHostAdapter";
-import { track, untrack } from "./tracking";
-import { watch } from "./watch";
+import { controlInput } from "./controlInput.ts";
+import type { Effect } from "./Effect.ts";
+import { hold } from "./hold.ts";
+import { InputStateController } from "./InputStateController.ts";
+import { isReactiveControllerHost } from "./ReactiveController.ts";
+import { ReactiveControllerHostAdapter } from "./ReactiveControllerHostAdapter.ts";
+import { track, untrack } from "./tracking.ts";
+import { watch } from "./watch.ts";
 
 /**
  * This symbol is used to attach the controllable adapter

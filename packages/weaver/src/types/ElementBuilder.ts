@@ -2,10 +2,10 @@ import type {
   ElementBuilderIsElementSymbol,
   ElementBuilderKindSymbol,
   ElementBuilderTargetSymbol,
-} from "../constants";
-import type * as Cx from "../cx";
-import type { HxFn } from "../Htmx";
-import type { RenderMode, UnescapedString } from "../utils/mod";
+} from "../constants.ts";
+import type * as Cx from "../cx.ts";
+import type { HxFn } from "../Htmx.ts";
+import type { RenderMode, UnescapedString } from "../utils/mod.ts";
 import type {
   AnyProps,
   AttributeDictionary,
@@ -23,8 +23,8 @@ import type {
   ListenerDeclaration,
   ListenerDeclarationType,
   StyleObject,
-} from "./core";
-import type { ViewBuilder } from "./ViewBuilder";
+} from "./core.ts";
+import type { ViewBuilder } from "./ViewBuilder.ts";
 
 export type StringDocumentFragment = {
   readonly __isStringDocumentFragment: true;

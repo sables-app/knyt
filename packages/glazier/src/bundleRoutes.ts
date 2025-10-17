@@ -5,10 +5,10 @@ import path from "node:path";
 
 import type { BuildConfig, BunPlugin, HTMLBundle } from "bun";
 
-import { getKnytBatchSize, isCIEnv, isProductionSSREnv } from "./env";
-import { getServeStaticPlugins } from "./getServeStaticPlugins";
-import glazierPlugin from "./plugin";
-import { rewriteRelativeResourceTags } from "./rewriteRelativeResourceTags";
+import { getKnytBatchSize, isCIEnv, isProductionSSREnv } from "./env.ts";
+import { getServeStaticPlugins } from "./getServeStaticPlugins.ts";
+import glazierPlugin from "./plugin.ts";
+import { rewriteRelativeResourceTags } from "./rewriteRelativeResourceTags.ts";
 
 /** @internal */
 const BUILD_DIR_NAME = ".knyt-build";

@@ -1,4 +1,4 @@
-import { TypedUIEvent } from "./TypedUIEvent";
+import { TypedUIEvent } from "./TypedUIEvent.ts";
 
 export interface TypedInputEvent<T> extends TypedUIEvent<T> {
   readonly data: string | null;

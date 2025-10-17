@@ -1,6 +1,6 @@
 import type { CSS } from "@knyt/html-type";
 
-import { StyleSheet } from "./StyleSheet";
+import { StyleSheet } from "./StyleSheet.ts";
 
 /**
  * Creates a `StyleSheet` containing a single rule that sets

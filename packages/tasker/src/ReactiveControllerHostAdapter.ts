@@ -3,7 +3,7 @@ import { isClientSide } from "@knyt/artisan";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 declare global {
   interface ImportMeta {

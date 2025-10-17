@@ -6,9 +6,9 @@ import {
   sequentialPairs,
   type SequentialPair,
   type Subscription,
-} from "../Observable/mod";
-import { createReference } from "../Reference/mod";
-import { chain } from "../utils/mod";
+} from "../Observable/mod.ts";
+import { createReference } from "../Reference/mod.ts";
+import { chain } from "../utils/mod.ts";
 
 describe("chain", () => {
   it("should chain transformations", () => {

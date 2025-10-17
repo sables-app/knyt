@@ -1,9 +1,9 @@
 import type { StyleObject } from "@knyt/weaver";
 
-import { DEFAULT_NAME_PREFIX } from "./constants";
-import { hashString } from "./hashString";
-import { serializeCSSObject } from "./serializeCSSObject";
-import type { CSSSerializable } from "./types";
+import { DEFAULT_NAME_PREFIX } from "./constants.ts";
+import { hashString } from "./hashString.ts";
+import { serializeCSSObject } from "./serializeCSSObject.ts";
+import type { CSSSerializable } from "./types.ts";
 
 // Banned globals
 declare const document: never;

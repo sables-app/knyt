@@ -1,4 +1,4 @@
-import { HydratedReferenceController } from "./HydratedReferenceController";
+import { HydratedReferenceController } from "./HydratedReferenceController.ts";
 
 /**
  * Creates a reactive state reference that hydrates

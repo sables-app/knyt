@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 
-import { getElements, trackElements } from "../trackElements";
+import { getElements, trackElements } from "../trackElements.ts";
 
 test.skipIf(
   // This environment variable prevents this test from running

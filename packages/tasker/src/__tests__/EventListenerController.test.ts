@@ -5,8 +5,8 @@ import { createReference } from "@knyt/artisan";
 import type { TypedEvent } from "@knyt/html-type";
 import { describe, it } from "bun:test";
 
-import { EventListenerController } from "../EventListenerController";
-import type { ReactiveControllerHost } from "../ReactiveController";
+import { EventListenerController } from "../EventListenerController.ts";
+import type { ReactiveControllerHost } from "../ReactiveController.ts";
 
 class TestEvent123 extends Event {
   foo = "bar";

@@ -3,7 +3,7 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { areStyleSheetMixinsEqual } from "../areStyleSheetMixinsEqual";
+import { areStyleSheetMixinsEqual } from "../areStyleSheetMixinsEqual.ts";
 
 describe("areStyleSheetMixinsEqual", () => {
   it("should return true for two undefined mixins", () => {

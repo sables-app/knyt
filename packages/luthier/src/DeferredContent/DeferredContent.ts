@@ -1,8 +1,8 @@
 import { css } from "@knyt/tailor";
 import { dom } from "@knyt/weaver";
 
-import { defineKnytElement } from "../define/defineKnytElement";
-import { DeferredContentController } from "./DeferredContentController";
+import { defineKnytElement } from "../define/defineKnytElement.ts";
+import { DeferredContentController } from "./DeferredContentController.ts";
 
 enum DeferredContentSlot {
   Placeholder = "placeholder",

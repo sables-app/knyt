@@ -1,5 +1,5 @@
-import { Beacon } from "./Beacon";
-import type { Observable, Observer, Subscription } from "./types";
+import { Beacon } from "./Beacon.ts";
+import type { Observable, Observer, Subscription } from "./types.ts";
 
 /**
  * An observable that applies a transformation function to each event

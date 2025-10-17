@@ -1,6 +1,6 @@
-import { Beacon } from "./Beacon";
-import { SubscriptionRegistry } from "./SubscriptionRegistry";
-import type { Observable } from "./types";
+import { Beacon } from "./Beacon.ts";
+import { SubscriptionRegistry } from "./SubscriptionRegistry.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * @internal scope: package

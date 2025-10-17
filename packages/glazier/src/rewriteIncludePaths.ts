@@ -110,7 +110,8 @@ export function rewriteIncludePaths(
     },
   });
 
-  return rewriter.transform(htmlText);
+  // TypeScript is confused about the overload here for some reason.
+  return rewriter.transform(htmlText) as unknown as string;
 }
 
 export namespace rewriteIncludePaths {

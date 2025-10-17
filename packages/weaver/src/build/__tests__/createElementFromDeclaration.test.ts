@@ -7,9 +7,9 @@ import {
   ElementDeclarationKind,
   ElementDeclarationSymbol,
   FragmentTypeSymbol,
-} from "../../constants";
-import type { ElementDeclaration } from "../../types/mod";
-import { createElementFromDeclaration } from "../createElementFromDeclaration";
+} from "../../constants.ts";
+import type { ElementDeclaration } from "../../types/mod.ts";
+import { createElementFromDeclaration } from "../createElementFromDeclaration.ts";
 
 describe("createElementFromDeclaration", () => {
   describe("when given a DomHTML declaration", () => {

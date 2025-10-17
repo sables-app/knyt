@@ -3,7 +3,7 @@ import { createReference } from "@knyt/artisan";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 /**
  * HostMonitor tracks the connection and update status of a host.

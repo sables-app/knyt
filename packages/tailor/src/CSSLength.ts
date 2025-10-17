@@ -1,8 +1,8 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
-import { DEFAULT_BASE_FONT_SIZE_PX } from "./constants";
-import { isCSSPercentage, type CSSPercentage } from "./CSSPercentage";
-import type { CSSSerializable } from "./types";
+import { DEFAULT_BASE_FONT_SIZE_PX } from "./constants.ts";
+import { isCSSPercentage, type CSSPercentage } from "./CSSPercentage.ts";
+import type { CSSSerializable } from "./types.ts";
 
 /**
  * @example 16

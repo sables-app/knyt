@@ -1,10 +1,10 @@
-import { TypedBeforeUnloadEvent } from "./TypedEvents/TypedBeforeUnloadEvent";
-import { TypedEvent } from "./TypedEvents/TypedEvent";
-import { TypedMessageEvent } from "./TypedEvents/TypedMessageEvent";
-import { TypedPageTransitionEvent } from "./TypedEvents/TypedPageTransitionEvent";
-import { TypedPopStateEvent } from "./TypedEvents/TypedPopStateEvent";
-import { TypedPromiseRejectionEvent } from "./TypedEvents/TypedPromiseRejectionEvent";
-import { TypedStorageEvent } from "./TypedEvents/TypedStorageEvent";
+import { TypedBeforeUnloadEvent } from "./TypedEvents/TypedBeforeUnloadEvent.ts";
+import { TypedEvent } from "./TypedEvents/TypedEvent.ts";
+import { TypedMessageEvent } from "./TypedEvents/TypedMessageEvent.ts";
+import { TypedPageTransitionEvent } from "./TypedEvents/TypedPageTransitionEvent.ts";
+import { TypedPopStateEvent } from "./TypedEvents/TypedPopStateEvent.ts";
+import { TypedPromiseRejectionEvent } from "./TypedEvents/TypedPromiseRejectionEvent.ts";
+import { TypedStorageEvent } from "./TypedEvents/TypedStorageEvent.ts";
 
 export interface WindowEvents<T> {
   onafterprint?(ev: TypedEvent<T>): unknown;

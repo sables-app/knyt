@@ -3,7 +3,7 @@ import { type Reference } from "@knyt/artisan";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "../ReactiveController";
+} from "../ReactiveController.ts";
 
 /** @public */
 export type Context<T> = {

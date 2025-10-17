@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { getOptimalWatchPoints } from "../getOptimalWatchPoints";
+import { getOptimalWatchPoints } from "../getOptimalWatchPoints.ts";
 
 describe("getOptimalWatchPoints", () => {
   it("identifies optimal watch points in a complex directory structure", () => {

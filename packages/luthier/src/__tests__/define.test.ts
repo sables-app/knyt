@@ -14,11 +14,11 @@ import {
 } from "@knyt/weaver";
 import { describe, expect, it, mock } from "bun:test";
 
-import { COMPONENT_HOST_TAG_NAME } from "../define/defineComponent/ComponentController";
-import { define } from "../define/mod";
-import { isKnytElement, KnytElement } from "../KnytElement";
-import { Film } from "./Film";
-import { SuperHero } from "./SuperHero";
+import { COMPONENT_HOST_TAG_NAME } from "../define/defineComponent/ComponentController.ts";
+import { define } from "../define/mod.ts";
+import { isKnytElement, KnytElement } from "../KnytElement.ts";
+import { Film } from "./Film.ts";
+import { SuperHero } from "./SuperHero.ts";
 
 describe("define", () => {
   describe("define.element", () => {

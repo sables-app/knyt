@@ -1,6 +1,6 @@
 import type { AnyProps } from "@knyt/weaver";
 
-import type { PropertiesDefinition } from "../types";
+import type { PropertiesDefinition } from "../types.ts";
 
 /**
  * A function that can be used to define properties on an `KnytElement`.

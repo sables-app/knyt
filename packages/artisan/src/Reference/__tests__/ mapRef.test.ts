@@ -3,10 +3,10 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { chain } from "../../utils/mod";
-import { createReference } from "../createReference";
-import { mapRef } from "../mapRef";
-import type { Reference } from "../types";
+import { chain } from "../../utils/mod.ts";
+import { createReference } from "../createReference.ts";
+import { mapRef } from "../mapRef.ts";
+import type { Reference } from "../types.ts";
 
 describe("mapRef", () => {
   let dependencyValue: { foo: number };

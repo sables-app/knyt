@@ -1,4 +1,4 @@
-import type { Observable, Subscription } from "./types";
+import type { Observable, Subscription } from "./types.ts";
 
 /**
  * Subscribes to an observable and retains a reference to the subscriber.

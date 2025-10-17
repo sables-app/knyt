@@ -2,9 +2,9 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { mergeObservables } from "../mergeObservables";
-import type { Subscription } from "../types";
+import { Beacon } from "../Beacon.ts";
+import { mergeObservables } from "../mergeObservables.ts";
+import type { Subscription } from "../types.ts";
 
 describe("mergeObservables", () => {
   it("merges multiple observables into a single observable", async () => {

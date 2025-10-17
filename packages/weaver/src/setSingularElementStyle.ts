@@ -1,8 +1,8 @@
 import { isUnknownDictionary, typeCheck } from "@knyt/artisan";
 
-import { setSingularElementAttributes } from "./setSingularElementAttributes";
-import { setSingularElementStyleProperty } from "./setSingularElementStyleProperty";
-import type { ElementBuilder, SingularElement, StyleObject } from "./types/mod";
+import { setSingularElementAttributes } from "./setSingularElementAttributes.ts";
+import { setSingularElementStyleProperty } from "./setSingularElementStyleProperty.ts";
+import type { ElementBuilder, SingularElement, StyleObject } from "./types/mod.ts";
 
 // NOTE: This shouldn't be exported,
 // this is just for module level type checking.

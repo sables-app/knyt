@@ -6,20 +6,20 @@ import {
   __knytElementComposedHotUpdate,
   __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
-} from "../constants";
-import { getConstructorStaticMember } from "../getConstructorStaticMember";
+} from "../constants.ts";
+import { getConstructorStaticMember } from "../getConstructorStaticMember.ts";
 import {
   isContainerModeEnabled,
   KnytElement,
   type KnytElementOptions,
-} from "../KnytElement";
-import type { HotUpdateFn, KnytElementComposed } from "../KnytElementComposed";
-import { performHotUpdate } from "../performHotUpdate";
-import type { ElementDefinition, PropertiesDefinition } from "../types";
+} from "../KnytElement.ts";
+import type { HotUpdateFn, KnytElementComposed } from "../KnytElementComposed.ts";
+import { performHotUpdate } from "../performHotUpdate.ts";
+import type { ElementDefinition, PropertiesDefinition } from "../types.ts";
 import {
   defineElementDefinition,
   type DefineElementDefinitionOptions,
-} from "./defineElementDefinition";
+} from "./defineElementDefinition.ts";
 
 type RendererFn<PD extends PropertiesDefinition<any>> = (
   /**

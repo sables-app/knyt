@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { ObjectMerger } from "../ObjectMerger";
+import { ObjectMerger } from "../ObjectMerger.ts";
 
 describe("ObjectMerger", () => {
   it("should memoize entity collections", () => {

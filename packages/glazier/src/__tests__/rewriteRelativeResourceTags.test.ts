@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
-import { pathAttributesByTagName, ResourceTag } from "../importTags";
-import { rewriteRelativeResourceTags } from "../rewriteRelativeResourceTags";
+import { pathAttributesByTagName, ResourceTag } from "../importTags.ts";
+import { rewriteRelativeResourceTags } from "../rewriteRelativeResourceTags.ts";
 
 describe("rewriteRelativeResourceTags", () => {
   it("rewrites relative resource tag paths to absolute paths", () => {

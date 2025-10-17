@@ -2,9 +2,9 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import type { Observable } from "../types";
-import { unwrapObservable } from "../unwrapObservable";
+import { Beacon } from "../Beacon.ts";
+import type { Observable } from "../types.ts";
+import { unwrapObservable } from "../unwrapObservable.ts";
 
 describe("unwrapObservable", () => {
   describe("when provided with a derive handler", () => {

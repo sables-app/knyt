@@ -1,4 +1,4 @@
-import type { ReactiveControllerHost } from "./ReactiveController";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
 
 export function normalizeHost(
   host: ReactiveControllerHost | (() => ReactiveControllerHost),

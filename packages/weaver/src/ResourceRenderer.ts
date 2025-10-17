@@ -1,6 +1,6 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
-import type { KnytContent } from "./types/mod";
+import type { KnytContent } from "./types/mod.ts";
 
 /**
  * This symbol is used to attach the resource renderers host

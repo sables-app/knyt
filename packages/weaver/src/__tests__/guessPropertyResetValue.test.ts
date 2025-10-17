@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 import { describe, expect, it } from "bun:test";
 
-import { guessPropertyResetValue } from "../guessPropertyResetValue";
+import { guessPropertyResetValue } from "../guessPropertyResetValue.ts";
 
 describe("guessPropertyResetValue", () => {
   it("returns '' for string properties", () => {

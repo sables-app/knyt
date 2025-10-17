@@ -1,8 +1,8 @@
 import {
   MergedObservable,
   type InferObservablesValue,
-} from "./MergedObservable";
-import type { Observable } from "./types";
+} from "./MergedObservable.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * Merges multiple observables into a single observable.

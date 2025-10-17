@@ -1,4 +1,4 @@
-import { MiddlewareRunner } from "./MiddlewareRunner";
+import { MiddlewareRunner } from "./MiddlewareRunner.ts";
 
 const defaultFinalHandler: FetchMiddleware.FinalHandler<unknown> = ([
   ,

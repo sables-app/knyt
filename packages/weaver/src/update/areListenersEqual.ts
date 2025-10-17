@@ -1,6 +1,6 @@
 import { shallowEqual } from "@knyt/artisan";
 
-import type { AnyProps, ListenerDeclaration } from "../types/mod";
+import type { AnyProps, ListenerDeclaration } from "../types/mod.ts";
 
 /**
  * Determines if two listener declarations are equal.

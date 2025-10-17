@@ -1,5 +1,5 @@
-import { replaceReferenceMutator } from "./replaceReferenceMutator";
-import { type Reference } from "./types";
+import { replaceReferenceMutator } from "./replaceReferenceMutator.ts";
+import { type Reference } from "./types.ts";
 
 /**
  * Rate limit the mutator of a reference using a the given rate limiter.

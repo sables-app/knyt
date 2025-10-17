@@ -6,20 +6,20 @@ import { typeCheck } from "@knyt/artisan";
 import { createHTMLBuilder, render, type RenderOptions } from "@knyt/weaver";
 import type { BunRequest } from "bun";
 
-import { createBunRequest } from "../createBunRequest";
-import { createPage, type Page } from "../domEnv";
-import { getSSREnv } from "../env";
-import { DEFAULT_SLOT_NAME } from "../htmlSlots";
+import { createBunRequest } from "../createBunRequest.ts";
+import { createPage, type Page } from "../domEnv.ts";
+import { getSSREnv } from "../env.ts";
+import { DEFAULT_SLOT_NAME } from "../htmlSlots.ts";
 import {
   hasFrontmatterTag,
   hasUnprocessedTags,
   KnytTagName,
   ProcessingTag,
-} from "../importTags";
-import { frontmatterState, tocState } from "../RequestState/mod";
-import { rewriteIncludePaths } from "../rewriteIncludePaths";
-import type { GetRequestProps, TransformerRenderOptions } from "../types";
-import type { GlazierPluginOptions } from "./GlazierPluginOptions";
+} from "../importTags.ts";
+import { frontmatterState, tocState } from "../RequestState/mod.ts";
+import { rewriteIncludePaths } from "../rewriteIncludePaths.ts";
+import type { GetRequestProps, TransformerRenderOptions } from "../types.ts";
+import type { GlazierPluginOptions } from "./GlazierPluginOptions.ts";
 import {
   getPropsFromAttributes,
   importInclude,
@@ -31,7 +31,7 @@ import {
   renderRendererInclude,
   type Include,
   type RendererInclude,
-} from "./utils";
+} from "./utils.ts";
 
 // Banned globals
 declare const customElements: never;
@@ -437,7 +437,8 @@ export class Transformer {
           },
         });
 
-      outputHtml = frontmatterRewriter.transform(outputHtml);
+      // TypeScript is confused about the overload here for some reason.
+      outputHtml = frontmatterRewriter.transform(outputHtml) as unknown as string;
 
       const parsedFrontmatter = await normalizeFrontmatter(
         frontmatterSrc,
@@ -565,7 +566,8 @@ export class Transformer {
           comments: handleComments,
         });
 
-      outputHtml = otherTagsRewriter.transform(outputHtml);
+      // TypeScript is confused about the overload here for some reason.
+      outputHtml = otherTagsRewriter.transform(outputHtml) as unknown as string;
     }
 
     // Run the transformation again to ensure that all

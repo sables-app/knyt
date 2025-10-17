@@ -1,4 +1,4 @@
-import { TypedMouseEvent } from "./TypedMouseEvent";
+import { TypedMouseEvent } from "./TypedMouseEvent.ts";
 
 export interface TypedDragEvent<T> extends TypedMouseEvent<T> {
   /**

@@ -1,4 +1,4 @@
-import type { StyleSheet } from "./StyleSheet";
+import type { StyleSheet } from "./StyleSheet.ts";
 
 export function areStyleSheetsEqual(
   a: StyleSheet<any> | undefined,

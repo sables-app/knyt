@@ -1,4 +1,4 @@
-import { GlazierPlugin } from "./GlazierPlugin";
+import { GlazierPlugin } from "./GlazierPlugin.ts";
 
 // This module allows for easier integration with Bun's
 // static server. The plugin is exposed as a default export,

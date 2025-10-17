@@ -1,5 +1,5 @@
-import { Beacon } from "./Beacon";
-import type { Observable } from "./types";
+import { Beacon } from "./Beacon.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * Convert a promise into an observable.

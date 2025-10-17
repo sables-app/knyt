@@ -1,4 +1,4 @@
-import type { PropertyName } from "./types";
+import type { PropertyName } from "./types.ts";
 
 function getConstructor<T = unknown>(obj: unknown): T | Error {
   const constructor = Object.getPrototypeOf(obj).constructor as unknown;

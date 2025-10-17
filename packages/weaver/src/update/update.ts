@@ -6,17 +6,17 @@ import {
   typeCheck,
 } from "@knyt/artisan";
 
-import { appendAllChildren } from "../appendAllChildren";
-import { addListenersToElement, build } from "../build/mod";
-import { type InferNativeHandler } from "../inferHelpers";
-import { setSingularElementAttributes } from "../setSingularElementAttributes";
-import { setSingularElementDataset } from "../setSingularElementDataset";
-import { setSingularElementProperties } from "../setSingularElementProperties";
+import { appendAllChildren } from "../appendAllChildren.ts";
+import { addListenersToElement, build } from "../build/mod.ts";
+import { type InferNativeHandler } from "../inferHelpers.ts";
+import { setSingularElementAttributes } from "../setSingularElementAttributes.ts";
+import { setSingularElementDataset } from "../setSingularElementDataset.ts";
+import { setSingularElementProperties } from "../setSingularElementProperties.ts";
 import {
   isNonNullableStyleInput,
   setSingularElementStyle,
-} from "../setSingularElementStyle";
-import { shouldRecognizeChildren } from "../shouldRecognizeChildren";
+} from "../setSingularElementStyle.ts";
+import { shouldRecognizeChildren } from "../shouldRecognizeChildren.ts";
 import type {
   AnyProps,
   DatasetObject,
@@ -26,7 +26,7 @@ import type {
   KnytDeclaration,
   SingularElement,
   UpdatableParentNode,
-} from "../types/mod";
+} from "../types/mod.ts";
 import {
   attachElementDeclaration,
   createFragmentDeclaration,
@@ -35,14 +35,14 @@ import {
   getSingularElementTagName,
   isElementDeclaration,
   normalizeElementDeclarationRef,
-} from "../utils/mod";
-import { areListenersEqual } from "./areListenersEqual";
-import { flattenElement } from "./flatten";
+} from "../utils/mod.ts";
+import { areListenersEqual } from "./areListenersEqual.ts";
+import { flattenElement } from "./flatten.ts";
 import {
   createSharedOptions,
   type UpdateOptions,
   type UpdateOptionsWithDocument,
-} from "./options";
+} from "./options.ts";
 
 // Banned globals
 declare const document: never;

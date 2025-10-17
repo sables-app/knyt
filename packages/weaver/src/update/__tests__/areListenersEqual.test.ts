@@ -3,7 +3,7 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { areListenersEqual } from "../areListenersEqual";
+import { areListenersEqual } from "../areListenersEqual.ts";
 
 describe("areListenersEqual", async () => {
   it("returns true when both listeners are the same reference", () => {

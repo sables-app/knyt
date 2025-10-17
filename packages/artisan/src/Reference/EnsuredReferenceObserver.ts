@@ -3,8 +3,8 @@ import {
   type Observable,
   type Observer,
   type Subscription,
-} from "../Observable/mod";
-import type { Reference } from "./types";
+} from "../Observable/mod.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * An observer that wraps a reference for a potential subscriber,

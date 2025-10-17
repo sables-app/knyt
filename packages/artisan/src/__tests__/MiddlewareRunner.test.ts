@@ -11,7 +11,7 @@ import {
   type Mock,
 } from "bun:test";
 
-import { MiddlewareRunner } from "../MiddlewareRunner";
+import { MiddlewareRunner } from "../MiddlewareRunner.ts";
 
 type B = {
   test: (value: number) => Promise<number>;

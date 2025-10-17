@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 export interface TypedSecurityPolicyViolationEvent<T> extends TypedEvent<T> {
   readonly blockedURI: string;

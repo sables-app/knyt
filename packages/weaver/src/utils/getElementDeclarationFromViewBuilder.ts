@@ -1,11 +1,11 @@
-import { html } from "../ElementBuilder";
-import type { ElementDeclaration, ViewBuilder } from "../types/mod";
-import { createFragmentDeclaration } from "./createFragmentDeclaration";
+import { html } from "../ElementBuilder.ts";
+import type { ElementDeclaration, ViewBuilder } from "../types/mod.ts";
+import { createFragmentDeclaration } from "./createFragmentDeclaration.ts";
 import {
   getMutableElementDeclarationFromElementBuilder,
   getViewDeclaration,
   isElementDeclaration,
-} from "./other";
+} from "./other.ts";
 
 /**
  * @remarks

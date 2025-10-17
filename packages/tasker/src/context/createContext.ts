@@ -1,10 +1,10 @@
 import { type Reference } from "@knyt/artisan";
 
-import type { ReactiveControllerHost } from "../ReactiveController";
-import { BaseConsumer } from "./BaseConsumer";
-import { BaseProvider } from "./BaseProvider";
-import { ContextRequestEvent } from "./events";
-import type { Context } from "./types";
+import type { ReactiveControllerHost } from "../ReactiveController.ts";
+import { BaseConsumer } from "./BaseConsumer.ts";
+import { BaseProvider } from "./BaseProvider.ts";
+import { ContextRequestEvent } from "./events.ts";
+import type { Context } from "./types.ts";
 
 /**
  * @remarks

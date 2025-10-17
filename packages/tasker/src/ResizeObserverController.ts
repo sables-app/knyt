@@ -4,12 +4,12 @@ import {
   type Reference,
 } from "@knyt/artisan";
 
-import { HostMonitor } from "./HostMonitor";
+import { HostMonitor } from "./HostMonitor.ts";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
-import { track } from "./tracking";
+} from "./ReactiveController.ts";
+import { track } from "./tracking.ts";
 
 type Options = {
   disabled?: boolean;

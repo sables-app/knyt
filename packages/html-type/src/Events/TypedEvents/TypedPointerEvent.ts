@@ -1,4 +1,4 @@
-import { TypedMouseEvent } from "./TypedMouseEvent";
+import { TypedMouseEvent } from "./TypedMouseEvent.ts";
 
 export interface TypedPointerEvent<T> extends TypedMouseEvent<T> {
   readonly height: number;

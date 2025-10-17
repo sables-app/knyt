@@ -1,4 +1,4 @@
-import { strictEqual } from "./strictEqual";
+import { strictEqual } from "./strictEqual.ts";
 
 type Comparator<T> = (a: T[keyof T], b: T[keyof T]) => boolean;
 

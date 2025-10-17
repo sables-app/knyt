@@ -17,11 +17,11 @@ import {
   isLifecycleDelegateHost,
   type LifecycleDelegate,
   type LifecycleDelegateHost,
-} from "./LifecycleDelegate";
+} from "./LifecycleDelegate.ts";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 // Banned globals
 declare const document: never;

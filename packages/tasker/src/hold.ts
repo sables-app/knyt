@@ -1,7 +1,7 @@
 import { ref, type BasicReference, type Reference } from "@knyt/artisan";
 
-import type { ReactiveControllerHost } from "./ReactiveController";
-import { track } from "./tracking";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
+import { track } from "./tracking.ts";
 
 /**
  * Creates a reactive state reference that requests an update

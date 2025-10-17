@@ -1,6 +1,6 @@
 import { dom, type EventHandler } from "@knyt/weaver";
 
-import { define } from "../define/mod";
+import { define } from "../define/mod.ts";
 
 export const Film = define.component({
   properties: {

@@ -2,7 +2,7 @@
 
 import { describe, it } from "bun:test";
 
-import { typeCheck } from "../typeCheck";
+import { typeCheck } from "../typeCheck.ts";
 
 describe("typeCheck", () => {
   it("should enforce strict type checking", () => {

@@ -5,9 +5,9 @@ import { ref } from "@knyt/artisan";
 import { build, uponElementUpdatesSettled } from "@knyt/weaver";
 import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { defineElement } from "../../define/defineElement";
-import type { KnytElement } from "../../KnytElement";
-import { defer, DeferredContentRenderer } from "../defer";
+import { defineElement } from "../../define/defineElement.ts";
+import type { KnytElement } from "../../KnytElement.ts";
+import { defer, DeferredContentRenderer } from "../defer.ts";
 
 describe("defer", () => {
   const TestHost = defineElement("defer-test-host", {

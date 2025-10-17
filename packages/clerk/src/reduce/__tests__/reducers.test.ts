@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
-import type { Action } from "../../types";
-import * as reduce from "../reducers";
+import type { Action } from "../../types.ts";
+import * as reduce from "../reducers.ts";
 
 describe("reducers", () => {
   describe("itemRemove", () => {

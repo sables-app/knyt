@@ -1,6 +1,6 @@
 import type { BunRequest } from "bun";
 
-import type { TransformerRenderOptions } from "../types";
+import type { TransformerRenderOptions } from "../types.ts";
 
 /**
  * @public

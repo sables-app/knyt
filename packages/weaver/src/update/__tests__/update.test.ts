@@ -3,12 +3,12 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { Table } from "../../__tests__/Table";
-import { build } from "../../build/mod";
-import { dom, html } from "../../ElementBuilder";
-import type { ElementBuilder, EventHandler } from "../../types/mod";
-import { getElementDeclarationKey } from "../../utils/mod";
-import { update } from "../update";
+import { Table } from "../../__tests__/Table.ts";
+import { build } from "../../build/mod.ts";
+import { dom, html } from "../../ElementBuilder.ts";
+import type { ElementBuilder, EventHandler } from "../../types/mod.ts";
+import { getElementDeclarationKey } from "../../utils/mod.ts";
+import { update } from "../update.ts";
 
 describe("update", async () => {
   it("should update the target element with the new element", async () => {

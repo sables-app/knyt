@@ -1,5 +1,5 @@
-import { hasSlotTag, KnytTagName } from "./importTags";
-import { unzipHtml } from "./unzipHtml";
+import { hasSlotTag, KnytTagName } from "./importTags.ts";
+import { unzipHtml } from "./unzipHtml.ts";
 
 type SlotTag = {
   tagName: KnytTagName.Slot;
@@ -136,7 +136,8 @@ export function replaceSlotTagsInHtml(
     },
   });
 
-  return rewriter.transform(htmlText);
+  // TypeScript is confused about the overload here for some reason.
+  return rewriter.transform(htmlText) as unknown as string;
 }
 
 export function resolveSlotName(slotName: string | null | undefined): string {

@@ -1,9 +1,9 @@
-// Import directly from the the module to avoid circular dependencies
-import { rateLimitMutatorRef } from "../Reference/rateLimitMutatorRef";
-// Import directly from the the module to avoid circular dependencies
-import type { Reference } from "../Reference/types";
-import { throttleAnimationFrame } from "./throttleAnimationFrame";
-import { throttleTimeout } from "./throttleTimeout";
+// import directly from the the module to avoid circular dependencies
+import { rateLimitMutatorRef } from "../Reference/rateLimitMutatorRef.ts";
+// import directly from the the module to avoid circular dependencies
+import type { Reference } from "../Reference/types.ts";
+import { throttleAnimationFrame } from "./throttleAnimationFrame.ts";
+import { throttleTimeout } from "./throttleTimeout.ts";
 
 /**
  * Leading-edge throttle function that calls the function

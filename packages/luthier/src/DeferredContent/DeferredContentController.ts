@@ -6,8 +6,8 @@ import {
   type ReactiveControllerHost,
 } from "@knyt/tasker";
 
-import { DeferredContentContext } from "./DeferredContentContext";
-import { ImmutableRegistry } from "./ImmutableRegistry";
+import { DeferredContentContext } from "./DeferredContentContext.ts";
+import { ImmutableRegistry } from "./ImmutableRegistry.ts";
 
 /**
  * A controller that manages deferred content rendering based on the state of associated promises.

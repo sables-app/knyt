@@ -7,7 +7,7 @@ import {
   type Reference,
 } from "@knyt/artisan";
 
-import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController";
+import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController.ts";
 
 function addFontFacesToDocument(
   ownerDocument: Document | null,

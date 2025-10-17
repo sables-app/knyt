@@ -2,7 +2,7 @@ import path from "node:path";
 
 import type { BunPlugin } from "bun";
 
-import { getBunfigToml } from "./getBunfigToml";
+import { getBunfigToml } from "./getBunfigToml.ts";
 
 /**
  * Attempts to import the list of plugins configured for the static server

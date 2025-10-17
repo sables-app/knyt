@@ -1,9 +1,9 @@
 // file generated from @michijs/vscode-svg 2.0.7
 // HTML Data Version 1.1
-import { DataGlobalAttributes } from "../DataGlobalAttributes";
-import { SVGEvents } from "../Events";
-import { AllAttributes } from "./AllAttributes";
-import { ValueSets } from "./ValueSets";
+import { DataGlobalAttributes } from "../DataGlobalAttributes.ts";
+import { SVGEvents } from "../Events/index.ts";
+import { AllAttributes } from "./AllAttributes.ts";
+import { ValueSets } from "./ValueSets.ts";
 
 export { GlobalAttributes as SVGGlobalAttributes };
 

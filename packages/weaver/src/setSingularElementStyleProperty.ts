@@ -1,4 +1,4 @@
-import type { SingularElement, StyleObject } from "./types/mod";
+import type { SingularElement, StyleObject } from "./types/mod.ts";
 
 export function setSingularElementStyleProperty(
   element: SingularElement,

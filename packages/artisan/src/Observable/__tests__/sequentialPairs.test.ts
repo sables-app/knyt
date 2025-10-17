@@ -2,9 +2,9 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { sequentialPairs, type SequentialPair } from "../sequentialPairs";
-import type { Subscription } from "../types";
+import { Beacon } from "../Beacon.ts";
+import { sequentialPairs, type SequentialPair } from "../sequentialPairs.ts";
+import type { Subscription } from "../types.ts";
 
 describe("sequentialPairs", () => {
   it("creates an observer that emits sequential pairs of values", async () => {

@@ -5,12 +5,12 @@ import {
   type Reference,
 } from "@knyt/artisan";
 
-import type { BasicEvent } from "./BasicEvent";
-import type { Effect } from "./Effect";
-import type { EventListenableObserver } from "./EventListenableObserver";
-import { EventListenerController } from "./EventListenerController";
-import type { ReactiveControllerHost } from "./ReactiveController";
-import type { InferTypedEventFromName } from "./types";
+import type { BasicEvent } from "./BasicEvent.ts";
+import type { Effect } from "./Effect.ts";
+import type { EventListenableObserver } from "./EventListenableObserver.ts";
+import { EventListenerController } from "./EventListenerController.ts";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
+import type { InferTypedEventFromName } from "./types.ts";
 
 /**
  * A factory and manger for event listener controllers.

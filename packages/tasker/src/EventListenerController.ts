@@ -1,12 +1,12 @@
 import { Beacon, type Observer } from "@knyt/artisan";
 
-import type { BasicEvent } from "./BasicEvent";
-import type { Effect } from "./Effect";
-import { EventListenableObserver } from "./EventListenableObserver";
+import type { BasicEvent } from "./BasicEvent.ts";
+import type { Effect } from "./Effect.ts";
+import { EventListenableObserver } from "./EventListenableObserver.ts";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 /**
  * A controller that manages an event listener on an element.

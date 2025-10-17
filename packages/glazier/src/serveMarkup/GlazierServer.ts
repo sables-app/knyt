@@ -1,14 +1,14 @@
 import type { RouterTypes } from "bun";
 
-import defaultGlazierPlugin from "../plugin";
-import { originServerState } from "../RequestState/mod";
+import defaultGlazierPlugin from "../plugin.ts";
+import { originServerState } from "../RequestState/mod.ts";
 import {
   isBunHTMLBundleModule,
   transform,
   type BunHTMLBundleModule,
   type GlazierPluginOptions,
   type TransformOptions,
-} from "../transform/mod";
+} from "../transform/mod.ts";
 
 // Banned globals
 declare const document: never;

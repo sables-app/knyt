@@ -1,4 +1,4 @@
-import type { AttributeName } from "./types";
+import type { AttributeName } from "./types.ts";
 
 export function resolveAttributeName(
   attributeName: AttributeName,

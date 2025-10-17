@@ -1,11 +1,11 @@
 import { escapeHtml, isElement } from "@knyt/artisan";
 import { describe, expect, it, mock } from "bun:test";
 
-import { build } from "../build/mod";
-import { dom, html } from "../ElementBuilder";
-import { render } from "../render/mod";
-import { update } from "../update/mod";
-import { isElementDeclaration } from "../utils/mod";
+import { build } from "../build/mod.ts";
+import { dom, html } from "../ElementBuilder.ts";
+import { render } from "../render/mod.ts";
+import { update } from "../update/mod.ts";
+import { isElementDeclaration } from "../utils/mod.ts";
 
 describe("html", async () => {
   describe("when used as a tagged template literal", async () => {

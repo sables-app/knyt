@@ -6,7 +6,7 @@ import {
 } from "@knyt/luthier";
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { stubCustomElementRegistry } from "../stubCustomElementRegistry";
+import { stubCustomElementRegistry } from "../stubCustomElementRegistry.ts";
 
 describe("stubCustomElementRegistry", async () => {
   let customElementsMock: Record<

@@ -5,7 +5,7 @@ import type {
   ActionCreator,
   AnyAction,
   BoundActionCreator,
-} from "./action/fsa";
+} from "./action/fsa.ts";
 
 export type { Action, ActionCreator, AnyAction, BoundActionCreator };
 

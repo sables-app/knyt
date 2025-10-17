@@ -1,6 +1,6 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
-import { isLifecycleDelegateHost, LifecycleAdapter } from "./LifecycleDelegate";
+import { isLifecycleDelegateHost, LifecycleAdapter } from "./LifecycleDelegate.ts";
 
 /**
  * This symbol is used to attach the lifecycle to an object

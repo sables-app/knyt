@@ -1,6 +1,6 @@
 import type { TypedEvent } from "@knyt/html-type";
 
-import type { BasicEvent } from "./BasicEvent";
+import type { BasicEvent } from "./BasicEvent.ts";
 
 /**
  * A handler that is awaited when an event is dispatched.

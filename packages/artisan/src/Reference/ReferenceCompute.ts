@@ -2,9 +2,9 @@ import {
   SubscriptionRegistry,
   type Observer,
   type Subscription,
-} from "../Observable/mod";
-import { BasicReference } from "./BasicReference";
-import type { Reference } from "./types";
+} from "../Observable/mod.ts";
+import { BasicReference } from "./BasicReference.ts";
+import type { Reference } from "./types.ts";
 
 function getDependencyValues<T, V extends any[]>(
   options: ReferenceCompute.Options<T, V>,

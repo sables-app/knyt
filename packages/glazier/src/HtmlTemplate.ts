@@ -4,7 +4,7 @@ import {
   assertBunHTMLBundleModule,
   prepareHtmlForTransformation,
   type BunHTMLBundleModule,
-} from "./transform/utils";
+} from "./transform/utils.ts";
 
 /**
  * A template created from an HTML import.

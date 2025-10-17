@@ -3,10 +3,10 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { dom } from "../ElementBuilder";
-import { listen } from "../listen";
-import type { AnyProps, TypedEvent } from "../types/mod";
-import { getElementDeclarationFromElementBuilder } from "../utils/mod";
+import { dom } from "../ElementBuilder.ts";
+import { listen } from "../listen.ts";
+import type { AnyProps, TypedEvent } from "../types/mod.ts";
+import { getElementDeclarationFromElementBuilder } from "../utils/mod.ts";
 
 describe("listen", () => {
   it("should create a click listener", () => {

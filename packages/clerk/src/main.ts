@@ -1,7 +1,7 @@
-export * from "./action/mod";
-export * from "./createAccessor";
+export * from "./action/mod.ts";
+export * from "./createAccessor.ts";
 export * from "./logDispatch"
-export * from "./reduce/mod";
-export * from "./select/mod";
-export * from "./Store";
-export type * from "./types";
+export * from "./reduce/mod.ts";
+export * from "./select/mod.ts";
+export * from "./Store.ts";
+export type * from "./types.ts";

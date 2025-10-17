@@ -1,6 +1,6 @@
 import type { EventHandler } from "@knyt/weaver";
 
-import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController";
+import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController.ts";
 
 export class HotkeyController<K> implements ReactiveController {
   #host: ReactiveControllerHost;

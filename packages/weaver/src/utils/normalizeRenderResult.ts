@@ -1,8 +1,8 @@
 import { isPromiseLike } from "@knyt/artisan";
 
-import type { KnytDeclaration, RenderResult } from "../types/mod";
-import { createFragmentDeclaration } from "./createFragmentDeclaration";
-import { isKnytDeclaration } from "./KnytDeclaration";
+import type { KnytDeclaration, RenderResult } from "../types/mod.ts";
+import { createFragmentDeclaration } from "./createFragmentDeclaration.ts";
+import { isKnytDeclaration } from "./KnytDeclaration.ts";
 
 function normalizeAwaitedRenderResult(
   result: Awaited<RenderResult>,

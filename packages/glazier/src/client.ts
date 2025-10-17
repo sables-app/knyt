@@ -1,3 +1,3 @@
-export * from "./define";
-export * from "./RequestState/mod";
-export type * from "./types";
+export * from "./define.ts";
+export * from "./RequestState/mod.ts";
+export type * from "./types.ts";

@@ -1,7 +1,7 @@
 import { renderCSS, type StyleObject } from "@knyt/weaver";
 
-import { hashString } from "./hashString";
-import type { SerializedCSSObject } from "./types";
+import { hashString } from "./hashString.ts";
+import type { SerializedCSSObject } from "./types.ts";
 
 const EMPTY_STYLE_HASH = "-noop";
 

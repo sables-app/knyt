@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from "bun:test";
 
-import * as selectors from "../selectors";
+import * as selectors from "../selectors.ts";
 
 describe("selectors", () => {
   describe("last", () => {

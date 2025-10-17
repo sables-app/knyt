@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, mock } from "bun:test";
 
-import { KnytTagName } from "../importTags";
-import { unzipHtmlSlots } from "../htmlSlots";
+import { KnytTagName } from "../importTags.ts";
+import { unzipHtmlSlots } from "../htmlSlots.ts";
 
 describe("unzipHtmlSlots", () => {
   it("should correctly parse valid <knyt-slot> tags", () => {

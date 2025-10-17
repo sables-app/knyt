@@ -1,6 +1,6 @@
 import type { Reference } from "@knyt/artisan";
 
-import type { SkipRenderSignal } from "./SkipRenderSignal";
+import type { SkipRenderSignal } from "./SkipRenderSignal.ts";
 
 /**
  * A type representing a reference that holds a Promise, or may be undefined.

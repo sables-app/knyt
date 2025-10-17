@@ -3,7 +3,7 @@
  * TODO: Remove if not needed.
  */
 
-import type { AttributeValue } from "../types/core";
+import type { AttributeValue } from "../types/core.ts";
 
 function unknownToDatasetAttributeValue(value: unknown): AttributeValue {
   if (typeof value === "boolean" || value == null) {

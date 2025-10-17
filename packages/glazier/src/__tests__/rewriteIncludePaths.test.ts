@@ -1,7 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it } from "bun:test";
 
-import { ImportTag, pathAttributesByTagName } from "../importTags";
-import { rewriteIncludePaths } from "../rewriteIncludePaths";
+import { ImportTag, pathAttributesByTagName } from "../importTags.ts";
+import { rewriteIncludePaths } from "../rewriteIncludePaths.ts";
 
 describe("rewriteIncludePaths", () => {
   const inputDir = "/project/src";

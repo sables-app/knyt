@@ -19,14 +19,14 @@ import {
   ProjectKind,
   projectKindsWithMdxSupport,
   StringOptionName,
-} from "./constants";
+} from "./constants.ts";
 import {
   renderCompleteMessage,
   renderHelp,
   renderInteractiveIntro,
   renderOperationCancelled,
   translate as t,
-} from "./lexicon";
+} from "./lexicon.ts";
 
 type ParseArgsOptionConfig = NonNullable<ParseArgsConfig["options"]>[string];
 

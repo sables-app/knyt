@@ -1,5 +1,5 @@
-import { normalizeSubscriber } from "./normalizeSubscriber";
-import type { Observable, Observer } from "./types";
+import { normalizeSubscriber } from "./normalizeSubscriber.ts";
+import type { Observable, Observer } from "./types.ts";
 
 export type SequentialPair<T> = readonly [previousValue: T, currentValue: T];
 

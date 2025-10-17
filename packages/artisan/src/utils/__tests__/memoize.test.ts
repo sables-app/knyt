@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { memoizeMany, memoizeOne } from "../memoize";
+import { memoizeMany, memoizeOne } from "../memoize.ts";
 
 describe("memoize", () => {
   describe("memoizeOne", () => {

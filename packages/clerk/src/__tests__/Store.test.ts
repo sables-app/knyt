@@ -2,9 +2,9 @@
 
 import { beforeEach, describe, expect, it, mock, test } from "bun:test";
 
-import { reduce } from "../reduce/mod";
-import { Store } from "../Store";
-import { CounterStore, type CounterState } from "./CounterStore";
+import { reduce } from "../reduce/mod.ts";
+import { Store } from "../Store.ts";
+import { CounterStore, type CounterState } from "./CounterStore.ts";
 
 describe("Store", () => {
   let store: CounterStore;

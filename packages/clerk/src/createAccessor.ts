@@ -1,6 +1,6 @@
 import { mapRef, type Reference } from "@knyt/artisan";
 
-import type { Selector } from "./types";
+import type { Selector } from "./types.ts";
 
 /**
  * A dictionary of selectors

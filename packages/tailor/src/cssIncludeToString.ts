@@ -1,8 +1,8 @@
 import { isCSSStyleSheet, typeCheck } from "@knyt/artisan";
 
-import { cssStyleSheetToString } from "./cssStyleSheetToString";
-import { isCSSSerializable } from "./isCSSSerializable";
-import type { CSSInclude } from "./types";
+import { cssStyleSheetToString } from "./cssStyleSheetToString.ts";
+import { isCSSSerializable } from "./isCSSSerializable.ts";
+import type { CSSInclude } from "./types.ts";
 
 /**
  * Converts a recognized CSS value into a string.

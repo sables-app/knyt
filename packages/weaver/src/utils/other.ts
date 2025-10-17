@@ -30,7 +30,7 @@ import {
   ViewBuilderIsViewSymbol,
   ViewBuilderTargetSymbol,
   ViewDeclarationSymbol,
-} from "../constants";
+} from "../constants.ts";
 import type {
   AnyProps,
   ElementBuilder,
@@ -45,8 +45,8 @@ import type {
   View,
   ViewBuilder,
   ViewDeclaration,
-} from "../types/mod";
-import { isStringDocumentFragment } from "./StringDocumentFragment";
+} from "../types/mod.ts";
+import { isStringDocumentFragment } from "./StringDocumentFragment.ts";
 
 // Banned globals
 declare const document: never;

@@ -17,8 +17,8 @@ import {
 } from "@knyt/weaver";
 import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { define } from "../define/mod";
-import { SuperHero, type SuperHeroElement } from "./SuperHero";
+import { define } from "../define/mod.ts";
+import { SuperHero, type SuperHeroElement } from "./SuperHero.ts";
 
 describe("KnytElement", () => {
   let hero: BuildResult<SuperHeroElement>;

@@ -1,5 +1,5 @@
-import type { AnyProps, ElementDeclaration } from "./core";
-import type { ElementBuilder } from "./ElementBuilder";
+import type { AnyProps, ElementDeclaration } from "./core.ts";
+import type { ElementBuilder } from "./ElementBuilder.ts";
 
 // TODO: Rename to `UpdateElementDeclarationFn` for clarity.
 export type HandoffToElementBuilderFn<

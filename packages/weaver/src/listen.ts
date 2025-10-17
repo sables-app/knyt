@@ -1,11 +1,11 @@
-import { ListenerModifier } from "./constants";
+import { ListenerModifier } from "./constants.ts";
 import type {
   AnyProps,
   EventFromType,
   EventHandler,
   ListenerDeclaration,
   ListenerDeclarationType,
-} from "./types/mod";
+} from "./types/mod.ts";
 
 /**
  * Modifiers that affect event listener options accepted by the `addEventListener` method.

@@ -1,6 +1,6 @@
-import type { Observer, Subscription } from "../Observable/mod";
-import { Beacon } from "./Beacon";
-import type { Observable } from "./types";
+import type { Observer, Subscription } from "../Observable/mod.ts";
+import { Beacon } from "./Beacon.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * @internal scope: workspace

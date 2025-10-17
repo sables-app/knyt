@@ -1,8 +1,8 @@
 import {
   normalizeReferenceUnwrappedArgs,
   ReferenceUnwrapped,
-} from "./ReferenceUnwrapped";
-import type { Reference } from "./types";
+} from "./ReferenceUnwrapped.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * Unwrap a nested reference that may be `undefined`.

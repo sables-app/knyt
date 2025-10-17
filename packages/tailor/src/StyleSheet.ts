@@ -13,11 +13,11 @@ import {
   type StyleObject,
 } from "@knyt/weaver";
 
-import { DEFAULT_NAME_PREFIX } from "./constants";
-import { cssIncludeToString } from "./cssIncludeToString";
-import { cssStyleSheetToString } from "./cssStyleSheetToString";
-import { getCSSStyleSheetConstructor } from "./getCSSStyleSheetConstructor";
-import { serializeCSSObject } from "./serializeCSSObject";
+import { DEFAULT_NAME_PREFIX } from "./constants.ts";
+import { cssIncludeToString } from "./cssIncludeToString.ts";
+import { cssStyleSheetToString } from "./cssStyleSheetToString.ts";
+import { getCSSStyleSheetConstructor } from "./getCSSStyleSheetConstructor.ts";
+import { serializeCSSObject } from "./serializeCSSObject.ts";
 import type {
   ClassNameDictionary,
   CSSDeclarationBlock,
@@ -31,7 +31,7 @@ import type {
   SerializedCSSObject,
   SerializedName,
   StyleSheetMixin,
-} from "./types";
+} from "./types.ts";
 
 // Banned globals
 declare const document: never;

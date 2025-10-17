@@ -1,4 +1,4 @@
-import type { Observable, Observer, Subscription } from "./types";
+import type { Observable, Observer, Subscription } from "./types.ts";
 
 /**
  * Converts an observable to a promise.

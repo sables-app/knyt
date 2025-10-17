@@ -1,4 +1,4 @@
-import type { ClassNameDictionary } from "./types";
+import type { ClassNameDictionary } from "./types.ts";
 
 // TODO: Remove overloads and use a single function signature with a rest parameter.
 /**

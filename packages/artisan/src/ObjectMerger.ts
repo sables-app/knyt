@@ -3,7 +3,7 @@ import {
   getLastDefinedProperty,
   mergeEntityCollections,
   shallowEqual,
-} from "./utils/mod";
+} from "./utils/mod.ts";
 
 /**
  * @alpha

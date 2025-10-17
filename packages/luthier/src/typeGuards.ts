@@ -1,5 +1,5 @@
-import { __isKnytElementDefinition } from "./constants";
-import type { ElementDefinition } from "./types";
+import { __isKnytElementDefinition } from "./constants.ts";
+import type { ElementDefinition } from "./types.ts";
 
 export function isElementDefinition<
   T extends ElementDefinition<any, any, any, any> = ElementDefinition.Unknown,

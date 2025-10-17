@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test";
 
-import { CSSLength } from "../CSSLength";
-import { CSSPercentage } from "../CSSPercentage";
-import { toSize } from "../toSize";
+import { CSSLength } from "../CSSLength.ts";
+import { CSSPercentage } from "../CSSPercentage.ts";
+import { toSize } from "../toSize.ts";
 
 describe("toSize", () => {
   it("returns CSSLength instance when given a CSSLength", () => {

@@ -1,6 +1,6 @@
-import { FilteredObservable } from "./FilteredObservable";
-import { isObservable } from "./typeGuards";
-import type { Observable } from "./types";
+import { FilteredObservable } from "./FilteredObservable.ts";
+import { isObservable } from "./typeGuards.ts";
+import type { Observable } from "./types.ts";
 
 export function filterObservable<T>(
   predicate: (value: T) => boolean,

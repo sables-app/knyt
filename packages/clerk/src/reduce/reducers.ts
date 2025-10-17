@@ -1,4 +1,4 @@
-import type { Action } from "../types";
+import type { Action } from "../types.ts";
 
 /**
  * Removes an item from an array and returns a new array.

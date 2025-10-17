@@ -2,8 +2,8 @@ import type { StyleSheet } from "@knyt/tailor";
 import { defineView, html } from "@knyt/weaver";
 
 // We're avoiding importing `define` to help tree-shaking and reduce bundle size.
-import { defineKnytElement } from "./define/defineKnytElement";
-import { defineProperty } from "./define/defineProperty";
+import { defineKnytElement } from "./define/defineKnytElement.ts";
+import { defineProperty } from "./define/defineProperty.ts";
 
 /**
  * A custom element that adopts a style sheet into the parent document.

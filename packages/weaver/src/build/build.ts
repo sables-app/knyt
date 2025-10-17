@@ -6,16 +6,16 @@ import {
   typeCheck,
 } from "@knyt/artisan";
 
-import { appendAllChildren } from "../appendAllChildren";
-import { KEY_ATTRIBUTE } from "../constants";
-import { setSingularElementAttributes } from "../setSingularElementAttributes";
-import { setSingularElementDataset } from "../setSingularElementDataset";
-import { setSingularElementProperties } from "../setSingularElementProperties";
+import { appendAllChildren } from "../appendAllChildren.ts";
+import { KEY_ATTRIBUTE } from "../constants.ts";
+import { setSingularElementAttributes } from "../setSingularElementAttributes.ts";
+import { setSingularElementDataset } from "../setSingularElementDataset.ts";
+import { setSingularElementProperties } from "../setSingularElementProperties.ts";
 import {
   isNonNullableStyleInput,
   setSingularElementStyle,
-} from "../setSingularElementStyle";
-import { shouldRecognizeChildren } from "../shouldRecognizeChildren";
+} from "../setSingularElementStyle.ts";
+import { shouldRecognizeChildren } from "../shouldRecognizeChildren.ts";
 import type {
   AttributeDictionary,
   DatasetObject,
@@ -26,7 +26,7 @@ import type {
   SharedOptions,
   SingularElement,
   StringDocumentFragment,
-} from "../types/mod";
+} from "../types/mod.ts";
 import {
   createFragmentDeclaration,
   getElementDeclarationFromElementBuilder,
@@ -37,9 +37,9 @@ import {
   isUnescapedString,
   isViewBuilder,
   normalizeElementDeclarationRef,
-} from "../utils/mod";
-import { addListenersToElement } from "./addListenersToElement";
-import { createElementFromDeclaration } from "./createElementFromDeclaration";
+} from "../utils/mod.ts";
+import { addListenersToElement } from "./addListenersToElement.ts";
+import { createElementFromDeclaration } from "./createElementFromDeclaration.ts";
 
 // Banned globals
 declare const document: never;

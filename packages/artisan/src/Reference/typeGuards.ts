@@ -1,4 +1,4 @@
-import type { Reference } from "./types";
+import type { Reference } from "./types.ts";
 
 /**
  * @internal scope: workspace

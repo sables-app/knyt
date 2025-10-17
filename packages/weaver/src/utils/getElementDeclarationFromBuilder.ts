@@ -2,13 +2,13 @@ import type {
   ElementBuilder,
   ElementDeclaration,
   ViewBuilder,
-} from "../types/mod";
-import { getElementDeclarationFromViewBuilder } from "./getElementDeclarationFromViewBuilder";
+} from "../types/mod.ts";
+import { getElementDeclarationFromViewBuilder } from "./getElementDeclarationFromViewBuilder.ts";
 import {
   getElementDeclarationFromElementBuilder,
   isElementBuilder,
   isViewBuilder,
-} from "./other";
+} from "./other.ts";
 
 /**
  * Extracts the element declaration from a builder.

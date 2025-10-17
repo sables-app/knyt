@@ -5,8 +5,8 @@ import { typeCheck } from "@knyt/artisan";
 import type { HTMLDivAttributes } from "@knyt/html-type";
 import { describe, expect, it } from "bun:test";
 
-import { createCustomElementBuilder, dom } from "../../ElementBuilder";
-import { listen } from "../../listen";
+import { createCustomElementBuilder, dom } from "../../ElementBuilder.ts";
+import { listen } from "../../listen.ts";
 import type {
   AnyProps,
   ElementBuilder,
@@ -14,7 +14,7 @@ import type {
   TypedEvent,
   ViewBuilder,
   KnytDeclaration,
-} from "../../types/mod";
+} from "../../types/mod.ts";
 
 describe("types", () => {
   describe("ElementBuilder", () => {

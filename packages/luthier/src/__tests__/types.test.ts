@@ -4,17 +4,17 @@ import { typeCheck } from "@knyt/artisan";
 import { dom, type ElementBuilder } from "@knyt/weaver";
 import { describe, expect, it } from "bun:test";
 
-import { __isKnytElementDefinition } from "../constants";
-import { define } from "../define/mod";
-import { KnytElement } from "../KnytElement";
-import type { LazyElementDefinition } from "../lazy";
+import { __isKnytElementDefinition } from "../constants.ts";
+import { define } from "../define/mod.ts";
+import { KnytElement } from "../KnytElement.ts";
+import type { LazyElementDefinition } from "../lazy.ts";
 import type {
   ElementDefinition,
   InferProps,
   PropertiesDefinition,
   PropertyDefinition,
   PropertyInfo,
-} from "../types";
+} from "../types.ts";
 
 describe("types", () => {
   type TestTagName = "knyt-test";

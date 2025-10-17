@@ -1,5 +1,5 @@
-import { observableToPromise, type ObservablePromise } from "../Observable/mod";
-import type { Reference } from "./types";
+import { observableToPromise, type ObservablePromise } from "../Observable/mod.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * Converts a reference to a promise.

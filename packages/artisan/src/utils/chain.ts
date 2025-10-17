@@ -1,4 +1,4 @@
-import { isObservable, type Observable } from "../Observable/mod";
+import { isObservable, type Observable } from "../Observable/mod.ts";
 
 /**
  * @internal scope: workspace

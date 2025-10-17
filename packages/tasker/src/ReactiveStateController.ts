@@ -1,7 +1,7 @@
 import type { Subscription } from "@knyt/artisan";
 import { Store } from "@knyt/clerk";
 
-import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController";
+import type { ReactiveController, ReactiveControllerHost } from "./ReactiveController.ts";
 
 /**
  * A controller that manages the state for a host component.

@@ -1,5 +1,5 @@
-import { html } from "../ElementBuilder";
-import { defineView } from "../ViewBuilder";
+import { html } from "../ElementBuilder.ts";
+import { defineView } from "../ViewBuilder.ts";
 
 export const Table = defineView<
   { heading?: string; content?: string },

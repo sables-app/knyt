@@ -1,5 +1,5 @@
-import { InputStateController } from "./InputStateController";
-import type { ReactiveControllerHost } from "./ReactiveController";
+import { InputStateController } from "./InputStateController.ts";
+import type { ReactiveControllerHost } from "./ReactiveController.ts";
 
 /**
  * Creates a controller that manages the state of an input element.

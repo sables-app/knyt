@@ -8,9 +8,9 @@ import {
   type HTMLElementTagName,
 } from "@knyt/weaver";
 
-import { __isKnytElementDefinition } from "../constants";
-import type { KnytElement } from "../KnytElement";
-import type { ElementDefinition, HTMLElementConstructor } from "../types";
+import { __isKnytElementDefinition } from "../constants.ts";
+import type { KnytElement } from "../KnytElement.ts";
+import type { ElementDefinition, HTMLElementConstructor } from "../types.ts";
 
 // Banned globals
 declare const customElements: never;

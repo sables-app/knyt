@@ -1,4 +1,4 @@
-import type { BunKnytConfig, GetRequestProps, IncludeOptions } from "./types";
+import type { BunKnytConfig, GetRequestProps, IncludeOptions } from "./types.ts";
 
 export function defineConfig(config: BunKnytConfig): BunKnytConfig {
   return config;

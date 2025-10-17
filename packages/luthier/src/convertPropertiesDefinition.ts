@@ -1,11 +1,11 @@
-import { resolveAttributeName } from "./resolveAttributeName";
+import { resolveAttributeName } from "./resolveAttributeName.ts";
 import type {
   PropertiesDefinition,
   PropertyDefinition,
   PropertyInfo,
   ReactiveProperties,
   ReactiveProperty,
-} from "./types";
+} from "./types.ts";
 
 export function convertPropertiesDefinition(
   propertiesDefinition: PropertiesDefinition<any>,

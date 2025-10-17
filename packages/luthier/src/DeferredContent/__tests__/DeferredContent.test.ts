@@ -4,9 +4,9 @@
 import { build, dom, uponElementUpdatesSettled } from "@knyt/weaver";
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 
-import { defineElement } from "../../define/defineElement";
-import { defineProperty } from "../../define/defineProperty";
-import { DeferredContent } from "../DeferredContent";
+import { defineElement } from "../../define/defineElement.ts";
+import { defineProperty } from "../../define/defineProperty.ts";
+import { DeferredContent } from "../DeferredContent.ts";
 
 describe.skipIf(
   // This environment variable prevents this test from running

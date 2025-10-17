@@ -1,2 +1,2 @@
-export * from "./update";
-export type * from "./options";
+export * from "./update.ts";
+export type * from "./options.ts";

@@ -1,12 +1,12 @@
-import { BasicObservableInterop } from "./BasicObservableInterop";
-import { normalizeSubscriber } from "./normalizeSubscriber";
-import { OBSERVABLE_PROPERTY_NAME } from "./ObservableProtocol";
+import { BasicObservableInterop } from "./BasicObservableInterop.ts";
+import { normalizeSubscriber } from "./normalizeSubscriber.ts";
+import { OBSERVABLE_PROPERTY_NAME } from "./ObservableProtocol.ts";
 import type {
   Observable,
   ObservableInterop,
   Observer,
   Subscription,
-} from "./types";
+} from "./types.ts";
 
 /**
  * An `Observable` implementation that can be used to emit values

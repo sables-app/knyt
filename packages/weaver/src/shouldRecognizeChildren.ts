@@ -1,5 +1,5 @@
-import type { ElementDeclaration } from "./types/mod";
-import { isElementDeclaration, isNodeOpaque, RenderMode } from "./utils/mod";
+import type { ElementDeclaration } from "./types/mod.ts";
+import { isElementDeclaration, isNodeOpaque, RenderMode } from "./utils/mod.ts";
 
 declare const Bun: unknown;
 

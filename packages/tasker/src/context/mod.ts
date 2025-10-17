@@ -1,2 +1,2 @@
-export * from "./createContext";
-export type * from "./types";
+export * from "./createContext.ts";
+export type * from "./types.ts";

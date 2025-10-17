@@ -1,6 +1,6 @@
-import type { Observable, Observer, Subscription } from "../Observable/mod";
-import type { UndefinedXorNull } from "../types/mod";
-import type { __isKnytReference } from "./typeGuards";
+import type { Observable, Observer, Subscription } from "../Observable/mod.ts";
+import type { UndefinedXorNull } from "../types/mod.ts";
+import type { __isKnytReference } from "./typeGuards.ts";
 
 /**
  * An observable reference to a mutable value that notifies subscribers on changes.

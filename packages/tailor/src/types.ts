@@ -1,6 +1,6 @@
 import type { StyleObject } from "@knyt/weaver";
 
-import type { StyleSheet } from "./StyleSheet";
+import type { StyleSheet } from "./StyleSheet.ts";
 
 type CSSSelector = string;
 

@@ -5,9 +5,9 @@ import {
   __knytElementComposedRenderer,
   type __knytElementComposedHotUpdate,
   type __knytElementComposedLifecycle,
-} from "./constants";
-import type { KnytElement } from "./KnytElement";
-import type { HTMLElementConstructor, PropertiesDefinition } from "./types";
+} from "./constants.ts";
+import type { KnytElement } from "./KnytElement.ts";
+import type { HTMLElementConstructor, PropertiesDefinition } from "./types.ts";
 
 /**
  * @internal scope: package

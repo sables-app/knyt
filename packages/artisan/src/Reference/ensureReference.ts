@@ -1,5 +1,5 @@
-import type { UndefinedXorNull } from "../types/mod";
-import { createReference, isReadableReference, type Reference } from "./mod";
+import type { UndefinedXorNull } from "../types/mod.ts";
+import { createReference, isReadableReference, type Reference } from "./mod.ts";
 
 /**
  * Converts a value or a readonly reference to a readonly reference for the

@@ -2,9 +2,9 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { DynamicObserver } from "../DynamicObserver";
-import type { Observable } from "../types";
+import { Beacon } from "../Beacon.ts";
+import { DynamicObserver } from "../DynamicObserver.ts";
+import type { Observable } from "../types.ts";
 
 describe("DynamicObserver", () => {
   it("forwards next values to the current subscriber", () => {

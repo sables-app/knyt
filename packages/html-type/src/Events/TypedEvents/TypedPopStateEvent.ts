@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 /** PopStateEvent is an event handler for the popstate event on the window. */
 export interface TypedPopStateEvent<T> extends TypedEvent<T> {

@@ -3,8 +3,8 @@ import path from "node:path";
 import { ensureReference, type Reference } from "@knyt/artisan";
 import type { Loader, OnResolveResult, PluginBuilder } from "bun";
 
-import { getTempDir } from "./getTempDir";
-import type { GlazierPluginOptions } from "./transform/mod";
+import { getTempDir } from "./getTempDir.ts";
+import type { GlazierPluginOptions } from "./transform/mod.ts";
 
 const VIRTUAL_PATH_ROOT = "virtual-knyt-bun";
 

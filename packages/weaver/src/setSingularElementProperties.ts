@@ -1,5 +1,5 @@
-import { guessPropertyResetValue } from "./guessPropertyResetValue";
-import type { SingularElement } from "./types/mod";
+import { guessPropertyResetValue } from "./guessPropertyResetValue.ts";
+import type { SingularElement } from "./types/mod.ts";
 
 /**
  * Properties that are read-only, but can be assigned by setting an attribute of the same name.

@@ -4,8 +4,8 @@
 import { build, render } from "@knyt/weaver";
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { StyleSheet } from "../StyleSheet";
-import type { CSSRules } from "../types";
+import { StyleSheet } from "../StyleSheet.ts";
+import type { CSSRules } from "../types.ts";
 
 describe("StyleSheet", () => {
   describe("static", () => {

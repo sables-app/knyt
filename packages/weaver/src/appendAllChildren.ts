@@ -1,4 +1,4 @@
-import type { UpdatableParentNode } from "./types/mod";
+import type { UpdatableParentNode } from "./types/mod.ts";
 
 export function appendAllChildren(
   parent: UpdatableParentNode | DocumentFragment,

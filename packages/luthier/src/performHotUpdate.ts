@@ -4,17 +4,17 @@ import { __resourceRenderers } from "@knyt/weaver";
 import {
   __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
-} from "./constants";
-import { setComposedRenderer } from "./define/defineKnytElement";
-import { __postConstruct, __styleSheetAdoption } from "./KnytElement";
+} from "./constants.ts";
+import { setComposedRenderer } from "./define/defineKnytElement.ts";
+import { __postConstruct, __styleSheetAdoption } from "./KnytElement.ts";
 import {
   isKnytElementComposed,
   type KnytElementComposed,
-} from "./KnytElementComposed";
+} from "./KnytElementComposed.ts";
 import {
   updateInstanceReactivity,
   updatePrototypeReactivity,
-} from "./Reactive";
+} from "./Reactive.ts";
 
 /**
  * Set of constructors currently being updated.

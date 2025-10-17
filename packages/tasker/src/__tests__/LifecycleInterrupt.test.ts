@@ -3,7 +3,7 @@ import { describe, expect, it } from "bun:test";
 import {
   isLifecycleInterrupt,
   LifecycleInterrupt,
-} from "../LifecycleInterrupt";
+} from "../LifecycleInterrupt.ts";
 
 describe("LifecycleInterrupt", () => {
   describe("LifecycleInterrupt", () => {

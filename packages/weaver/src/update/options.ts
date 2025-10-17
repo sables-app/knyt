@@ -1,6 +1,6 @@
 import type { OptionalAndComplete } from "@knyt/artisan";
 
-import type { SharedOptions } from "../types/mod";
+import type { SharedOptions } from "../types/mod.ts";
 
 /**
  * The default value for the `disableKeyAttributes` option

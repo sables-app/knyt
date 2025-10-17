@@ -1,7 +1,7 @@
 import type { RenderOptions } from "@knyt/weaver";
 import type { BunRequest } from "bun";
 
-import type { GlazierPluginOptions } from "./transform/mod";
+import type { GlazierPluginOptions } from "./transform/mod.ts";
 
 /**
  * Options for module includes.

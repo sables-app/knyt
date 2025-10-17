@@ -11,18 +11,18 @@ import { afterAll, beforeEach, describe, expect, it, mock } from "bun:test";
 import {
   __knytElementComposedLifecycle,
   __knytElementComposedRenderer,
-} from "../constants";
-import { defineElementDefinition } from "../define/defineElementDefinition";
-import { defineKnytElement } from "../define/defineKnytElement";
-import { defineProperty } from "../define/defineProperty";
+} from "../constants.ts";
+import { defineElementDefinition } from "../define/defineElementDefinition.ts";
+import { defineKnytElement } from "../define/defineKnytElement.ts";
+import { defineProperty } from "../define/defineProperty.ts";
 import {
   __postConstruct,
   __styleSheetAdoption,
   type KnytElement,
-} from "../KnytElement";
-import { type KnytElementComposed } from "../KnytElementComposed";
-import { performHotUpdate } from "../performHotUpdate";
-import type { ElementDefinition } from "../types";
+} from "../KnytElement.ts";
+import { type KnytElementComposed } from "../KnytElementComposed.ts";
+import { performHotUpdate } from "../performHotUpdate.ts";
+import type { ElementDefinition } from "../types.ts";
 
 describe("performHotUpdate", () => {
   type TestElement = KnytElement & { oldProp?: number; newProp?: string };

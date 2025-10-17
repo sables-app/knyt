@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 /** Events providing information related to modification of the clipboard, that is cut, copy, and paste events. */
 export interface TypedClipboardEvent<T> extends TypedEvent<T> {

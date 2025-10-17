@@ -1,9 +1,9 @@
 // file generated from @vscode/web-custom-data 0.4.8
 // HTML Data Version 1.1
-import { DataGlobalAttributes } from "../DataGlobalAttributes";
-import { GlobalEvents, WindowEvents } from "../Events";
-import { AllAttributes } from "./AllAttributes";
-import { ValueSets } from "./ValueSets";
+import { DataGlobalAttributes } from "../DataGlobalAttributes.ts";
+import { GlobalEvents, WindowEvents } from "../Events/index.ts";
+import { AllAttributes } from "./AllAttributes.ts";
+import { ValueSets } from "./ValueSets.ts";
 
 export { GlobalAttributes as HTMLGlobalAttributes };
 

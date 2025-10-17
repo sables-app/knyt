@@ -1,6 +1,6 @@
-import type { Observable, ObservableInterop } from "../Observable/mod";
-import { BasicReference } from "./BasicReference";
-import type { Reference } from "./types";
+import type { Observable, ObservableInterop } from "../Observable/mod.ts";
+import { BasicReference } from "./BasicReference.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * Creates a observable reference with an initial value.

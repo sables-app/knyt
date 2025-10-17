@@ -1,4 +1,4 @@
-import { TypedUIEvent } from "./TypedUIEvent";
+import { TypedUIEvent } from "./TypedUIEvent.ts";
 
 export interface TypedMouseEvent<T> extends TypedUIEvent<T> {
   readonly altKey: boolean;

@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { BasicReference } from "../BasicReference";
+import { BasicReference } from "../BasicReference.ts";
 
 describe("BasicReference", () => {
   let reference: BasicReference<number>;

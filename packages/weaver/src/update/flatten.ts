@@ -5,13 +5,13 @@ import {
   typeCheck,
 } from "@knyt/artisan";
 
-import { build } from "../build/mod";
+import { build } from "../build/mod.ts";
 import type {
   ElementBuilder,
   ElementDeclaration,
   FlattenedElementDeclarationChildren,
   ViewBuilder,
-} from "../types/mod";
+} from "../types/mod.ts";
 import {
   createFragmentDeclaration,
   getElementDeclarationFromElementBuilder,
@@ -21,8 +21,8 @@ import {
   isElementDeclaration,
   isStringDocumentFragment,
   isViewBuilder,
-} from "../utils/mod";
-import { createSharedOptions, type UpdateOptionsWithDocument } from "./options";
+} from "../utils/mod.ts";
+import { createSharedOptions, type UpdateOptionsWithDocument } from "./options.ts";
 
 type ElementOrStringList = (Element | string)[];
 

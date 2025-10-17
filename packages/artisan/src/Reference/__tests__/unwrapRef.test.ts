@@ -3,10 +3,10 @@
 
 import { beforeEach, describe, expect, it } from "bun:test";
 
-import { typeCheck } from "../../utils/mod";
-import { createReference } from "../createReference";
-import type { Reference } from "../types";
-import { unwrapRef } from "../unwrapRef";
+import { typeCheck } from "../../utils/mod.ts";
+import { createReference } from "../createReference.ts";
+import type { Reference } from "../types.ts";
+import { unwrapRef } from "../unwrapRef.ts";
 
 describe("unwrapRef", () => {
   let originValue: { foo$: Reference<number> };

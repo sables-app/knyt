@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": false,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "allowJs": true,
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM"],

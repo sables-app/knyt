@@ -7,9 +7,9 @@ import {
   type View,
 } from "@knyt/weaver";
 
-import type { PropertiesDefinition } from "../../types";
-import type { Component } from "./Component";
-import { ComponentController } from "./ComponentController";
+import type { PropertiesDefinition } from "../../types.ts";
+import type { Component } from "./Component.ts";
+import { ComponentController } from "./ComponentController.ts";
 
 class ComponentControllerRegistry {
   #controllers = new WeakMap<Element, ComponentController<any, any>>();

@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { asyncMapAll } from "../asyncMapAll";
+import { asyncMapAll } from "../asyncMapAll.ts";
 
 describe("asyncMapAll", () => {
   it("should map all items when batchSize is null", async () => {

@@ -2,8 +2,8 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { BufferedObservable, bufferObservable } from "../bufferObservable";
+import { Beacon } from "../Beacon.ts";
+import { BufferedObservable, bufferObservable } from "../bufferObservable.ts";
 
 function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

@@ -5,10 +5,10 @@ import {
   type Observable,
   type ObservableInterop,
   type Subscription,
-} from "../Observable/mod";
-import { strictEqual } from "../utils/mod";
-import { __isKnytReference } from "./typeGuards";
-import type { Reference } from "./types";
+} from "../Observable/mod.ts";
+import { strictEqual } from "../utils/mod.ts";
+import { __isKnytReference } from "./typeGuards.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * A basic `Reference` implementation.

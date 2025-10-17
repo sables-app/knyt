@@ -1,4 +1,4 @@
-import { isShadowRoot } from "../typeGuards";
+import { isShadowRoot } from "../typeGuards.ts";
 
 /**
  * Determine if the element has focus.

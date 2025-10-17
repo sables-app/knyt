@@ -1,4 +1,4 @@
-import type { AttributeValue } from "./types/mod";
+import type { AttributeValue } from "./types/mod.ts";
 
 namespace Parameters {
   export type Default =

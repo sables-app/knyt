@@ -1,6 +1,6 @@
-import { getConfigModulePath, isVerboseEnv } from "./env";
-import type { GlazierPluginOptions } from "./transform/mod";
-import type { BunKnytConfig, TransformerRenderOptions } from "./types";
+import { getConfigModulePath, isVerboseEnv } from "./env.ts";
+import type { GlazierPluginOptions } from "./transform/mod.ts";
+import type { BunKnytConfig, TransformerRenderOptions } from "./types.ts";
 
 const defaultConfig: BunKnytConfig = {};
 

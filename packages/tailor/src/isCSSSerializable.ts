@@ -1,6 +1,6 @@
 import { isNonNullableObject } from "@knyt/artisan";
 
-import type { CSSSerializable } from "./types";
+import type { CSSSerializable } from "./types.ts";
 
 /**
  * Checks if a value is serializable to CSS.

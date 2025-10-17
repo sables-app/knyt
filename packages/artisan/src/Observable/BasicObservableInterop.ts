@@ -3,7 +3,7 @@ import type {
   ObservableInterop,
   Observer,
   Subscription,
-} from "./types";
+} from "./types.ts";
 
 /**
  * Wraps a partial observer to ensure that it implements the Observer interface.

@@ -1,8 +1,8 @@
-import type { InferNativeHandler } from "../inferHelpers";
+import type { InferNativeHandler } from "../inferHelpers.ts";
 import type {
   ElementDeclarationListeners,
   SingularElement,
-} from "../types/mod";
+} from "../types/mod.ts";
 
 /**
  * Adds event listeners to an element.

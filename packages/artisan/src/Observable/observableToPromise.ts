@@ -1,5 +1,5 @@
-import { ObservablePromise } from "./ObservablePromise";
-import type { Observable } from "./types";
+import { ObservablePromise } from "./ObservablePromise.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * Converts an observable to a promise.

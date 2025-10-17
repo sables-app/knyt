@@ -2,7 +2,7 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { FetchMiddleware } from "../FetchMiddleware";
+import { FetchMiddleware } from "../FetchMiddleware.ts";
 
 describe("FetchMiddleware", () => {
   describe("fetch", () => {

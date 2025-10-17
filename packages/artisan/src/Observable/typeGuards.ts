@@ -1,4 +1,4 @@
-import type { Observable, Observer } from "./types";
+import type { Observable, Observer } from "./types.ts";
 
 export function isObserver<T = unknown>(value: unknown): value is Observer<T> {
   return (

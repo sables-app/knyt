@@ -1,6 +1,6 @@
 import { dirname, resolve } from "node:path";
 
-import { getPackageJson, type PackageJson } from "./getPackageJson";
+import { getPackageJson, type PackageJson } from "./getPackageJson.ts";
 
 /**
  * Finds the closest package.json that depends on your library.

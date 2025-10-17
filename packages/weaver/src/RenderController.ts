@@ -4,17 +4,17 @@ import {
   type Reference,
 } from "@knyt/artisan";
 
-import { build } from "./build/mod";
-import { dom } from "./ElementBuilder";
+import { build } from "./build/mod.ts";
+import { dom } from "./ElementBuilder.ts";
 import type {
   AnyProps,
   ElementBuilder,
   KnytDeclaration,
   RenderResult,
   UpdatableParentNode,
-} from "./types/mod";
-import { removeAllChildren, update } from "./update/mod";
-import { normalizeRenderResult } from "./utils/mod";
+} from "./types/mod.ts";
+import { removeAllChildren, update } from "./update/mod.ts";
+import { normalizeRenderResult } from "./utils/mod.ts";
 
 type RenderFn<State extends object, Auxiliary> = (
   state: State,

@@ -3,8 +3,8 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { areStyleSheetsEqual } from "../areStyleSheetsEqual";
-import { StyleSheet } from "../StyleSheet";
+import { areStyleSheetsEqual } from "../areStyleSheetsEqual.ts";
+import { StyleSheet } from "../StyleSheet.ts";
 
 describe("areStyleSheetsEqual", () => {
   it("should return true if both style sheets are the same instance", () => {

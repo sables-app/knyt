@@ -1,5 +1,5 @@
-import { ObservableUnwrapped } from "./ObservableUnwrapped";
-import type { Observable } from "./types";
+import { ObservableUnwrapped } from "./ObservableUnwrapped.ts";
+import type { Observable } from "./types.ts";
 
 /**
  * Extracts an optional nested observable from a source observable.

@@ -1,8 +1,8 @@
 import { ensureReference, type Reference } from "@knyt/artisan";
 import { EventStation, type Listeners } from "event-station";
 
-import type { BasicEvent } from "./BasicEvent";
-import type { SyncEventListener } from "./types";
+import type { BasicEvent } from "./BasicEvent.ts";
+import type { SyncEventListener } from "./types.ts";
 
 /**
  * @public

@@ -1,4 +1,4 @@
-import { TypedEvent } from "./TypedEvent";
+import { TypedEvent } from "./TypedEvent.ts";
 
 /** A message received by a target object. */
 export interface TypedMessageEvent<T, D = unknown> extends TypedEvent<T> {

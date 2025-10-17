@@ -1,6 +1,6 @@
-import { syncCustomElementRegistries } from "../syncCustomElementRegistries";
-import type { ElementDeclaration, SingularElement } from "../types/mod";
-import { attachElementDeclaration, isElementDeclaration } from "../utils/mod";
+import { syncCustomElementRegistries } from "../syncCustomElementRegistries.ts";
+import type { ElementDeclaration, SingularElement } from "../types/mod.ts";
+import { attachElementDeclaration, isElementDeclaration } from "../utils/mod.ts";
 
 // Banned globals
 declare const document: never;

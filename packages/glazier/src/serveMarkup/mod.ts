@@ -1,1 +1,1 @@
-export * from "./serveMarkup";
+export * from "./serveMarkup.ts";

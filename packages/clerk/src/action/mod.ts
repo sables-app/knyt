@@ -3,4 +3,4 @@ export {
   isAnyAction,
   isAction,
   type Action,
-} from "./fsa";
+} from "./fsa.ts";

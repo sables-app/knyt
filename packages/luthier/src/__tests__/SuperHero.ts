@@ -1,6 +1,6 @@
 import { dom } from "@knyt/weaver";
 
-import { define } from "../define/mod";
+import { define } from "../define/mod.ts";
 
 export const SuperHero = define.element("knyt-super-hero", {
   properties: {

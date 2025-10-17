@@ -1,9 +1,9 @@
 import { isCSSStyleSheet, typeCheck } from "@knyt/artisan";
 
-import { cssStyleSheetToString } from "./cssStyleSheetToString";
-import { isCSSSerializable } from "./isCSSSerializable";
-import { StyleSheet } from "./StyleSheet";
-import type { CSSSerializable } from "./types";
+import { cssStyleSheetToString } from "./cssStyleSheetToString.ts";
+import { isCSSSerializable } from "./isCSSSerializable.ts";
+import { StyleSheet } from "./StyleSheet.ts";
+import type { CSSSerializable } from "./types.ts";
 
 /**
  * Represents a value that can be used in a CSS template tag.

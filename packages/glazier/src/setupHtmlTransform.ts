@@ -1,9 +1,9 @@
 import type { PluginBuilder } from "bun";
 
-import { DependencyManager } from "./DependencyManager";
-import { DependencyTracker } from "./DependencyTracker";
-import { transform } from "./transform/mod";
-import type { MiddlewareConfig } from "./types";
+import { DependencyManager } from "./DependencyManager.ts";
+import { DependencyTracker } from "./DependencyTracker.ts";
+import { transform } from "./transform/mod.ts";
+import type { MiddlewareConfig } from "./types.ts";
 
 /**
  * Set up the HTML transform for the plugin.

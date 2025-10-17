@@ -1,6 +1,6 @@
-import type { Observable, Observer } from "../Observable/mod";
-import { EnsuredReferenceObserver } from "./EnsuredReferenceObserver";
-import type { Reference } from "./types";
+import type { Observable, Observer } from "../Observable/mod.ts";
+import { EnsuredReferenceObserver } from "./EnsuredReferenceObserver.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * Creates an observer to proxy a subscriber reference.

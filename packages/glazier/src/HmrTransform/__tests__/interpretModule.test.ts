@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { parseSync, type ParseResult } from "oxc-parser";
 
-import { CallKind, ExportKind, interpretModule } from "../interpretModule";
+import { CallKind, ExportKind, interpretModule } from "../interpretModule.ts";
 
 describe("interpretModule", () => {
   const options = {

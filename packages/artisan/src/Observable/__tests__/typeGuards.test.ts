@@ -7,7 +7,7 @@ import {
   assertObserver,
   isObservable,
   isObserver,
-} from "../typeGuards";
+} from "../typeGuards.ts";
 
 describe("typeGuards", () => {
   describe("isObserver", () => {

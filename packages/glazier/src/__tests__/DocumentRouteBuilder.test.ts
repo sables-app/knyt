@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it, mock } from "bun:test";
 
-import { findRootPath, generateRoutePathname } from "../DocumentRouteBuilder";
+import { findRootPath, generateRoutePathname } from "../DocumentRouteBuilder.ts";
 
 describe("DocumentRouteBuilder", () => {
   describe("findRootPath", () => {

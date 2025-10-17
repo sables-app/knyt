@@ -5,13 +5,13 @@ import {
   typeCheck,
 } from "@knyt/artisan";
 
-import { CSSLength } from "./CSSLength";
-import { CSSPercentage } from "./CSSPercentage";
-import { cssTemplateTag, type CSSTemplateTagValue } from "./cssTemplateTag";
-import { isCSSSerializable } from "./isCSSSerializable";
-import { StyleSheet } from "./StyleSheet";
-import { toSize } from "./toSize";
-import type { CSSInclude, CSSRules } from "./types";
+import { CSSLength } from "./CSSLength.ts";
+import { CSSPercentage } from "./CSSPercentage.ts";
+import { cssTemplateTag, type CSSTemplateTagValue } from "./cssTemplateTag.ts";
+import { isCSSSerializable } from "./isCSSSerializable.ts";
+import { StyleSheet } from "./StyleSheet.ts";
+import { toSize } from "./toSize.ts";
+import type { CSSInclude, CSSRules } from "./types.ts";
 
 /**
  * Creates a new StyleSheet from the provided CSS input.

@@ -3,11 +3,11 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { Table } from "../../__tests__/Table";
-import { KEY_ATTRIBUTE } from "../../constants";
-import { dom, html, svg } from "../../ElementBuilder";
-import type { EventHandler, TypedEvent } from "../../types/mod";
-import { build } from "../build";
+import { Table } from "../../__tests__/Table.ts";
+import { KEY_ATTRIBUTE } from "../../constants.ts";
+import { dom, html, svg } from "../../ElementBuilder.ts";
+import type { EventHandler, TypedEvent } from "../../types/mod.ts";
+import { build } from "../build.ts";
 
 describe("build", async () => {
   it("should build a simple div element with text content", async () => {

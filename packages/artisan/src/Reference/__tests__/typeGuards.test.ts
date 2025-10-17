@@ -3,12 +3,12 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { createReference } from "../createReference";
+import { createReference } from "../createReference.ts";
 import {
   __isKnytReference,
   isMutableReference,
   isReadableReference,
-} from "../typeGuards";
+} from "../typeGuards.ts";
 
 describe("type guards", () => {
   describe("isReadableReference", () => {

@@ -2,9 +2,9 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { filterObservable } from "../filterObservable";
-import type { Observable } from "../types";
+import { Beacon } from "../Beacon.ts";
+import { filterObservable } from "../filterObservable.ts";
+import type { Observable } from "../types.ts";
 
 describe("filterObservable", () => {
   let sourceEmitter: Beacon.WithEmitter<number>;

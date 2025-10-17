@@ -3,7 +3,7 @@
 import { typeCheck } from "@knyt/artisan";
 import { describe, it } from "bun:test";
 
-import type { UndefinedXorNull } from "../types/mod";
+import type { UndefinedXorNull } from "../types/mod.ts";
 
 describe("types", () => {
   describe("UndefinedXorNull", () => {

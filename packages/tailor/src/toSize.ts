@@ -3,12 +3,12 @@ import {
   isCSSLength,
   type CSSLengthString,
   type PixelValue,
-} from "./CSSLength";
+} from "./CSSLength.ts";
 import {
   CSSPercentage,
   isCSSPercentage,
   type CSSPercentageString,
-} from "./CSSPercentage";
+} from "./CSSPercentage.ts";
 
 /**
  * Convert the given value into either a `CSSLength` or `CSSPercentage`.

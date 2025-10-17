@@ -4,10 +4,10 @@
 
 import { beforeAll, describe, expect, it, mock } from "bun:test";
 
-import { build } from "../build/mod";
-import { jsx } from "../jsx";
-import type { ElementBuilder } from "../types/mod";
-import { getElementDeclarationKey } from "../utils/mod";
+import { build } from "../build/mod.ts";
+import { jsx } from "../jsx.ts";
+import type { ElementBuilder } from "../types/mod.ts";
+import { getElementDeclarationKey } from "../utils/mod.ts";
 
 describe("jsx function", async () => {
   // This is a unique tag name to potentially avoid conflicts with other tests

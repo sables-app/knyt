@@ -3,7 +3,7 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { cssStyleSheetToString } from "../cssStyleSheetToString";
+import { cssStyleSheetToString } from "../cssStyleSheetToString.ts";
 
 describe("cssStyleSheetToString", () => {
   it("should convert a CSSStyleSheet with style rules to a string", () => {

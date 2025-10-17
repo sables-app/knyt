@@ -1,9 +1,9 @@
 import { computeRef, ref } from "@knyt/artisan";
 import { beforeEach, describe, expect, it, mock, test } from "bun:test";
 
-import { createAccessor } from "../createAccessor";
-import { select } from "../select/mod";
-import { TodoStore } from "./TodoStore";
+import { createAccessor } from "../createAccessor.ts";
+import { select } from "../select/mod.ts";
+import { TodoStore } from "./TodoStore.ts";
 
 describe("createAccessor", () => {
   const firstTodo = { id: 1, text: "Test", completed: false };

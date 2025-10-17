@@ -2,13 +2,13 @@ import { define, type ElementDefinition } from "@knyt/luthier";
 import { dom, isElementBuilder, isViewBuilder } from "@knyt/weaver";
 import { describe, expect, it } from "bun:test";
 
-import { KnytTagName } from "../../importTags";
+import { KnytTagName } from "../../importTags.ts";
 import {
   interpolateInclude,
   isMDXContentFn,
   normalizeFrontmatter,
   renderRendererInclude,
-} from "../utils";
+} from "../utils.ts";
 
 describe("transform/utils", () => {
   describe("interpolateInclude", () => {

@@ -3,8 +3,8 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { computeRef } from "../computeRef";
-import { createReference } from "../createReference";
+import { computeRef } from "../computeRef.ts";
+import { createReference } from "../createReference.ts";
 
 describe("computeRef", () => {
   describe("parameters object", () => {

@@ -4,8 +4,8 @@ import {
   type Subscription,
 } from "@knyt/artisan";
 
-import type { LifecycleInterrupt } from "./LifecycleInterrupt";
-import type { ReactiveController } from "./ReactiveController";
+import type { LifecycleInterrupt } from "./LifecycleInterrupt.ts";
+import type { ReactiveController } from "./ReactiveController.ts";
 
 /**
  * An object that taps into the lifecycle of a host

@@ -2,13 +2,13 @@ import {
   ElementDeclarationKind,
   ElementDeclarationSymbol,
   FragmentTypeSymbol,
-} from "../constants";
+} from "../constants.ts";
 import type {
   ElementBuilder,
   ElementDeclaration,
   StringDocumentFragment,
-} from "../types/mod";
-import { createStringDocumentFragment } from "./StringDocumentFragment";
+} from "../types/mod.ts";
+import { createStringDocumentFragment } from "./StringDocumentFragment.ts";
 
 /**
  * Creates a fragment declaration for grouping children without

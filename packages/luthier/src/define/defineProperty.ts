@@ -17,7 +17,7 @@ import {
 } from "@knyt/tailor";
 import type { AnyProps, ElementBuilder, StyleObject } from "@knyt/weaver";
 
-import type { AttributeName, PropertyDefinition, PropertyInfo } from "../types";
+import type { AttributeName, PropertyDefinition, PropertyInfo } from "../types.ts";
 
 /**
  * A builder for defining properties on an `KnytElement`.

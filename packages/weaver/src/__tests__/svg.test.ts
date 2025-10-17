@@ -1,8 +1,8 @@
 import { describe, expect, it, mock } from "bun:test";
 
-import { build } from "../build/mod";
-import { svg } from "../ElementBuilder";
-import { isElementDeclaration } from "../utils/mod";
+import { build } from "../build/mod.ts";
+import { svg } from "../ElementBuilder.ts";
+import { isElementDeclaration } from "../utils/mod.ts";
 
 describe("svg", async () => {
   it("can be called as a template tag with SVG", async () => {

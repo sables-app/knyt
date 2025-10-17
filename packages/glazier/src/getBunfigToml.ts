@@ -1,6 +1,6 @@
 import path from "node:path";
 
-import { getHomeDir, getXDGConfigHome } from "./env";
+import { getHomeDir, getXDGConfigHome } from "./env.ts";
 
 /**
  * Represents the structure of a parsed `bunfig.toml` file.

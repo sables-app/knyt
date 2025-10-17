@@ -1,4 +1,4 @@
-import type { SingularElement } from "./types/mod";
+import type { SingularElement } from "./types/mod.ts";
 
 /**
  * Attempt to copy a specific custom element from one registry to another.

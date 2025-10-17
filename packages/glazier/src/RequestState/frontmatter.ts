@@ -1,4 +1,4 @@
-import { createRequestState } from "./RequestState";
+import { createRequestState } from "./RequestState.ts";
 
 export namespace Frontmatter {
   export type Any = Partial<Record<string, any>>;

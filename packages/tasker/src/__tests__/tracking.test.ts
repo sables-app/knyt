@@ -4,9 +4,9 @@
 import { ref } from "@knyt/artisan";
 import { beforeEach, describe, expect, it, mock, type Mock } from "bun:test";
 
-import type { ReactiveControllerHost } from "../ReactiveController";
-import { ReactiveControllerHostAdapter } from "../ReactiveControllerHostAdapter";
-import { track, untrack } from "../tracking";
+import type { ReactiveControllerHost } from "../ReactiveController.ts";
+import { ReactiveControllerHostAdapter } from "../ReactiveControllerHostAdapter.ts";
+import { track, untrack } from "../tracking.ts";
 
 describe("tracking", () => {
   let host: ReactiveControllerHost;

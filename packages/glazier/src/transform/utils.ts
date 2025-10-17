@@ -19,20 +19,20 @@ import {
   type View,
 } from "@knyt/weaver";
 
-import { isVerboseEnv } from "../env";
-import { getDocumentFrontmatter } from "../getDocumentFrontmatter";
+import { isVerboseEnv } from "../env.ts";
+import { getDocumentFrontmatter } from "../getDocumentFrontmatter.ts";
 import {
   DEFAULT_SLOT_NAME,
   replaceSlotTagsInHtml,
   resolveSlotName,
   unzipHtmlSlots,
   type SlotChildren,
-} from "../htmlSlots";
-import { hasSlotTag, KnytTagName, ProcessingTag } from "../importTags";
-import { isRelativePathWithDotSlash } from "../relativePathWithDotSlash";
-import type { TocValue } from "../RequestState/mod";
-import { rewriteIncludePaths } from "../rewriteIncludePaths";
-import type { GetRequestProps, IncludeOptions } from "../types";
+} from "../htmlSlots.ts";
+import { hasSlotTag, KnytTagName, ProcessingTag } from "../importTags.ts";
+import { isRelativePathWithDotSlash } from "../relativePathWithDotSlash.ts";
+import type { TocValue } from "../RequestState/mod.ts";
+import { rewriteIncludePaths } from "../rewriteIncludePaths.ts";
+import type { GetRequestProps, IncludeOptions } from "../types.ts";
 
 // Banned globals
 declare const customElements: never;
@@ -480,7 +480,25 @@ export async function normalizeFrontmatter(
     return undefined;
   }
 
+  /**
+   * Bun YAML.parse output changed in Bun v1.3.0
+   * from just `Record<string, unknown>`
+   * to `[Record<string, unknown>, null]`
+   * 
+   * I don't care to investigate why, so let's just
+   * support both formats for now.
+   * 
+   * TODO: Decide on a long-term strategy for this.
+   */
+  type ExpectedOutput = Record<string, unknown> | [Record<string, unknown>, null]
+
   // TODO: Add support for TOML for feature parity with other plugins.
   // Currently, we only support YAML.
-  return Bun.YAML.parse(text.join("\n")) as Record<string, unknown>;
+  const result = Bun.YAML.parse(text.join("\n")) as ExpectedOutput;
+
+  if (Array.isArray(result)) {
+    return result[0];
+  }
+
+  return result as Record<string, unknown>;
 }

@@ -2,8 +2,8 @@
 
 import { describe, expect, it, mock } from "bun:test";
 
-import { Beacon } from "../Beacon";
-import { mapObservable, MappedObservable } from "../mapObservable";
+import { Beacon } from "../Beacon.ts";
+import { mapObservable, MappedObservable } from "../mapObservable.ts";
 
 function transform(value: number): string {
   return String(value);

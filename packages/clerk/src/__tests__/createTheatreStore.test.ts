@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { createTheatreStore } from "./createTheatreStore";
+import { createTheatreStore } from "./createTheatreStore.ts";
 
 describe("createTheatreStore", () => {
   let theatre: ReturnType<typeof createTheatreStore>;

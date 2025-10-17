@@ -1,5 +1,5 @@
-export type * from "./core";
-export type * from "./ElementBuilder";
-export type * from "./HandoffToElementBuilderFn";
-export type * from "./SharedOptions";
-export type * from "./ViewBuilder";
+export type * from "./core.ts";
+export type * from "./ElementBuilder.ts";
+export type * from "./HandoffToElementBuilderFn.ts";
+export type * from "./SharedOptions.ts";
+export type * from "./ViewBuilder.ts";

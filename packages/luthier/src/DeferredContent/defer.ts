@@ -16,9 +16,9 @@ import {
 } from "@knyt/tasker";
 import type { KnytContent } from "@knyt/weaver";
 
-import { DeferredContentNotifier } from "./DeferredContentNotifier";
-import type { PromiseReference } from "./PromiseReference";
-import { SkipRenderSignal } from "./SkipRenderSignal";
+import { DeferredContentNotifier } from "./DeferredContentNotifier.ts";
+import type { PromiseReference } from "./PromiseReference.ts";
+import { SkipRenderSignal } from "./SkipRenderSignal.ts";
 
 /**
  * A reference type that holds either the unwrapped values of multiple promises

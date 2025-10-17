@@ -1,4 +1,4 @@
-import type { Action, AnyAction } from "./types";
+import type { Action, AnyAction } from "./types.ts";
 
 /**
  * A key used in action meta to designate an action type

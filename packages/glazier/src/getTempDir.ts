@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 import path from "node:path";
 
-import { findRelevantPackageName } from "./findRelevantPackageName";
-import { getPackageJson } from "./getPackageJson";
+import { findRelevantPackageName } from "./findRelevantPackageName.ts";
+import { getPackageJson } from "./getPackageJson.ts";
 
 /**
  * Returns a unique temporary directory path based on a salt and the relevant package name.

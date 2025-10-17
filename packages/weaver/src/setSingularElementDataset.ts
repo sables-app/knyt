@@ -1,4 +1,4 @@
-import type { DatasetObject, SingularElement } from "./types/mod";
+import type { DatasetObject, SingularElement } from "./types/mod.ts";
 
 export function setSingularElementDataset(
   target: SingularElement,

@@ -1,7 +1,7 @@
-import { actionCreatorFactory } from "../action/fsa";
-import { reduce } from "../reduce/mod";
-import { Store } from "../Store";
-import type { AnyAction } from "../types";
+import { actionCreatorFactory } from "../action/fsa.ts";
+import { reduce } from "../reduce/mod.ts";
+import { Store } from "../Store.ts";
+import type { AnyAction } from "../types.ts";
 
 export type CounterState = {
   count: number;

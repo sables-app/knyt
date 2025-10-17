@@ -3,7 +3,7 @@ import {
   isKnytElementComposedConstructor,
 } from "@knyt/luthier";
 
-import { getElements, trackElements } from "./trackElements";
+import { getElements, trackElements } from "./trackElements.ts";
 
 const __knytHmrStub = Symbol.for("knyt.luthier.hmr.stub");
 

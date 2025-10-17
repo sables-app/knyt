@@ -6,7 +6,7 @@ import {
   pathAttributesByTagName,
   ResourceTag,
   resourceTagSelector,
-} from "./importTags";
+} from "./importTags.ts";
 
 /**
  * Rewrites resource tag paths in an HTML string to absolute paths
@@ -61,7 +61,8 @@ export function rewriteRelativeResourceTags(
     },
   });
 
-  return rewriter.transform(htmlText);
+  // TypeScript is confused about the overload here for some reason.
+  return rewriter.transform(htmlText) as unknown as string;
 }
 
 /**

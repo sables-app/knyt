@@ -2,10 +2,10 @@ import type {
   ElementBuilder,
   ElementDeclaration,
   KnytDeclaration,
-} from "../types/mod";
-import { getElementDeclarationFromBuilder } from "./getElementDeclarationFromBuilder";
-import { isBuilder } from "./isBuilder";
-import { isElementDeclaration } from "./other";
+} from "../types/mod.ts";
+import { getElementDeclarationFromBuilder } from "./getElementDeclarationFromBuilder.ts";
+import { isBuilder } from "./isBuilder.ts";
+import { isElementDeclaration } from "./other.ts";
 
 /**
  * Recursively extracts the element declaration tree from a builder.

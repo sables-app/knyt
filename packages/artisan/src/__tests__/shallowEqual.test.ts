@@ -3,7 +3,7 @@
 
 import { describe, expect, it } from "bun:test";
 
-import { shallowEqual } from "../utils/mod";
+import { shallowEqual } from "../utils/mod.ts";
 
 describe("shallowEqual", () => {
   it("should return true for the same object reference", () => {

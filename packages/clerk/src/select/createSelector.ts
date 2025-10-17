@@ -1,6 +1,6 @@
 import { memoize } from "@knyt/artisan";
 
-import type { Selector } from "../types";
+import type { Selector } from "../types.ts";
 
 /**
  * @internal scope: module

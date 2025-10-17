@@ -1,4 +1,4 @@
-import { TypedEvent } from "../TypedEvents";
+import { TypedEvent } from "../TypedEvents/index.ts";
 
 interface TypedOnErrorEventHandlerNonNull<T> {
   (

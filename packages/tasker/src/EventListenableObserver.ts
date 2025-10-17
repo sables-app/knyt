@@ -6,9 +6,9 @@ import {
 } from "@knyt/artisan";
 import type { EventHandler } from "@knyt/weaver";
 
-import type { BasicEvent } from "./BasicEvent";
-import type { Effect } from "./Effect";
-import type { InferEventFromName } from "./types";
+import type { BasicEvent } from "./BasicEvent.ts";
+import type { Effect } from "./Effect.ts";
+import type { InferEventFromName } from "./types.ts";
 
 /**
  * A controller that manages an event listener on an element.

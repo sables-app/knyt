@@ -1,4 +1,4 @@
-import type { HTMLElements } from "../generated/HTMLElements";
+import type { HTMLElements } from "../generated/HTMLElements.ts";
 
 // HTMLElementTagNameMap
 /**

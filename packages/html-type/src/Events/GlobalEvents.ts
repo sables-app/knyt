@@ -1,4 +1,4 @@
-import { TypedOnErrorEventHandler } from "./TypedEventHandlers/TypedOnErrorEventHandler";
+import { TypedOnErrorEventHandler } from "./TypedEventHandlers/TypedOnErrorEventHandler.ts";
 import {
   TypedAnimationEvent,
   TypedDragEvent,
@@ -15,8 +15,8 @@ import {
   TypedWheelEvent,
   TypedUIEvent,
   TypedSecurityPolicyViolationEvent,
-} from "./TypedEvents";
-import { TypedInputEvent } from "./TypedEvents/TypedInputEvent";
+} from "./TypedEvents/index.ts";
+import { TypedInputEvent } from "./TypedEvents/TypedInputEvent.ts";
 
 export interface GlobalEvents<T extends EventTarget> {
   /**

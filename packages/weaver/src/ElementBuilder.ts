@@ -8,10 +8,10 @@ import {
   ElementBuilderTargetSymbol,
   ElementDeclarationKindBySymbol,
   FragmentTypeSymbol,
-} from "./constants";
-import { cx } from "./cx";
-import { hx, isHtmxAttributeName } from "./Htmx";
-import { markupTemplateTag } from "./markupTemplateTag";
+} from "./constants.ts";
+import { cx } from "./cx.ts";
+import { hx, isHtmxAttributeName } from "./Htmx.ts";
+import { markupTemplateTag } from "./markupTemplateTag.ts";
 import type {
   AnyProps,
   AttributeDictionary,
@@ -31,7 +31,7 @@ import type {
   SVGBuilder,
   SVGRenderer,
   UnknownProps,
-} from "./types/mod";
+} from "./types/mod.ts";
 import {
   cloneElementDeclaration,
   createEmptyElementDeclaration,
@@ -48,7 +48,7 @@ import {
   isElementDeclarationRefInput,
   isListenerDeclaration,
   isRenderMode,
-} from "./utils/mod";
+} from "./utils/mod.ts";
 
 const FRAGMENT_PROP_NAME = "fragment";
 

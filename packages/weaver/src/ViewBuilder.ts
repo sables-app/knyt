@@ -2,7 +2,7 @@ import {
   ViewBuilderIsViewSymbol,
   ViewBuilderTargetSymbol,
   ViewSymbol,
-} from "./constants";
+} from "./constants.ts";
 import type {
   AnyProps,
   ElementBuilder,
@@ -12,7 +12,7 @@ import type {
   ViewBuilder,
   ViewBuilderFactory,
   ViewDeclaration,
-} from "./types/mod";
+} from "./types/mod.ts";
 import {
   cloneView,
   createEmptyView,
@@ -22,7 +22,7 @@ import {
   isElementDeclarationPropsInput,
   isElementDeclarationRefInput,
   isViewDeclaration,
-} from "./utils/mod";
+} from "./utils/mod.ts";
 
 enum SpecialProperties {
   Children = "$children",

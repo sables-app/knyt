@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, it, mock } from "bun:test";
 
-import { TodoStore, type Todo, type TodoState } from "./TodoStore";
+import { TodoStore, type Todo, type TodoState } from "./TodoStore.ts";
 
 describe("TodoStore", () => {
   let store: TodoStore;

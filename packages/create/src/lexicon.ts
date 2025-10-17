@@ -6,7 +6,7 @@ import {
   FlagOptionName,
   OptionName,
   ProjectKind,
-} from "./constants";
+} from "./constants.ts";
 
 export function translate(
   key: keyof typeof Lexicon,

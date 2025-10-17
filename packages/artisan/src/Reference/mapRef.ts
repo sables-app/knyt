@@ -1,5 +1,5 @@
-import { ReferenceMapped } from "./ReferenceMapped";
-import type { Reference } from "./types";
+import { ReferenceMapped } from "./ReferenceMapped.ts";
+import type { Reference } from "./types.ts";
 
 /**
  * @internal scope: workspace

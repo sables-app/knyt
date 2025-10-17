@@ -7,8 +7,8 @@ import type {
   View,
 } from "@knyt/weaver";
 
-import { __isKnytElementDefinition } from "./constants";
-import type { KnytElement } from "./KnytElement";
+import { __isKnytElementDefinition } from "./constants.ts";
+import type { KnytElement } from "./KnytElement.ts";
 
 export type PropertyName = string | symbol;
 export type AttributeName = string | undefined | false;

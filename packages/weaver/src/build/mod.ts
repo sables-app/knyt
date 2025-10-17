@@ -1,2 +1,2 @@
-export * from "./addListenersToElement";
-export * from "./build";
+export * from "./addListenersToElement.ts";
+export * from "./build.ts";

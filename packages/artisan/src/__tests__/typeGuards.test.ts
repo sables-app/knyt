@@ -25,7 +25,7 @@ import {
   isTemplateStringsArray,
   isText,
   isUnknownDictionary,
-} from "../typeGuards";
+} from "../typeGuards.ts";
 
 describe("typeGuards", () => {
   describe("isComment", () => {

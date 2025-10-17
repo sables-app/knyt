@@ -12,11 +12,11 @@ import {
 } from "@knyt/artisan";
 import type { EventHandler } from "@knyt/weaver";
 
-import { hold } from "./hold";
+import { hold } from "./hold.ts";
 import type {
   ReactiveController,
   ReactiveControllerHost,
-} from "./ReactiveController";
+} from "./ReactiveController.ts";
 
 type InputStateOptions<T> = {
   /**
