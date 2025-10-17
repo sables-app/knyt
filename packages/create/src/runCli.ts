@@ -460,7 +460,8 @@ async function patchFiles({
   targetDir: string;
   dryRun: boolean;
 }): Promise<void> {
-  const operations = JSON.parse(await fs.readFile(patchFilePath, "utf-8"));
+  const content = await fs.readFile(patchFilePath, "utf-8");
+  const operations = JSON.parse(content);
 
   if (!isFileOperations(operations)) {
     throw new Error(`Invalid patch file format: ${patchFilePath}`);
@@ -498,12 +499,12 @@ async function patchPackageJson({
     return;
   }
 
-  const packageJsonPatch = JSON.parse(
-    await fs.readFile(patchFilePath, "utf-8"),
-  );
+  const patchContent = await fs.readFile(patchFilePath, "utf-8");
+  const packageJsonPatch = JSON.parse(patchContent);
 
   const packageJsonPath = path.resolve(targetDir, "package.json");
-  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, "utf-8"));
+  const packageJsonContent = await fs.readFile(packageJsonPath, "utf-8");
+  const packageJson = JSON.parse(packageJsonContent);
 
   Object.assign(packageJson, packageJsonPatch);
 

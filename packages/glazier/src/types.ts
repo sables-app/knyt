@@ -1,5 +1,5 @@
 import type { RenderOptions } from "@knyt/weaver";
-import type { BunRequest } from "bun";
+import type { BunRequest, Serve, Server } from "bun";
 
 import type { GlazierPluginOptions } from "./transform/mod.ts";
 
@@ -54,14 +54,14 @@ export namespace BunKnytConfig {
 
 /**
  * Transformer options for rendering.
- *
- * @remarks
- *
- * These are the `RenderOptions` excluding the `document`,
- * which is created internally for each transformation
- * to ensure isolation. Render options for the `Transformer`
- * are different from the ones for the `render` function.
- *
+*
+* @remarks
+*
+* These are the `RenderOptions` excluding the `document`,
+* which is created internally for each transformation
+* to ensure isolation. Render options for the `Transformer`
+* are different from the ones for the `render` function.
+*
  * @defaultValue
  *
  * {
@@ -95,3 +95,15 @@ export namespace GetRequestProps {
 export type MiddlewareConfig = Readonly<
   Required<GlazierPluginOptions.Middleware>
 >;
+
+/**
+ * A Bun route handler type.
+ *
+ * @internal scope: package
+ */
+export type RouteHandler<Path extends string, WebSocketData = any> = Serve.Handler<
+  BunRequest<Path>,
+  Server<WebSocketData>,
+  Response
+>;
+

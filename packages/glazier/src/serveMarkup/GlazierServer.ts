@@ -1,5 +1,3 @@
-import type { RouterTypes } from "bun";
-
 import defaultGlazierPlugin from "../plugin.ts";
 import { originServerState } from "../RequestState/mod.ts";
 import {
@@ -9,6 +7,7 @@ import {
   type GlazierPluginOptions,
   type TransformOptions,
 } from "../transform/mod.ts";
+import type { RouteHandler } from "../types.ts";
 
 // Banned globals
 declare const document: never;
@@ -110,7 +109,7 @@ export class GlazierServer<RoutePath extends string> {
    *
    * @detachable
    */
-  readonly fetch: RouterTypes.RouteHandler<RoutePath> = async (
+  readonly fetch: RouteHandler<RoutePath> = async (
     request,
     server,
   ) => {

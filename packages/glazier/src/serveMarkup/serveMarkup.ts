@@ -1,10 +1,6 @@
-import type { RouterTypes } from "bun";
-
-import type {
-  BunHTMLBundleModule,
-  GlazierPluginOptions,
-} from "../transform/mod.ts";
 import { GlazierServer } from "./GlazierServer.ts";
+import type { GlazierPluginOptions } from "../transform/mod.ts";
+import type { RouteHandler } from "../types.ts";
 
 /**
  * Returns a Bun route handler that serves HTML markup using the Knyt Glazier transformer.
@@ -24,6 +20,6 @@ import { GlazierServer } from "./GlazierServer.ts";
 export function serveMarkup<RoutePath extends string = string>(
   input: GlazierServer.Input,
   options?: GlazierPluginOptions,
-): RouterTypes.RouteHandler<RoutePath> {
+): RouteHandler<RoutePath> {
   return new GlazierServer(input, options).fetch;
 }

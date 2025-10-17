@@ -144,5 +144,5 @@ describe("DocumentRouteBuilder", () => {
     });
   });
 
-  describe.todo("getHtmlPath");
+  describe.todo("getHtmlPath", () => { });
 });

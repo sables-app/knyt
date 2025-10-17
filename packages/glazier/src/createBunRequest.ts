@@ -1,4 +1,4 @@
-import { CookieMap, type BunRequest, type RouterTypes } from "bun";
+import { CookieMap, type BunRequest, type Serve } from "bun";
 
 type BunRequestMixin<RoutePath extends string> = Omit<
   BunRequest<RoutePath>,
@@ -12,7 +12,7 @@ type BunRequestMixin<RoutePath extends string> = Omit<
  */
 export function createBunRequest<RoutePath extends string = string>(
   input: RequestInfo | URL,
-  params: RouterTypes.ExtractRouteParams<RoutePath>,
+  params: Serve.ExtractRouteParams<RoutePath>,
   bunRequestInit?: RequestInit & { cookies?: CookieMap },
 ): BunRequest<RoutePath> {
   const { cookies = new CookieMap(), ...requestInit } = bunRequestInit || {};
