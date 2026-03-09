@@ -1,5 +1,11 @@
 # @knyt/clerk
 
+## 0.4.1
+
+### Patch Changes
+
+- 3d2e395: Correct module import path
+
 ## 0.4.0
 
 ### Minor Changes
