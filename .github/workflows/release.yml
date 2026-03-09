@@ -11,7 +11,7 @@ jobs:
     environment: public-npm
     permissions:
       contents: write # for changesets to create releases
-      id-token: write # for npm provenance
+      id-token: write # for npm provenance and trusted publishing
 
     steps:
       - name: Checkout code
@@ -41,5 +41,8 @@ jobs:
           publish: bunx changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Use OIDC for npm authentication instead of NPM_TOKEN
+          # For trusted publisher: set env NPM_TOKEN: '' is the workaround
+          # https://github.com/changesets/changesets/issues/1152#issuecomment-3190884868
+          NPM_TOKEN: ''
           NPM_CONFIG_PROVENANCE: true
