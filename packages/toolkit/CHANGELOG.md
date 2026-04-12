@@ -1,5 +1,17 @@
 # knyt
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [8a61ac9]
+  - @knyt/artisan@0.5.0
+  - @knyt/clerk@0.5.0
+  - @knyt/luthier@0.5.0
+  - @knyt/tailor@0.5.0
+  - @knyt/tasker@0.5.0
+  - @knyt/weaver@0.5.0
+
 ## 0.4.0
 
 ### Minor Changes
