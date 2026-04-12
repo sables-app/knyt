@@ -1,3 +1,5 @@
+import type { DebouncedFunction } from "../types/utils.ts";
+
 /**
  * Debounces a function to be called on the next animation frame.
  *
@@ -5,18 +7,40 @@
  */
 export function debounceAnimationFrame<T extends (...args: any[]) => void>(
   fn: T,
-): T {
+): DebouncedFunction<T> {
   let frameId: number | undefined;
+  let latestThis: ThisParameterType<T> | undefined;
+  let latestArgs: Parameters<T> | undefined;
 
-  return function (this: any, ...args: any[]) {
+  const debounced = function (this: any, ...args: Parameters<T>) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    latestThis = this;
+    latestArgs = args;
+
     if (frameId !== undefined) {
       cancelAnimationFrame(frameId);
     }
 
     frameId = requestAnimationFrame(() => {
-      fn.apply(this, args);
-
       frameId = undefined;
+      fn.apply(latestThis!, latestArgs!);
     });
   } as T;
+
+  const cancel = () => {
+    if (frameId !== undefined) {
+      cancelAnimationFrame(frameId);
+      frameId = undefined;
+    }
+  };
+
+  const flush = () => {
+    if (frameId !== undefined) {
+      cancelAnimationFrame(frameId);
+      frameId = undefined;
+      fn.apply(latestThis!, latestArgs!);
+    }
+  };
+
+  return Object.assign(debounced, { cancel, flush });
 }

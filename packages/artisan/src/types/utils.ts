@@ -49,3 +49,21 @@ export type ObjectToFunctionPropertyNames<T> = {
 export type OmitSymbolKeys<T> = {
   [K in keyof T as K extends symbol ? never : K]: T[K];
 };
+
+/**
+ * A debounced function that has `cancel` and `flush` methods to control the execution of the debounced function.
+ *
+ * @public
+ */
+export type DebouncedFunction<T extends (...args: any[]) => void> = T & {
+  /**
+   * Cancels any pending execution of the debounced function. If the function is
+   * currently waiting to be called, it will not be called after this method is invoked.
+   */
+  cancel: () => void;
+  /**
+   * Immediately invokes the debounced function if it is currently waiting to be called,
+   * and then resets the timer. If the function is not currently waiting, it does nothing.
+   */
+  flush: () => void;
+};

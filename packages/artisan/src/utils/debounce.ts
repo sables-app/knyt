@@ -2,6 +2,7 @@
 import { rateLimitMutatorRef } from "../Reference/rateLimitMutatorRef.ts";
 // import directly from the the module to avoid circular dependencies
 import type { Reference } from "../Reference/types.ts";
+import type { DebouncedFunction } from "../types/utils.ts";
 import { debounceAnimationFrame } from "./debounceAnimationFrame.ts";
 import { debounceMicrotask } from "./debounceMicrotask.ts";
 import { debounceTimeout } from "./debounceTimeout.ts";
@@ -16,7 +17,7 @@ import { debounceTimeout } from "./debounceTimeout.ts";
 export function debounce<T extends (...args: any[]) => void>(
   fn: T,
   wait: number | `${debounce.Wait}`,
-): T {
+): DebouncedFunction<T> {
   if (typeof wait === "number") {
     return debounceTimeout(fn, wait);
   }
